@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+import PySimpleGUI as sg
+
+from main_Menu import main_LMS_Menu
+
+def main():
+    sg.theme("DarkAmber")
+    sg.popup_ok("This is still a work in progress!!!!",
+             "This Was made by Henry Wessels",
+              title="WTC-LMS GUI [Work In Progress]",
+              location=(500, 300))
+
+    main_LMS_Menu(True)
+
+    # os.system("wtc-lms reviews | grep -iA1 'assigned' | grep -i 'wtc-lms' | sh | grep -iA3 'toy robot'")
+
+
+if __name__ == "__main__":
+    main()
