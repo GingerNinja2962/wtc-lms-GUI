@@ -18,13 +18,3 @@ def assignment_buttons_frame():
         tooltip="View the History of your graded assignment")]
         ]
     return assignment_frame
-
-
-def assignment_buttons_update(problem_uuid, window):
-    """
-    a simple function to check which button to re-ebable or disable and do so
-
-    :param problem_uuid: the uuid for the problem that the buttons need to be reconfigured to
-    :param window: the sg object containing all the elements for the program window
-    """
-    pass

@@ -1,4 +1,4 @@
-from pathlib import Path
+import os
 
 import reviews
 import core
@@ -6,12 +6,11 @@ import core
 
 def valid_uuid(checked_uuid):
     """
-    a small function that checks to see if the UUID is valid
-    and returns the buttons to enable
+    checks to see if the UUID is valid and returns the buttons to enable
 
     :param checked_uuid: the entered uuid to be checked
     """
-    uuid_file = f"{Path.home()}/bin/lms_GUI/problems_data/.reviews_data.txt"
+    uuid_file = f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt"
 
     if checked_uuid == '':
         return [True]*4
@@ -33,18 +32,26 @@ def valid_uuid(checked_uuid):
 
 def problem_selection(values):
     """
-    a small function to build a grep pattern from the selected filters
-    and then call the subprocess to run the command to return the results
+    builds a grep pattern from the selected filters, then calls
+    the subprocess to run the command to return the results
 
     :param values: this is the window values that are currently active
     """
 
-    reviews_data_path = f"{Path.home()}/bin/lms_GUI/problems_data/.reviews_data.txt"
+    reviews_data_path = f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt"
 
     if values['-TOGGLE-ALL-']:
         grep_process = core.grep_call("-i", ">", reviews_data_path)
     else:
-        grep_process = core.grep_call("-i", f"{values['-PROBLEM-'][0]}", reviews_data_path)
+        
+        if values["-PROBLEM-1-"] != "":
+            assignment_name = values['-PROBLEM-1-'].replace(" [", "|").split("|")[0]
+            grep_process = core.grep_call("-i", assignment_name, reviews_data_path)
+        elif values["-PROBLEM-2-"] != "":
+            assignment_name = values['-PROBLEM-1-'].replace(" [", "|").split("|")[0]
+            grep_process = core.grep_call("-i", assignment_name, reviews_data_path)
+        else:
+            return
 
     grep_pattern = ""
     if values['-INVITED-']:

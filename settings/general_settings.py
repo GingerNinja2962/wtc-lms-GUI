@@ -10,4 +10,3 @@ def general_settings():
             auto_close=True,
             auto_close_duration=10,
             location=(500, 300))
-    return

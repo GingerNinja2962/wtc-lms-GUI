@@ -8,6 +8,8 @@ print(" - Imported valid_uuid")
 from reviews.reviews_main_menu import review_problem
 print(" - Imported review_problem")
 
+from reviews.load_reviews import load_reviews
+print(" - Imported load_reviews")
+
 import reviews.review_handeler
-import reviews.token_handeler
 import reviews.layout

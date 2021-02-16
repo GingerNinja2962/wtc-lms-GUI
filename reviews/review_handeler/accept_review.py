@@ -12,7 +12,7 @@ def accept_review(probelm_uuid, window):
     :param window: this is the window that holds all elements
     """
     request = sg.popup("Would you like to Accept the following review?",
-            f"{probelm_uuid}",
+            f"{reviews.review_handeler.return_review_details(probelm_uuid)}",
             "***Please note this cannot be undone & may take a few seconds***",
             title="WTC-LMS accept a review",
             custom_text=("Accept", "Cancel"),

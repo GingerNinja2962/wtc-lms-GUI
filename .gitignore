@@ -2,8 +2,4 @@
 *__pycache__
 
 ### personal generated data
-/problems_data/modules_data
-/problems_data/problems_data
-/problems_data/topics_data
-/problems_data/.reviews_data.txt
-/problems_data/.time_check_token.txt
+.save_data

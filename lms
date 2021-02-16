@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import PySimpleGUI as sg
 
-from main_Menu import main_LMS_Menu
+from main_Menu import main_menu
+
 
 def main():
     sg.theme("DarkAmber")
@@ -10,9 +11,7 @@ def main():
               title="WTC-LMS GUI [Work In Progress]",
               location=(500, 300))
 
-    main_LMS_Menu(True)
-
-    # os.system("wtc-lms reviews | grep -iA1 'assigned' | grep -i 'wtc-lms' | sh | grep -iA3 'toy robot'")
+    main_menu(True)
 
 
 if __name__ == "__main__":

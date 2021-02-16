@@ -6,7 +6,7 @@ import core
 
 def comment_handeler(probelm_uuid, window):
     """
-    a function that will check wether to add a comment or edit one
+    check wether to add a comment or edit one
 
     :param probelm_uuid: the UUID for the probelm
     :param window: this is the window that holds all elements
@@ -29,7 +29,7 @@ def comment_handeler(probelm_uuid, window):
 
 def add_new_comment(probelm_uuid):
     """
-    a function that handels the adding of new comments
+    handels the adding of new comments
 
     :param probelm_uuid: the UUID for the probelm
     """
@@ -41,13 +41,14 @@ def add_new_comment(probelm_uuid):
                     location=(500,300)).read(close=True)
 
     if event == 'Submit':
-        comment_review_process = core.lms_call(["wtc-lms","add_comment", probelm_uuid, values['-COMMENT-INPUT-']])
+        comment_review_process = core.lms_call(["wtc-lms","add_comment",
+        probelm_uuid, values['-COMMENT-INPUT-']])
         (grade_review_data, err) = core.system_call_comms(comment_review_process)
 
 
 def edit_or_del_comment(probelm_uuid):
     """
-    a function that handels the editing or deleting of coments
+    handels the editing or deleting of coments
 
     :param probelm_uuid: the UUID for the probelm
     """
@@ -58,7 +59,6 @@ def edit_or_del_comment(probelm_uuid):
                     sg.Button('Cancel')]],location=(500, 300)).read(close=True)
 
     if event == 'Submit':
-        comment_review_process = core.lms_call(["wtc-lms","edit_comment", probelm_uuid, values['-COMMENT-INPUT-']])
+        comment_review_process = core.lms_call(["wtc-lms","edit_comment",
+        probelm_uuid, values['-COMMENT-INPUT-']])
         (grade_review_data, err) = core.system_call_comms(comment_review_process)
-        print(grade_review_data)
-        input()

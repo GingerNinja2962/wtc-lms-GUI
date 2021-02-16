@@ -3,7 +3,7 @@ from subprocess import PIPE, Popen, check_output
 
 def system_call_comms(system_call):
     """
-    a function that will communicate the system call into output and errors
+    return the system output and errors
 
     :param system_call: the system_call object to be comunicated with
     :return out: the terminal output
@@ -14,8 +14,8 @@ def system_call_comms(system_call):
 
 def system_call_close(system_call):
     """
-    a function that will close the system call
-    
+    close the system call
+
     :param system_call: the system_call object to be closed
     """
     system_call.stdout.close()
@@ -23,7 +23,7 @@ def system_call_close(system_call):
 
 def lms_call(command):
     """
-    a function that handles the lms calls
+    handles the lms calls
 
     :param command: the command to be used with wtc-lms
     :return lms_process: the process run by the subprocess
@@ -38,25 +38,27 @@ def lms_call(command):
 
 def grep_system_call(filters, pattern, stdin_process):
     """
-    a function that handles the grep calls taking in a stdin
+    handles the grep calls taking in a stdin
 
     :param filters: the filters used in grep e.g. -i or -A1
     :param pattern: the pattern to be used in the grep process call
     :param stdin_process: the process to be greped
     :return grep_process: the grep process run by the subprocess
     """
-    grep_process = Popen(["grep", filters,pattern],stdin=stdin_process.stdout, universal_newlines=True, stdout=PIPE)
+    grep_process = Popen(["grep", filters,pattern],stdin=stdin_process.stdout,
+            universal_newlines=True, stdout=PIPE)
     return grep_process
 
 
 def grep_call(filters, pattern, search_file):
     """
-    a function that handles the grep calls that search files
+    handles the grep calls that search files
 
     :param filters: the filters used in grep e.g. -i or -A1
     :param pattern: the pattern to be used in the grep process call
     :param search_file: the file to be greped
     :return grep_process: the grep process run by the subprocess
     """
-    grep_process = Popen(["grep", filters,pattern,search_file], universal_newlines=True, stdout=PIPE)
+    grep_process = Popen(["grep", filters,pattern,search_file],
+            universal_newlines=True, stdout=PIPE)
     return grep_process

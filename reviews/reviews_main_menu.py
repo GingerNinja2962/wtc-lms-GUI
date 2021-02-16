@@ -1,25 +1,27 @@
 import PySimpleGUI as sg
 
-import reviews
 import settings
+import reviews
+import core
 
 
 def review_problem():
     """
-    Function to get all assigned reviews
+    generates a window to list reviews and choose from them
     """
-    Layout = reviews.layout.problem_selection_layout()
-
-    window = sg.Window("LMS Reviews Gui", Layout, element_justification='c', location=(100, 100))
-    old_results = [False]*7
+    window = sg.Window("LMS Reviews Gui",
+    reviews.layout.problem_selection_layout(), element_justification='c',
+    location=(100, 100))
+    
+    old_results = [False] + [""]*2 +[False]*5
 
     while 1:
 
         event, values = window.read(timeout=500)
         old_results = check_changes(event, values, old_results, window)
 
-        if reviews.token_handeler.time_check():
-            reviews.token_handeler.data_download()
+        if core.token_check("reviews"):
+            core.populate_save_data.populate_reviews()
 
         if event == sg.WIN_CLOSED or event == "Exit":
             window.close()
@@ -36,12 +38,12 @@ def review_problem():
             window['Grade'].Update(disabled=active_buttons[3])
 
         elif event == "Update review data":
-            reviews.token_handeler.data_download()
-            reviews.token_handeler.force_time_update()
+            core.populate_save_data.populate_reviews()
+            core.force_token_update("review")
             reviews.layout.update_counter_frame(window)
 
         elif old_results[0]:
-            window.FindElement('-OUTPUT-').update('')
+            window['-OUTPUT-'].update('')
             reviews.problem_selection(values)
 
         elif event == "Main Menu":
@@ -63,7 +65,7 @@ def review_problem():
 
 def check_changes(event, values, old_results, window):
     """
-    a small function that checks if the window has gotten any changes
+    checks if the window has gotten any changes in review filters
 
     :param event: this is the current even that has run
     :param values: this is the values from the open window
@@ -71,29 +73,27 @@ def check_changes(event, values, old_results, window):
     :param window: this is the sg object containing all the elements for the window
     :return boollean: True if there are changes False if not
     """
-    if values["-PROBLEM-"] != []: ch_1 = True
-    else: ch_1 = False
-    ch_2 = values["-TOGGLE-ALL-"]
-    ch_3 = values["-INVITED-"]
-    ch_4 = values["-ASSIGNED-"]
-    ch_5 = values["-GRADED-"]
-    ch_6 = values["-BLOCKED-"]
-
-    results = [ch_1, ch_2, ch_3, ch_4, ch_5, ch_6]
-
-    if event == "-PROBLEM-":
-        # print("test_0 passed - problem change")
-        return ([True] + results)
+    results = [
+    values["-PROBLEM-1-"],
+    values["-PROBLEM-2-"],
+    values["-TOGGLE-ALL-"],
+    values["-INVITED-"],
+    values["-ASSIGNED-"],
+    values["-GRADED-"],
+    values["-BLOCKED-"] ]
 
     if results == old_results[1::]:
-        # print("test_1 failed - results same")
         return ([False] + results)
 
-    elif (ch_1 == False and ch_2 == False):
-        # print("test_2 failed - no problem selected")
-        window.FindElement('-OUTPUT-').update('')
+    elif (values["-PROBLEM-1-"] == "" and values["-PROBLEM-2-"] == ""\
+                and values["-TOGGLE-ALL-"] == False):
+        window['-OUTPUT-'].update('')
         return ([False] + results)
 
     else:
-        # print("test_3 Pass - filters changed")
+        if results[2::] == old_results[3::]:
+            if values["-PROBLEM-1-"] == old_results[1] and old_results[2] == "":
+                window['-PROBLEM-1-'].update('')
+            elif values["-PROBLEM-2-"] == old_results[2] and old_results[1] == "":
+                window['-PROBLEM-2-'].update('')
         return ([True] + results)

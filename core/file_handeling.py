@@ -1,7 +1,7 @@
 
 def write_to_file(content, file_path):
     """
-    simple function to write to file
+    writes content to file_path
 
     :param content: this is the message to be written
     :param file_path: this is the path to the file to be written to
@@ -12,7 +12,7 @@ def write_to_file(content, file_path):
 
 def read_from_file(file_path):
     """
-    simple function to read from a file
+    reads from file_path and returns data as a str
 
     :param file_path: this is the path to the file to be read from
     :return content: this is the contents of the read file
