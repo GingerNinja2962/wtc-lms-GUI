@@ -17,14 +17,13 @@ def main_menu(running):
                     ['Login', ['login'] ],
                     ['Help', ['About'] ] ]
 
-        menu_def = [ ['File', ['Settings', 'Exit'] ] ]
-
-        Layout = [ [ sg.Menu(menu_def, tearoff=False, )],
+        layout = [ [ sg.Menu([ ['File', ['Settings', 'Exit'] ] ],
+            tearoff=False, )],
             [ sg.Column([[sg.Button('Assignments')]]),
             sg.VSeperator(),
             sg.Column([[sg.Button('Reviews')]]) ] ]
 
-        window = sg.Window("Lms Gui", Layout, element_justification='c', location=(500, 300))
+        window = sg.Window("Lms Gui", layout, element_justification='c', location=(500, 300))
 
     while running:
         event, _ = window.read()

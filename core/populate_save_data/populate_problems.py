@@ -34,4 +34,3 @@ def populate_problems():
 
             core.write_to_file(lms_problems_data,
                 problems_data_path + f"/{new_problems_data[problem_uuid]}.txt")
-
