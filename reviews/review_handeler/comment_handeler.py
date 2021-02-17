@@ -14,11 +14,9 @@ def comment_handeler(probelm_uuid, window):
     comment_review_process = core.lms_call(["wtc-lms","review_details", probelm_uuid])
     greped_comment_process = core.grep_system_call("-i","edit_comment", comment_review_process)
     core.system_call_close(comment_review_process)
-    (grade_review_data, err) = core.system_call_comms(greped_comment_process)
+    (comment_review_data, err) = core.system_call_comms(greped_comment_process)
 
-    print(grade_review_data)
-
-    if grade_review_data != "":
+    if comment_review_data != "":
         edit_or_del_comment(probelm_uuid)
 
     else:
