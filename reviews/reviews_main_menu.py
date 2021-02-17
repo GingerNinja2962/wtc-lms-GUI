@@ -20,7 +20,6 @@ def review_problem():
         event, values = window.read(timeout=500)
         old_results = check_changes(event, values, old_results, window)
 
-
         if core.token_check("review"):
             core.populate_save_data.populate_reviews()
 
