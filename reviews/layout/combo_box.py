@@ -24,7 +24,7 @@ def combo_box():
 
 def get_all_problems():
     """
-    returns a list of all the assignments
+    returns a dictionary of all the assignments linked to the module as akey
 
     :return assignments_list: the list of all the assignments
     """
@@ -63,7 +63,8 @@ def get_all_problems():
             lms_problems_data = lms_problems_data.split(" (")
 
             for item in lms_problems_data[0::2]:
-                if item != "": problems_list.append(item)
+                if item != "" and item != "Coding Clinic Booking System [In Progress]":
+                    problems_list.append(item)
         modules_problems_dict[f"{topic_name}"] = problems_list
 
     return modules_problems_dict

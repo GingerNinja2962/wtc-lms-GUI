@@ -38,9 +38,9 @@ def review_counter_frame():
     (reviews_done, reviews_pending, reviews_needed) = counter_data()
 
     return [
-        [ sg.Text(f'Reviews Done:     {reviews_done}', key='-REVIEWS-DONE-')],
-        [ sg.Text(f'Reviews pending:  {reviews_pending}',key='-REVIEWS-PENDING-')],
-        [ sg.Text(f'Reviews needed:   {reviews_needed}',key='-REVIEWS-NEEDED-')]]
+        [ sg.Text(f"Reviews Done:\t{reviews_done:0>2}", key='-REVIEWS-DONE-')],
+        [ sg.Text(f"Reviews pending:\t{reviews_pending:0>2}",key='-REVIEWS-PENDING-')],
+        [ sg.Text(f"Reviews needed:\t{reviews_needed:0>2}",key='-REVIEWS-NEEDED-')]]
 
 
 def counter_data():
@@ -57,12 +57,20 @@ def counter_data():
 
     grep_count_process = core.grep_call("-ic", "Graded", save_data_path)
     (reviews_done, err) = core.system_call_comms(grep_count_process)
+    if reviews_done == "0\n": reviews_done = "0"
 
     grep_pending_process = core.grep_call("-ic", "Assigned", save_data_path)
     (reviews_pending, err) = core.system_call_comms(grep_pending_process)
+    if reviews_pending == "0\n": reviews_pending = "0"
 
-    reviews_needed = ((len(reviews.layout.get_all_problems()))* 3) - int(reviews_done)
-    if reviews_needed < 1: reviews_needed = '0'
+    all_problems = []
+    for module in [item for item in reviews.layout.get_all_problems().values()]:
+        for problem in module:
+            all_problems.append(problem)
+
+    reviews_needed = (len(all_problems)* 3) - int(reviews_done)
+    if reviews_needed < 1: reviews_needed = "0"
+    else: reviews_needed = str(reviews_needed)
 
     return reviews_done, reviews_pending, reviews_needed
 

@@ -13,16 +13,23 @@ def review_problem():
     reviews.layout.problem_selection_layout(), element_justification='c',
     location=(100, 100))
 
-    old_results = [False] + [""]*2 +[False]*5
+    old_results = [False] + [""]*2 + [False]*5
+    active_buttons = [False]*4
 
     while 1:
 
-        event, values = window.read(timeout=500)
+        event, values = window.read(timeout=750)
+
         old_results = check_changes(event, values, old_results, window)
+
+        old_active_buttons = active_buttons
+        active_buttons = reviews.valid_uuid(values['-INPUT-'])
 
         if core.token_check("review"):
             core.populate_save_data.populate_reviews()
-            print("REVIEWS AUTO-UPDATED")
+            window['-OUTPUT-'].update('')
+            print("Reviews Data Updated\n")
+            reviews.problem_selection(values)
 
         if event == "Settings":
             settings.general_settings()
@@ -31,8 +38,7 @@ def review_problem():
             window.close()
             return True
 
-        elif event == '⟳':
-            active_buttons = reviews.valid_uuid(values['-INPUT-'])
+        elif old_active_buttons != active_buttons:
             window['Review details'].Update(disabled=active_buttons[0])
             window['Accept'].Update(disabled=active_buttons[1])
             window['Comment'].Update(disabled=active_buttons[2])
