@@ -31,3 +31,4 @@ def populate_topics():
 
         core.write_to_file(lms_topics_data,
             topics_data_path + f"/{new_topics_data[topic_uuid]}.txt")
+    core.force_token_update("assignment")

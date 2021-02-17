@@ -17,3 +17,4 @@ def populate_modules():
     (lms_modules_data, err) = core.system_call_comms(lms_modules_grep)
 
     core.write_to_file(lms_modules_data, modules_data_path)
+    core.force_token_update("assignment")

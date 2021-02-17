@@ -20,15 +20,24 @@ def review_problem():
         event, values = window.read(timeout=500)
         old_results = check_changes(event, values, old_results, window)
 
-        if core.token_check("reviews"):
+
+        if core.token_check("review"):
             core.populate_save_data.populate_reviews()
 
-        if event == sg.WIN_CLOSED or event == "Exit":
-            window.close()
-            return False
+        if event == "Update review data":
+            core.populate_save_data.populate_reviews()
+            reviews.layout.update_counter_frame(window)
 
-        if event == "Settings":
+        if old_results[0] or event == "Update review data":
+            window['-OUTPUT-'].update('')
+            reviews.problem_selection(values)
+
+        elif event == "Settings":
             settings.general_settings()
+
+        elif event == "Main Menu":
+            window.close()
+            return True
 
         elif event == '⟳':
             active_buttons = reviews.valid_uuid(values['-INPUT-'])
@@ -36,19 +45,6 @@ def review_problem():
             window['Accept'].Update(disabled=active_buttons[1])
             window['Comment'].Update(disabled=active_buttons[2])
             window['Grade'].Update(disabled=active_buttons[3])
-
-        elif event == "Update review data":
-            core.populate_save_data.populate_reviews()
-            core.force_token_update("review")
-            reviews.layout.update_counter_frame(window)
-
-        elif old_results[0]:
-            window['-OUTPUT-'].update('')
-            reviews.problem_selection(values)
-
-        elif event == "Main Menu":
-            window.close()
-            return True
 
         elif event == "Review details":
             reviews.review_handeler.review_details(values['-INPUT-'], window)
@@ -61,6 +57,10 @@ def review_problem():
 
         elif event == "Grade":
             reviews.review_handeler.grade_review(values['-INPUT-'], window)
+
+        elif event == sg.WIN_CLOSED or event == "Exit":
+            window.close()
+            return False
 
 
 def check_changes(event, values, old_results, window):
