@@ -16,4 +16,3 @@ def populate_reviews():
     core.write_to_file(reviews_data,
         save_data_path + "/.reviews_data.txt")
     core.force_token_update("review")
-

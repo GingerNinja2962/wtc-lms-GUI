@@ -32,15 +32,15 @@ def main_menu(running):
             window.close()
             running = False
 
-        if event == "Settings":
+        elif event == "Settings":
             settings.general_settings()
 
-        if event == "Assignments":
+        elif event == "Assignments":
             window.close()
             running = assignments.assignments_main_menu()
             break
 
-        if event == "Reviews":
+        elif event == "Reviews":
             if reviews.load_reviews():
                 window.close()
                 running = reviews.review_problem()

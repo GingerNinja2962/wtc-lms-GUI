@@ -24,4 +24,4 @@ def grade_review(probelm_uuid, window):
         probelm_uuid, f"{values['-GRADE-']}"])
         (grade_review_data, err) = core.system_call_comms(grade_review_process)
 
-        reviews.review_handeler.review_details(probelm_uuid, window)
+        reviews.review_handeler.review_details_popup(probelm_uuid)

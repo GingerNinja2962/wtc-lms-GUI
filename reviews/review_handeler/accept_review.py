@@ -22,4 +22,4 @@ def accept_review(probelm_uuid, window):
         accept_review_process = core.lms_call(["wtc-lms","accept", probelm_uuid])
         (accept_review_data, err) = core.system_call_comms(accept_review_process)
 
-        reviews.review_handeler.review_details(probelm_uuid, window)
+        reviews.review_handeler.review_details_popup(probelm_uuid)

@@ -42,8 +42,8 @@ def problem_selection(values):
 
     if values['-TOGGLE-ALL-']:
         grep_process = core.grep_call("-i", ">", reviews_data_path)
+
     else:
-        
         if values["-PROBLEM-1-"] != "":
             assignment_name = values['-PROBLEM-1-'].replace(" [", "|").split("|")[0]
             grep_process = core.grep_call("-i", assignment_name, reviews_data_path)

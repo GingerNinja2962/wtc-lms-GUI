@@ -28,10 +28,7 @@ def problem_selection_layout():
         [ sg.Column([
         [ sg.Text('Please select an assignment: ')],
         [ sg.Column([ [] ]) ],
-        [ sg.Column(reviews.layout.combo_box()
-        #[ [ sg.Listbox(values=get_all_problems(),
-        # size=(30,20), key='-PROBLEM-', enable_events=True)] ]
-        ),
+        [ sg.Column(reviews.layout.combo_box()),
         sg.Column([ [sg.Frame('Search all assignments', Toggle_all_Frame,
         title_color='#FF8C00')],
         [ sg.Frame('Filters', Filter_Frame, title_color='#FF8C00',

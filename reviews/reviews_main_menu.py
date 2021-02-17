@@ -9,10 +9,10 @@ def review_problem():
     """
     generates a window to list reviews and choose from them
     """
-    window = sg.Window("LMS Reviews Gui",
+    window = sg.Window("LMS Reviews Interface",
     reviews.layout.problem_selection_layout(), element_justification='c',
     location=(100, 100))
-    
+
     old_results = [False] + [""]*2 +[False]*5
 
     while 1:
@@ -22,16 +22,9 @@ def review_problem():
 
         if core.token_check("review"):
             core.populate_save_data.populate_reviews()
+            print("REVIEWS AUTO-UPDATED")
 
-        if event == "Update review data":
-            core.populate_save_data.populate_reviews()
-            reviews.layout.update_counter_frame(window)
-
-        if old_results[0] or event == "Update review data":
-            window['-OUTPUT-'].update('')
-            reviews.problem_selection(values)
-
-        elif event == "Settings":
+        if event == "Settings":
             settings.general_settings()
 
         elif event == "Main Menu":
@@ -46,16 +39,31 @@ def review_problem():
             window['Grade'].Update(disabled=active_buttons[3])
 
         elif event == "Review details":
-            reviews.review_handeler.review_details(values['-INPUT-'], window)
+            reviews.review_handeler.review_details_popup(values['-INPUT-'])
 
         elif event == "Accept":
             reviews.review_handeler.accept_review(values['-INPUT-'], window)
+            core.populate_save_data.populate_reviews()
+            reviews.layout.update_counter_frame(window)
 
         elif event == "Comment":
             reviews.review_handeler.comment_handeler(values['-INPUT-'], window)
 
         elif event == "Grade":
             reviews.review_handeler.grade_review(values['-INPUT-'], window)
+            core.populate_save_data.populate_reviews()
+            reviews.layout.update_counter_frame(window)
+
+        elif event == "Update review data":
+            core.populate_save_data.populate_reviews()
+            reviews.layout.update_counter_frame(window)
+
+        if old_results[0] or event == "Update review data" \
+                or event == '⟳' or event == "Review details" \
+                or event == "Accept" or event == "Comment" \
+                or event == "Grade":
+            window['-OUTPUT-'].update('')
+            reviews.problem_selection(values)
 
         elif event == sg.WIN_CLOSED or event == "Exit":
             window.close()

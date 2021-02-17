@@ -24,7 +24,7 @@ def comment_handeler(probelm_uuid, window):
     else:
         add_new_comment(probelm_uuid)
 
-    reviews.review_handeler.review_details(probelm_uuid, window)
+    reviews.review_handeler.review_details_popup(probelm_uuid)
 
 
 def add_new_comment(probelm_uuid):
