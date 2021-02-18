@@ -23,13 +23,15 @@ def topics_listbox_contents(module_name, window):
     new_topics_data = []
 
     for string in lms_topics_data:
-        string = string.replace(')', '')
+        string = string.replace(")", '')
         string = string.split(" (")
         if string != ['']:
             new_topics_data.append(string[0])
 
     if new_topics_data != []: window['-TOPIC-'].Update(disabled=False)
-    else: window['-TOPIC-'].Update(disabled=True)
+    else:
+        window['-TOPIC-'].Update(values=[''])
+        window['-TOPIC-'].Update(disabled=True)
     window['-TOPIC-'].Update(values=new_topics_data)
     window['-PROBLEM-'].Update(values=[''])
     window['-PROBLEM-'].Update(disabled=True)

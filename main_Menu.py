@@ -19,8 +19,6 @@ def main_menu(running):
     while running:
         event, values = window.read()
 
-        print(values)
-
         if event == sg.WIN_CLOSED or event == "Exit":
             window.close()
             running = False
@@ -60,8 +58,6 @@ def main_menu_layout():
             sg.Text("", pad=(98,0)),
             sg.Button("About", pad=(0,0)),
             sg.Button("Exit", pad=(0,0))
-            # sg.ButtonMenu("About", about_menu_items, key="-ABOUT-MENU-"),
-            # sg.ButtonMenu("Exit", exit_menu_items, key="-EXIT-MENU-")
         ],
         [sg.HSeparator()],
         [

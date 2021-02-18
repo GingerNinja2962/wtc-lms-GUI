@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 
 import assignments
 import settings
+import reviews
 import core
 
 def assignments_main_menu():
@@ -12,7 +13,7 @@ def assignments_main_menu():
 
     core.populate_save_data.populate_save_data()
 
-    window = sg.Window("LMS Assignment Gui", layout, element_justification='c', location=(500, 300))
+    window = sg.Window("LMS Assignment Gui", layout, element_justification='c', location=(300, 200))
 
     while 1:
         event, values = window.read()
@@ -21,9 +22,16 @@ def assignments_main_menu():
             window.close()
             return False
 
-        if event == "Back":
+        if values["-SETTINGS-MENU-"] == "General Settings":
+            settings.general_settings()
+
+        elif values["-NAVIGATE-MENU-"] == "   Main Menu":
             window.close()
             return True
+
+        elif values["-NAVIGATE-MENU-"] == "   Reviews Menu":
+            window.close()
+            return reviews.review_problem()
 
         if event == "-MODULE-":
             assignments.listbox_content.topics_listbox_contents(

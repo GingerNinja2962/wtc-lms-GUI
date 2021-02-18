@@ -7,14 +7,17 @@ def assignment_buttons_frame():
 
     :return assignment_frame: a frame containing the options for wtc-lms assignments
     """
-    assignment_frame = [
+    return [
         [sg.Button('Start', key='-START-', disabled=True,
-        tooltip="Start the assignment and clone into the assignment folder")],
+            tooltip="Start the assignment and clone into the assignment folder",
+            size=(6,1), pad=(1,1))],
         [sg.Button('Save', key='-SAVE-', disabled=True,
-        tooltip="Save your work to the wtc-lms cloud server")],
+            tooltip="Save your work to the wtc-lms cloud server",
+            size=(6,1), pad=(1,1))],
         [sg.Button('Grade', key='-GRADE-', disabled=True,
-        tooltip="Submit your work for grading")],
+            tooltip="Submit your work for grading",
+            size=(6,1), pad=(1,1))],
         [sg.Button('History', key='-HISTORY-', disabled=True,
-        tooltip="View the History of your graded assignment")]
-        ]
-    return assignment_frame
+            tooltip="View the History of your graded assignment",
+            size=(6,1), pad=(1,1))]
+    ]

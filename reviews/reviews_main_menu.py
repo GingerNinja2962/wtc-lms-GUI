@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 
+import assignments
 import settings
 import reviews
 import core
@@ -31,12 +32,16 @@ def review_problem():
             print("Reviews Data Updated\n")
             reviews.problem_selection(values)
 
-        if event == "Settings":
+        if values["-SETTINGS-MENU-"] == "General Settings":
             settings.general_settings()
 
-        elif event == "Main Menu":
+        elif values["-NAVIGATE-MENU-"] == "   Main Menu":
             window.close()
             return True
+
+        elif values["-NAVIGATE-MENU-"] == "   Assignments Menu":
+            window.close()
+            return assignments.assignments_main_menu()
 
         elif old_active_buttons != active_buttons:
             window['Review details'].Update(disabled=active_buttons[0])
