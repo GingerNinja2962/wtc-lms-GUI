@@ -8,21 +8,7 @@ def main():
     sg.theme("DarkAmber")
     sg.set_options(element_padding=(0, 0))
 
-    layout = [[sg.Text()],[sg.Button("Login", tooltip="Send you to the login for wtc-lms")]]
-
-    window = sg.Window("Windows-like program", layout, size=(300,100),
-                        element_justification='c')
-
-    while 1:
-        event, _ = window.read()
-
-        if event == sg.WIN_CLOSED or event == "Exit":
-            window.close()
-            return
-
-        elif event == "Login":
-            window.close()
-            main_menu(True)
+    main_menu(True)
 
 
 if __name__ == "__main__":
