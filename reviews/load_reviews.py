@@ -32,11 +32,12 @@ def load_reviews():
                 title="reviews save data",
                 default_path=f"{os.getcwd()}",
                 grab_anywhere=True)
+            print(file_to_load)
             try:
                 loadeddata = core.read_from_file(file_to_load)
                 save_file = core.dir_check(f"{os.getcwd()}/.save_data")
-                core.dir_check(save_file + "/data_reviews")
-                core.write_to_file(loadeddata, save_file)
+                save_file = core.dir_check(save_file + "/data_reviews")
+                core.write_to_file(loadeddata, save_file + "/.reviews_data.txt")
                 return True
             except:
                 return False

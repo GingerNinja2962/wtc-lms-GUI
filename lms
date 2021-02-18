@@ -6,12 +6,23 @@ from main_Menu import main_menu
 
 def main():
     sg.theme("DarkAmber")
-    sg.popup_ok("This is still a work in progress!!!!",
-             "This Was made by Henry Wessels",
-              title="WTC-LMS GUI [Work In Progress]",
-              location=(500, 300))
+    sg.set_options(element_padding=(0, 0))
 
-    main_menu(True)
+    layout = [[sg.Text()],[sg.Button("Login", tooltip="Send you to the login for wtc-lms")]]
+
+    window = sg.Window("Windows-like program", layout, size=(300,100),
+                        element_justification='c')
+
+    while 1:
+        event, _ = window.read()
+
+        if event == sg.WIN_CLOSED or event == "Exit":
+            window.close()
+            return
+
+        elif event == "Login":
+            window.close()
+            main_menu(True)
 
 
 if __name__ == "__main__":
