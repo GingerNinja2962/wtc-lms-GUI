@@ -38,6 +38,9 @@ def review_problem():
         if values["-SETTINGS-MENU-"] == "General Settings":
             settings.general_settings()
 
+        elif values["-SETTINGS-MENU-"] == "Change Theme":
+            settings.theme_menu()
+
         elif values["-NAVIGATE-MENU-"] == "   Main Menu":
             window.close()
             return True
@@ -74,7 +77,7 @@ def review_problem():
             window['-OUTPUT-'].update('')
             reviews.problem_selection(values)
 
-        elif event == sg.WIN_CLOSED or event == "Exit":
+        elif event in (sg.WIN_CLOSED, "Exit"):
             window.close()
             return False
 

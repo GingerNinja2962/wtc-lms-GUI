@@ -19,12 +19,15 @@ def main_menu(running):
     while running:
         event, values = window.read()
 
-        if event == sg.WIN_CLOSED or event == "Exit":
+        if event in (sg.WIN_CLOSED, "Exit"):
             window.close()
             running = False
 
         elif values["-SETTINGS-MENU-"] == "General Settings":
             settings.general_settings()
+
+        elif values["-SETTINGS-MENU-"] == "Change Theme":
+            settings.theme_menu()
 
         elif event == "Assignments":
             window.close()

@@ -19,7 +19,7 @@ def assignments_main_menu():
         location=(300, 200)).finalize()
 
     event, values = window.read(timeout=1)
-    
+
     if assignments.listbox_content.modules_listbox_contents() == []:
         window["-MODULE-"].Update(disabled=True)
 
@@ -29,12 +29,15 @@ def assignments_main_menu():
         if core.token_check("assignment"):
             core.populate_save_data.populate_save_data("assignments")
 
-        if event == sg.WIN_CLOSED or event == "Exit":
+        if event in (sg.WIN_CLOSED, "Exit"):
             window.close()
             return False
 
         elif values["-SETTINGS-MENU-"] == "General Settings":
             settings.general_settings()
+
+        elif values["-SETTINGS-MENU-"] == "Change Theme":
+            settings.theme_menu()
 
         elif values["-SETTINGS-MENU-"] == "Update Assignments":
             core.populate_save_data.populate_save_data("assignments")
