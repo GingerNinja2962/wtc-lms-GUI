@@ -18,7 +18,7 @@ def tab_group():
         i += 1
         listbox_layout = []
         for item in module_dict[module_name]:
-            listbox_layout.append([item])
+            listbox_layout.append(item)
 
         module_name = module_name.split(" [")
 

@@ -45,10 +45,10 @@ def problem_selection(values):
 
     else:
         if values["-PROBLEM-1-"] != []:
-            assignment_name = values['-PROBLEM-1-'][0][0].replace(" [", "|").split("|")[0]
+            assignment_name = values['-PROBLEM-1-'][0].replace(" [", "|").split("|")[0]
             grep_process = core.grep_call("-i", assignment_name, reviews_data_path)
         elif values["-PROBLEM-2-"] != []:
-            assignment_name = values['-PROBLEM-2-'][0][0].replace(" [", "|").split("|")[0]
+            assignment_name = values['-PROBLEM-2-'][0].replace(" [", "|").split("|")[0]
             grep_process = core.grep_call("-i", assignment_name, reviews_data_path)
         else:
             return

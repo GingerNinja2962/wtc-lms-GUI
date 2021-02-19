@@ -27,7 +27,10 @@ def review_problem():
         active_buttons = reviews.valid_uuid(values['-INPUT-'])
 
         if core.token_check("review") or values["-SETTINGS-MENU-"] == "Update Reviews":
-            core.populate_save_data.populate_reviews()
+            if values["-SETTINGS-MENU-"] == "Update Reviews":
+                core.populate_save_data.populate_save_data("reviews")
+            else:
+                core.populate_save_data.populate_reviews()
             window['-OUTPUT-'].update('')
             reviews.problem_selection(values)
             reviews.layout.update_counter_frame(window)
@@ -65,7 +68,7 @@ def review_problem():
             core.populate_save_data.populate_save_data("reviews")
             reviews.layout.update_counter_frame(window)
 
-        if old_results[0] or event == "Update review data" \
+        if old_results[0] or values["-SETTINGS-MENU-"] == "Update Reviews" \
                 or event == "Review details" or event == "Accept" \
                 or event == "Comment" or event == "Grade":
             window['-OUTPUT-'].update('')

@@ -10,8 +10,8 @@ def problem_selection_layout():
 
     :return layout: the layout list that
     """
-    settings_menu_items = ["Unused", ["&Change Theme", "General Settings"]]
-    navigate_menu_items = ["Unused", ["   &Main Menu", "!> & Assignments Menu", "   &Reviews Menu"]]
+    settings_menu_items = ["Unused", ["&General Settings", "&Change Theme", "&Update Assignments"]]
+    navigate_menu_items = ["Unused", ["    &Main Menu", "!> & Assignments Menu", "    &Reviews Menu"]]
     help_menu_items = ["Unused", ["&About"]]
 
     return [
