@@ -10,7 +10,7 @@ def main_menu(running):
     the main menu for the lms system,
     choose whether you are going to do reviews or assignments
     """
-    version_num = 1.2
+    version_num = 1.3
 
     if running:
 
