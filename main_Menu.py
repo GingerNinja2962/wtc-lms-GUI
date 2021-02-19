@@ -23,7 +23,7 @@ def main_menu(running):
             window.close()
             running = False
 
-        elif event == "Settings":
+        elif values["-SETTINGS-MENU-"] == "General Settings":
             settings.general_settings()
 
         elif event == "Assignments":

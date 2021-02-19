@@ -5,7 +5,7 @@ import core
 
 def problems_listbox_contents(topic_name, window):
     """
-    a simple function to check whether new data needs to be loaded or not
+    update the Problems listbox to contain the new loaded problems
 
     :param topic_name: the name of the topic to show the problems for 
     :param window: this is the window containing the elements to be updated

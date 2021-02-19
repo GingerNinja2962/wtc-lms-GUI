@@ -23,7 +23,7 @@ def problem_selection_layout():
     layout = [
         [ sg.ButtonMenu("Settings",  settings_menu_items, key="-SETTINGS-MENU-", size=(9,1)),
             sg.ButtonMenu("Navigate", navigate_menu_items, key="-NAVIGATE-MENU-", size=(9,1)),
-            sg.ButtonMenu("Help", navigate_menu_items, key="-HELP-MENU-", size=(8,1)),
+            sg.ButtonMenu("Help", help_menu_items, key="-HELP-MENU-", size=(8,1)),
             sg.Text("", pad=(490,0)),
             sg.Button("Exit", pad=(0,0))
         ],

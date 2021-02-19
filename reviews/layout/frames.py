@@ -61,7 +61,9 @@ def counter_data():
 
     grep_pending_process = core.grep_call("-ic", "Assigned", save_data_path)
     (reviews_pending, err) = core.system_call_comms(grep_pending_process)
-    if reviews_pending == "0\n": reviews_pending = "0"
+
+    reviews_done = reviews_done.replace('\n', '')
+    reviews_pending = reviews_pending.replace('\n', '')
 
     all_problems = []
     for module in [item for item in reviews.layout.get_all_problems().values()]:
