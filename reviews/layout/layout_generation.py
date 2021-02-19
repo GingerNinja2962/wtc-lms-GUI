@@ -14,36 +14,36 @@ def problem_selection_layout():
     """
     Filter_Frame = reviews.layout.review_filter_frame()
     Review_count_Frame = reviews.layout.review_counter_frame()
-    Toggle_all_Frame = reviews.layout.toggle_all_frame()
 
-    settings_menu_items = ["Unused", ["&Change Theme", "General Settings"]]
+    settings_menu_items = ["Unused", ["&General Settings", "&Change Theme", "&Update Reviews"]]
     navigate_menu_items = ["Unused", ["   &Main Menu", "   &Assignments Menu", "!>& Reviews Menu"]]
     help_menu_items = ["Unused", ["&About"]]
 
     layout = [
-        [ sg.ButtonMenu("Settings",  settings_menu_items, key="-SETTINGS-MENU-", size=(9,1)),
-            sg.ButtonMenu("Navigate", navigate_menu_items, key="-NAVIGATE-MENU-", size=(9,1)),
-            sg.ButtonMenu("Help", help_menu_items, key="-HELP-MENU-", size=(8,1)),
+        [ sg.ButtonMenu("Settings",  settings_menu_items, key="-SETTINGS-MENU-", size=(9,1), item_font="Calibri 9"),
+            sg.ButtonMenu("Navigate", navigate_menu_items, key="-NAVIGATE-MENU-", size=(9,1), item_font="Calibri 9"),
+            sg.ButtonMenu("Help", help_menu_items, key="-HELP-MENU-", size=(8,1), item_font="Calibri 9"),
             sg.Text("", pad=(490,0)),
             sg.Button("Exit", pad=(0,0))
         ],
+        [ sg.HSeparator() ],
         [ sg.Column(
-            [ [ sg.Text("Please select an assignment: ") ],
+            [ [ sg.Text("Please select an assignment: ",
+            font="Calibri 12") ],
             [
                 sg.Column( reviews.layout.combo_box() ),
                 sg.Column(
-                    [ [ sg.Frame("Search all assignments", Toggle_all_Frame,
-                        title_color="#FF8C00", title_location="n", pad=(0,5) ) ],
-                        [ sg.Frame("Filters", Filter_Frame, title_color="#FF8C00",
-                        title_location="n", pad=(0,5)) ],
+                    [ [ sg.Frame("Filters", Filter_Frame, title_color="#FF8C00",
+                        title_location="n", pad=(0,5), font="Calibri 10") ],
                         [ sg.Frame("Review Count", Review_count_Frame,
                         title_color="#FF8C00", title_location="n",
-                        element_justification="l", pad=(0,5)) ] ],
-                element_justification="c") ], ] ),
-        sg.VSeparator(),
+                        element_justification="l", pad=(0,5),
+                        font="Calibri 10") ] ],
+                element_justification="c") ] ], pad=(0,10) ),
+        sg.VSeparator(pad=(5,0)),
         sg.Column( [
-            [ sg.Output(size=(110, 30), key="-OUTPUT-")],
-            [ sg.Text("UUID"), sg.InputText( "",
+            [ sg.Output(size=(110, 30), key="-OUTPUT-", pad=(0,20))],
+            [ sg.Text("UUID", font="Calibri 10"), sg.InputText( "",
                 tooltip="The UUID you wish to work with", key="-INPUT-"),
                 sg.Button("Review details", disabled=True,
                 tooltip="View the details of the review"),

@@ -26,8 +26,8 @@ def review_problem():
         old_active_buttons = active_buttons
         active_buttons = reviews.valid_uuid(values['-INPUT-'])
 
-        if core.token_check("review"):
-            core.populate_save_data.populate_reviews()
+        if core.token_check("review") or values["-SETTINGS-MENU-"] == "Update Reviews":
+            core.populate_save_data.populate_save_data("reviews")
             window['-OUTPUT-'].update('')
             reviews.problem_selection(values)
             reviews.layout.update_counter_frame(window)
@@ -54,7 +54,7 @@ def review_problem():
 
         elif event == "Accept":
             reviews.review_handeler.accept_review(values['-INPUT-'], window)
-            core.populate_save_data.populate_reviews()
+            core.populate_save_data.populate_save_data("reviews")
             reviews.layout.update_counter_frame(window)
 
         elif event == "Comment":
@@ -62,11 +62,7 @@ def review_problem():
 
         elif event == "Grade":
             reviews.review_handeler.grade_review(values['-INPUT-'], window)
-            core.populate_save_data.populate_reviews()
-            reviews.layout.update_counter_frame(window)
-
-        elif event == "Update review data":
-            core.populate_save_data.populate_reviews()
+            core.populate_save_data.populate_save_data("reviews")
             reviews.layout.update_counter_frame(window)
 
         if old_results[0] or event == "Update review data" \
@@ -102,15 +98,15 @@ def check_changes(event, values, old_results, window):
     if results == old_results[1::]:
         return ([False] + results)
 
-    elif (values["-PROBLEM-1-"] == "" and values["-PROBLEM-2-"] == ""\
+    elif (values["-PROBLEM-1-"] == [] and values["-PROBLEM-2-"] == []\
                 and values["-TOGGLE-ALL-"] == False):
         window['-OUTPUT-'].update('')
         return ([False] + results)
 
     else:
         if results[2::] == old_results[3::]:
-            if values["-PROBLEM-1-"] == old_results[1] and old_results[2] == "":
-                window['-PROBLEM-1-'].update('')
-            elif values["-PROBLEM-2-"] == old_results[2] and old_results[1] == "":
-                window['-PROBLEM-2-'].update('')
+            if values["-PROBLEM-1-"] == old_results[1] and values["-PROBLEM-2-"] != []:
+                window['-PROBLEM-1-'].set_value([])
+            elif values["-PROBLEM-2-"] == old_results[2] and values["-PROBLEM-1-"] != []:
+                window['-PROBLEM-2-'].set_value([])
         return ([True] + results)

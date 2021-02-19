@@ -13,21 +13,15 @@ def review_filter_frame():
     :return filter_frame: a frame containing the filters for reviews
     """
     return [
+        [sg.CB('Search all', key='-TOGGLE-ALL-')],
+        [sg.Text("-"*35)],
+        # [sg.HSep(pad=(0,10))],
         [sg.CB('Invited', key='-INVITED-')],
         [sg.CB('Assigned', key='-ASSIGNED-')],
         [sg.CB('Graded', key='-GRADED-')],
         [sg.CB('AcceptanceBlocked', key='-BLOCKED-')]
         ]
 
-
-def toggle_all_frame():
-    """
-    returns a filter frame with a toggle all CheckBox
-
-    :return Toggle_all_Frame: a frame containing a toggle CheckBox for all reviews
-    """
-    return [ [ sg.CB('Search all', key='-TOGGLE-ALL-') ] ]
-    
 
 def review_counter_frame():
     """
@@ -38,9 +32,9 @@ def review_counter_frame():
     (reviews_done, reviews_pending, reviews_needed) = counter_data()
 
     return [
-        [ sg.Text(f"Reviews Done:\t{reviews_done:0>2}", key='-REVIEWS-DONE-')],
-        [ sg.Text(f"Reviews pending:\t{reviews_pending:0>2}",key='-REVIEWS-PENDING-')],
-        [ sg.Text(f"Reviews needed:\t{reviews_needed:0>2}",key='-REVIEWS-NEEDED-')]]
+        [ sg.Text(f"Reviews Done:\t{reviews_done:0>2}", key='-REVIEWS-DONE-',pad=(5,0))],
+        [ sg.Text(f"Reviews pending:\t{reviews_pending:0>2}",key='-REVIEWS-PENDING-',pad=(5,0))],
+        [ sg.Text(f"Reviews needed:\t{reviews_needed:0>2}",key='-REVIEWS-NEEDED-',pad=(5,0))]]
 
 
 def counter_data():
@@ -81,6 +75,6 @@ def update_counter_frame(window):
     :param window: a sg object holding all the window contents and elements
     """
     (reviews_done, reviews_pending, reviews_needed) = counter_data()
-    window['-REVIEWS-DONE-'].update(f'Reviews Done:      {reviews_done}')
-    window['-REVIEWS-PENDING-'].update(f'Reviews pending:   {reviews_pending}')
-    window['-REVIEWS-NEEDED-'].update(f'Reviews needed:    {reviews_needed}')
+    window['-REVIEWS-DONE-'].update(f'Reviews Done:\t{reviews_done:0>2}')
+    window['-REVIEWS-PENDING-'].update(f'Reviews pending:\t{reviews_pending:0>2}')
+    window['-REVIEWS-NEEDED-'].update(f"Reviews needed:\t{reviews_needed:0>2}")

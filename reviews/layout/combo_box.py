@@ -7,19 +7,25 @@ import core
 
 def combo_box():
     """
-    generates a list of combo boxes and the elements inside each
+    generates a tabGroup that holds Tabs names after modules holding the problems for that module
 
-    :return cobo_box_layout: the list of combo boxs
+    :return tab_group_layout: the tabgroup holding tabs and listboxes
     """
     module_dict = get_all_problems()
     layout = []
     i = 0
     for module_name in module_dict.keys():
         i += 1
-        layout.append([ sg.Text(f"Module: {module_name}") ])
-        layout.append([ sg.Combo(module_dict[module_name],
-                key=f"-PROBLEM-{i}-", size=(40,1), default_value=None) ])
-    return layout
+        listbox_layout = []
+        for item in module_dict[module_name]:
+            listbox_layout.append([item])
+
+        module_name = module_name.split(" [")
+
+        layout.append( sg.Tab( module_name[0], [ [ sg.Listbox( listbox_layout,
+                key=f"-PROBLEM-{i}-", size=(40,22),) ] ], pad=(0, 20) ) )
+
+    return [ [ sg.TabGroup( [layout] ) ] ]
 
 
 def get_all_problems():
