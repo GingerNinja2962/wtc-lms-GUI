@@ -18,7 +18,7 @@ def assignments_main_menu():
     while 1:
         event, values = window.read()
 
-        if event == sg.WIN_CLOSED:
+        if event == sg.WIN_CLOSED or event == "Exit":
             window.close()
             return False
 
