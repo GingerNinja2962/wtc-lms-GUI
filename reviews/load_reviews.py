@@ -13,11 +13,16 @@ def load_reviews():
     """
     save_file = f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt"
     modules_file = f"{os.getcwd()}/.save_data/data_modules/.modules.txt"
+
     if os.path.exists(save_file) and os.path.exists(modules_file):
         if not core.token_check("review"):
-            return True
+            print("Passed tests")
+        else:
+            core.populate_save_data.populate_save_data("reviews")
+        return True
 
     else:
+        print("Broken")
         event, valuse = sg.Window("lms GUI",
             [
                 [ sg.Text("No saved data has been found\n") ],

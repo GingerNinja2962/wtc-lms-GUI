@@ -13,8 +13,8 @@ def main_menu(running):
     version_num = 1.3
 
     if running:
-
-        window = sg.Window("Lms GUI", main_menu_layout(), element_justification='c', location=(500, 300))
+        window = sg.Window("Lms GUI", main_menu_layout(),
+            element_justification='c', location=(500, 300))
 
     while running:
         event, values = window.read()
