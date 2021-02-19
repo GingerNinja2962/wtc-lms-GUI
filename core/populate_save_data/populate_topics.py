@@ -7,11 +7,8 @@ def populate_topics():
     """
     download all topics data and saves it
     """
-    save_data_path = (f"{os.getcwd()}/.save_data")
+    save_data_path = core.dir_check(f"{os.getcwd()}/.save_data")
     topics_data_path = core.dir_check(save_data_path + "/data_topics")
-
-    if not os.path.exists(save_data_path + "/data_modules/.modules.txt"):
-        core.populate_save_data.populate_modules()
 
     grep_modules_call = core.grep_call("-i", " \[", save_data_path + "/data_modules/.modules.txt")
     (lms_topics_data, err) = core.system_call_comms(grep_modules_call)

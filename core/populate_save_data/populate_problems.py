@@ -7,11 +7,8 @@ def populate_problems():
     """
     download all problems data and saves it
     """
-    save_data_path = (f"{os.getcwd()}/.save_data")
+    save_data_path = core.dir_check(f"{os.getcwd()}/.save_data")
     problems_data_path = core.dir_check(save_data_path + "/data_problems") 
-
-    if not os.path.exists(save_data_path + "/data_topics"):
-        core.populate_save_data.populate_topics()
 
     for topic_file in os.listdir(save_data_path + "/data_topics"):
 

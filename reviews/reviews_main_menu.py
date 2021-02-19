@@ -29,8 +29,8 @@ def review_problem():
         if core.token_check("review"):
             core.populate_save_data.populate_reviews()
             window['-OUTPUT-'].update('')
-            print("Reviews Data Updated\n")
             reviews.problem_selection(values)
+            reviews.layout.update_counter_frame(window)
 
         if values["-SETTINGS-MENU-"] == "General Settings":
             settings.general_settings()
@@ -70,9 +70,8 @@ def review_problem():
             reviews.layout.update_counter_frame(window)
 
         if old_results[0] or event == "Update review data" \
-                or event == '⟳' or event == "Review details" \
-                or event == "Accept" or event == "Comment" \
-                or event == "Grade":
+                or event == "Review details" or event == "Accept" \
+                or event == "Comment" or event == "Grade":
             window['-OUTPUT-'].update('')
             reviews.problem_selection(values)
 

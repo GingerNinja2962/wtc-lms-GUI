@@ -12,33 +12,51 @@ def load_reviews():
     :return reviews_data: the reviews data
     """
     save_file = f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt"
-    if os.path.exists(save_file): return True
-
-    else:
-        request = sg.popup("No saved review data has been found",
-"would you like to update the data automatically or load a save file?",
-"Please note that loading new data will need an active internet connection",
-            title="WTC-LMS GUI [Work In Progress]",
-            custom_text=("update", "load save"),
-            location=(500, 300))
-
-        if request == "update":
-            core.populate_save_data.populate_reviews()
+    modules_file = f"{os.getcwd()}/.save_data/data_modules/.modules.txt"
+    if os.path.exists(save_file) and os.path.exists(modules_file):
+        if not core.token_check("review"):
             return True
 
-        elif request == "load save":
-            file_to_load = sg.popup_get_file(
-                "Please select the file to load:",
+    else:
+        event, valuse = sg.Window("lms GUI",
+            [
+                [ sg.Text("No saved data has been found\n") ],
+                [ sg.Text("Would you like to update the data automatically or load a custom save folder?\n") ],
+                [ sg.Text("***Please note that updating the data will need an active internet connection.***\n") ],
+                [ sg.Button("Update", size=(9,1)), sg.Text("", pad=(50, 0)), sg.Button("Load folder", size=(9,1)) ],
+            ], element_justification='c', location=(500, 300)).read(close=True)
+
+        if event == "Update":
+            core.populate_save_data.populate_save_data()
+            return True
+
+        elif event == "Load folder":
+            folder_to_load = sg.popup_get_folder(
+                "Please select a folder that holds the following folders:\n" + 
+                " - data_modules\n - data_topics\n - data_problems\n - data_reviews\n - tokens",
                 title="reviews save data",
                 default_path=f"{os.getcwd()}",
-                grab_anywhere=True)
-            print(file_to_load)
+                grab_anywhere=True, location=(500, 300))
             try:
-                loadeddata = core.read_from_file(file_to_load)
-                save_file = core.dir_check(f"{os.getcwd()}/.save_data")
-                save_file = core.dir_check(save_file + "/data_reviews")
-                core.write_to_file(loadeddata, save_file + "/.reviews_data.txt")
+                save_path = core.dir_check(f"{os.getcwd()}/.save_data")
+                for path, folders, files in os.walk(folder_to_load):
+                    if files == []: continue
+                    if "data_reviews" in path:
+                        save_dir = f"{save_path}/data_reviews"
+                    elif "data_modules" in path:
+                        save_dir = f"{save_path}/data_modules"
+                    elif "data_topics" in path:
+                        save_dir = f"{save_path}/data_topics"
+                    elif "data_problems" in path:
+                        save_dir = f"{save_path}/data_problems"
+                    elif "tokens" in path:
+                        save_dir = f"{save_path}/tokens"
+                    else: continue
+                    for a_file in files:
+                        loadeddata = core.read_from_file(f"{path}/{a_file}")
+                        save_file = core.dir_check(f"{save_dir}")
+                        core.write_to_file(loadeddata, f"{save_dir}/{a_file}")
                 return True
             except:
-                return False
+                load_reviews()
         return False

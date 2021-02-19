@@ -7,7 +7,8 @@ def populate_modules():
     """
     download all modules data and saves it
     """
-    save_data_path = core.dir_check(f"{os.getcwd()}/.save_data/data_modules")
+    save_data_path = core.dir_check(f"{os.getcwd()}/.save_data")
+    save_data_path = core.dir_check(f"{save_data_path}/data_modules")
     modules_data_path = save_data_path + "/.modules.txt"
 
     lms_modules = core.lms_call("modules")

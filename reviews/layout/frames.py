@@ -52,12 +52,9 @@ def counter_data():
     :return reviews_needed: the number of reviews needing to be compleated
     """
     save_data_path = (f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt")
-    if not os.path.exists(save_data_path) or core.token_check("review"):
-        core.populate_save_data.populate_reviews()
 
     grep_count_process = core.grep_call("-ic", "Graded", save_data_path)
     (reviews_done, err) = core.system_call_comms(grep_count_process)
-    if reviews_done == "0\n": reviews_done = "0"
 
     grep_pending_process = core.grep_call("-ic", "Assigned", save_data_path)
     (reviews_pending, err) = core.system_call_comms(grep_pending_process)

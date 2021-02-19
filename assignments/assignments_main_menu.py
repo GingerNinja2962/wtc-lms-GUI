@@ -5,18 +5,24 @@ import settings
 import reviews
 import core
 
+
 def assignments_main_menu():
     """
     the main menu for selecting assignments
     """
+    if core.token_check("assignment"):
+        core.populate_save_data.populate_save_data("assignment")
+
     layout = assignments.problem_selection_layout()
 
-    core.populate_save_data.populate_save_data()
-
-    window = sg.Window("LMS Assignment Gui", layout, element_justification='c', location=(300, 200))
+    window = sg.Window("LMS Assignment Gui", layout, element_justification='c',
+        location=(300, 200))
 
     while 1:
-        event, values = window.read()
+        event, values = window.read(timeout=5000)
+
+        if core.token_check("assignment"):
+            core.populate_save_data.populate_save_data("assignment")
 
         if event == sg.WIN_CLOSED or event == "Exit":
             window.close()
