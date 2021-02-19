@@ -31,15 +31,15 @@ def problem_selection_layout():
             [ [ sg.Text("Please select an assignment: ",
             font="Calibri 12") ],
             [
-                sg.Column( reviews.layout.combo_box() ),
+                sg.Column( reviews.layout.tab_group(), pad=(5,0) ),
                 sg.Column(
                     [ [ sg.Frame("Filters", Filter_Frame, title_color="#FF8C00",
-                        title_location="n", pad=(0,5), font="Calibri 10") ],
+                        title_location="n", font="Calibri 10") ],
                         [ sg.Frame("Review Count", Review_count_Frame,
                         title_color="#FF8C00", title_location="n",
-                        element_justification="l", pad=(0,5),
+                        element_justification="l",
                         font="Calibri 10") ] ],
-                element_justification="c") ] ], pad=(0,10) ),
+                element_justification="c", pad=(5,0)) ] ], pad=(0,10) ),
         sg.VSeparator(pad=(5,0)),
         sg.Column( [
             [ sg.Output(size=(110, 30), key="-OUTPUT-", pad=(0,20))],

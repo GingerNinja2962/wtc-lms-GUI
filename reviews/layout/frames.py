@@ -14,7 +14,7 @@ def review_filter_frame():
     """
     return [
         [sg.CB('Search all', key='-TOGGLE-ALL-')],
-        [sg.Text("-"*35)],
+        [sg.Text("-"*34)],
         # [sg.HSep(pad=(0,10))],
         [sg.CB('Invited', key='-INVITED-')],
         [sg.CB('Assigned', key='-ASSIGNED-')],

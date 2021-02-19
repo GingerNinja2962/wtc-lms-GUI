@@ -5,7 +5,7 @@ import os
 import core
 
 
-def combo_box():
+def tab_group():
     """
     generates a tabGroup that holds Tabs names after modules holding the problems for that module
 
