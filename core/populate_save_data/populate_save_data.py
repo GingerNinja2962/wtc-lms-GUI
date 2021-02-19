@@ -25,7 +25,7 @@ def populate_save_data(prefered_data="ALL"):
     if not os.path.exists(save_data_path):
         core.dir_check(save_data_path)
 
-        if prefered_data == "assignment":
+        if prefered_data == "assignments":
             populate_assignments()
         elif prefered_data == "reviews":
             core.populate_save_data.populate_reviews()
@@ -34,7 +34,7 @@ def populate_save_data(prefered_data="ALL"):
             core.populate_save_data.populate_reviews()
         return
 
-    if prefered_data == "assignment":
+    if prefered_data == "assignments":
         populate_assignments()
     elif prefered_data == "reviews":
         core.populate_save_data.populate_reviews()

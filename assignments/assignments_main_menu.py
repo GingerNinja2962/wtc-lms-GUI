@@ -11,7 +11,7 @@ def assignments_main_menu():
     the main menu for selecting assignments
     """
     if core.token_check("assignment"):
-        core.populate_save_data.populate_save_data("assignment")
+        core.populate_save_data.populate_save_data("assignments")
 
     layout = assignments.problem_selection_layout()
 
@@ -22,7 +22,7 @@ def assignments_main_menu():
         event, values = window.read(timeout=5000)
 
         if core.token_check("assignment"):
-            core.populate_save_data.populate_save_data("assignment")
+            core.populate_save_data.populate_save_data("assignments")
 
         if event == sg.WIN_CLOSED or event == "Exit":
             window.close()
@@ -37,6 +37,8 @@ def assignments_main_menu():
 
         elif values["-NAVIGATE-MENU-"] == "   Reviews Menu":
             window.close()
+            if core.token_check("review"):
+                core.populate_save_data.populate_save_data("reviews")
             return reviews.review_problem()
 
         if event == "-MODULE-":

@@ -15,14 +15,11 @@ def load_reviews():
     modules_file = f"{os.getcwd()}/.save_data/data_modules/.modules.txt"
 
     if os.path.exists(save_file) and os.path.exists(modules_file):
-        if not core.token_check("review"):
-            print("Passed tests")
-        else:
+        if core.token_check("review"):
             core.populate_save_data.populate_save_data("reviews")
         return True
 
     else:
-        print("Broken")
         event, valuse = sg.Window("lms GUI",
             [
                 [ sg.Text("No saved data has been found\n") ],
@@ -47,21 +44,34 @@ def load_reviews():
                 for path, folders, files in os.walk(folder_to_load):
                     if files == []: continue
                     if "data_reviews" in path:
+                        data_reviews_file = True
                         save_dir = f"{save_path}/data_reviews"
                     elif "data_modules" in path:
+                        data_modules_file = True
                         save_dir = f"{save_path}/data_modules"
                     elif "data_topics" in path:
+                        data_topics_file = True
                         save_dir = f"{save_path}/data_topics"
                     elif "data_problems" in path:
+                        data_problems_file = True
                         save_dir = f"{save_path}/data_problems"
                     elif "tokens" in path:
+                        token_file = True
                         save_dir = f"{save_path}/tokens"
                     else: continue
                     for a_file in files:
                         loadeddata = core.read_from_file(f"{path}/{a_file}")
                         save_file = core.dir_check(f"{save_dir}")
                         core.write_to_file(loadeddata, f"{save_dir}/{a_file}")
-                return True
+                if data_modules_file and data_topics_file \
+                    and data_problems_file and data_reviews_file and token_file:
+                    return True
             except:
+                sg.popup_ok(
+                "Sorry that folder was not a valid save folder:\n" +
+                "\nA valid save folder holds the following folders with their corrisponding data:\n\n" + 
+                " - data_modules\n - data_topics\n - data_problems\n - data_reviews\n - tokens",
+                title="reviews save data",
+                grab_anywhere=True, location=(500, 300))
                 load_reviews()
         return False

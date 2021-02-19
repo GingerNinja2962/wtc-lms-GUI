@@ -63,7 +63,8 @@ def main_menu_layout():
         [
             sg.Text("\n\nThis is a custom made GUI for the lms menu.\n"+
                     "\nPlease note this is a beta test and not the\n"+
-                    "final product, thus it is subject to constant change\n\n")
+                    "final product, thus it is subject to constant change\n\n",
+                    font="Calibri 9")
         ],
         [sg.HSeparator()],
         [

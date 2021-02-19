@@ -27,7 +27,7 @@ def review_problem():
         active_buttons = reviews.valid_uuid(values['-INPUT-'])
 
         if core.token_check("review") or values["-SETTINGS-MENU-"] == "Update Reviews":
-            core.populate_save_data.populate_save_data("reviews")
+            core.populate_save_data.populate_reviews()
             window['-OUTPUT-'].update('')
             reviews.problem_selection(values)
             reviews.layout.update_counter_frame(window)

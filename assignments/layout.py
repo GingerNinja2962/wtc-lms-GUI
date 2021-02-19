@@ -15,29 +15,32 @@ def problem_selection_layout():
     help_menu_items = ["Unused", ["&About"]]
 
     return [
-        [ sg.ButtonMenu("Settings",  settings_menu_items, key="-SETTINGS-MENU-", size=(9,1)),
-            sg.ButtonMenu("Navigate", navigate_menu_items, key="-NAVIGATE-MENU-", size=(9,1)),
-            sg.ButtonMenu("Help", help_menu_items, key="-HELP-MENU-", size=(8,1)),
+        [ sg.ButtonMenu("Settings",  settings_menu_items, key="-SETTINGS-MENU-",
+            size=(9,1), font="Calibri 9"),
+            sg.ButtonMenu("Navigate", navigate_menu_items, key="-NAVIGATE-MENU-",
+            size=(9,1), font="Calibri 9"),
+            sg.ButtonMenu("Help", help_menu_items, key="-HELP-MENU-",
+            size=(8,1), font="Calibri 9"),
             sg.Text("", pad=(305,0)),
             sg.Button("Exit", pad=(0,0))
         ],
         [ sg.HSeparator() ],
         [ sg.Column(
-            [ [ sg.Text("Modules") ],
+            [ [ sg.Text("Modules", font="Calibri 9") ],
                 [ sg.Column(
                 [ [ sg.Listbox(
                     values=assignments.listbox_content.modules_listbox_contents(),
                     size=(30,20), key="-MODULE-", enable_events=True) ] ]
             ), ] ], element_justification='c' ),
         sg.Column(
-            [ [ sg.Text("Topics") ],
+            [ [ sg.Text("Topics", font="Calibri 9") ],
             [ sg.Column(
                 [ [ sg.Listbox(values=[],
                     size=(35,20), key="-TOPIC-",enable_events=True,
                     disabled=True) ] ] ),
             ] ], element_justification='c' ),
         sg.Column(
-            [ [ sg.Text("Assignments") ],
+            [ [ sg.Text("Assignments", font="Calibri 9") ],
                 [ sg.Column(
                     [ [ sg.Listbox(values=[],
                         size=(40,20), key="-PROBLEM-",enable_events=True,
@@ -46,7 +49,7 @@ def problem_selection_layout():
             ], element_justification='c' ),
         sg.Text("", pad=(10,0)),
         sg.Column(
-            [ [ sg.Text("Actions") ],
+            [ [ sg.Text("Actions", font="Calibri 9") ],
                 [ sg.Frame(title="Operations",
                     layout=assignments.frame_layout.assignment_buttons_frame(),
                     pad=(0,82)) ],
