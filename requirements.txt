@@ -1,1 +1,2 @@
 PySimpleGUI==4.34.0
+custom-inherit==2.3.1

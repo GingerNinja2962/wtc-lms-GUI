@@ -1,9 +1,6 @@
 import PySimpleGUI as sg
 
-import os
-
 import reviews
-import core
 
 
 def problem_selection_layout():
