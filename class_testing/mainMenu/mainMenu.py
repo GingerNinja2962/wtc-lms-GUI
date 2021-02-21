@@ -7,7 +7,7 @@ import mainMenu
 import settings
 
 
-class mainMenuWindow(baseClasses.baseWindowClass):
+class mainMenuClass(baseClasses.baseWindowClass):
     """
     A class to create a main menu window.
     """
@@ -30,10 +30,12 @@ class mainMenuWindow(baseClasses.baseWindowClass):
             themeMenu = settings.themeMenuClass().run()
             del themeMenu
 
+        # TODO finish setting up clas swapover
         # elif self.event == "Assignments":
         #     self.close()
         #     self.running = assignments.assignments_main_menu()
 
+        # TODO finish setting up clas swapover
         # elif self.event == "Reviews":
         #     self.close()
         #     self.running = reviews.review_problem()

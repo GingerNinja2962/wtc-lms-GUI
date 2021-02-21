@@ -35,3 +35,35 @@ class populateProblemsClass(populateTopicsClass):
         token = core.tokensClass()
         token.forceTokenUpdate("Assignment")
         self.closeLoadingMessage()
+
+
+    def getProblems(self):
+        if self.problemsDataPaths == []:
+            problemsData = self.getProblemNames()
+            for topic in problemsData.keys():
+                self.problemsDataPaths.append(f"{self.problemsPath}/{topic}.txt")
+
+        for problemPath in self.problemsDataPaths:
+            grepProblemsCall = core.grepCall("-i", " \[", self.problemPath)
+            (lmsProblemsData, err) = core.systemCallComms(grepProblemsCall)
+
+            topicName = ((problemPath.split("/"))[-1]).replace(".txt", '')
+
+            problemsList = []
+            for problem in lmsProblemsData.split(')\n'):
+                if problem == '': continue
+                problemsList.append((((problem.split(' ('))[0]).split(' ['))[0])
+            self.problemsDict[topicName] = problemsList
+
+
+    def getProblemNames(self):
+        grepTopicsCall = core.grepCall("-i", " \[", self.topicsDataPath)
+        (lmsProblemsData, err) = core.systemCallComms(grepTopicsCall)
+
+        lmsProblemsData = lmsProblemsData.split(')\n')
+        problemsData = {}
+
+        for string in lmsProblemsData:
+            if string == '': continue
+            problemsData[(((string.split(' ('))[0]).split(' ['))[0]] = string[1]
+        return problemsData

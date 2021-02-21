@@ -29,7 +29,7 @@ def assignmentsLayout():
             [ [ sg.Text("Modules", font="Calibri 9") ],
                 [ sg.Column(
                 [ [ sg.Listbox(
-                    values=assignments.listbox_content.modules_listbox_contents(),
+                    values=assignments.listbox_content.modules_listbox_contents(), # TODO link
                     size=(30,20), key="-MODULE-", enable_events=True) ] ]
             ), ] ], element_justification='c' ),
         sg.Column(
@@ -51,7 +51,7 @@ def assignmentsLayout():
         sg.Column(
             [ [ sg.Text("Actions", font="Calibri 9") ],
                 [ sg.Frame(title="Operations",
-                    layout=assignments.frame_layout.assignment_buttons_frame(),
+                    layout=assignments.frame_layout.assignment_buttons_frame(), # TODO link
                     pad=(0,82)) ],
             ], element_justification='c')
         ]

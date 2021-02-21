@@ -12,7 +12,7 @@ def main():
     sg.theme("DarkAmber")
     sg.set_options(element_padding=(0, 0))
 
-    mainMenuObj = mainMenu.mainMenuWindow()
+    mainMenuObj = mainMenu.mainMenuClass()
     mainMenuObj.run()
 
 

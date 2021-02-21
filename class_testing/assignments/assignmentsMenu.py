@@ -14,13 +14,15 @@ class assignmentsMenuClass(baseWindowClass):
     """
     def __init__(self):
         super().__init__()
+        self.token = None
+        self.problemsData = None
 
 
     def run(self):
-        token = core.tokensClass()
-        if not token.tokenCheck():
-            problemsData = core.populateProblemsClass()
-            problemsData.populateProblems()
+        self.token = core.tokensClass()
+        if not self.token.tokenCheck():
+            self.problemsData = core.populateProblemsClass()
+            self.problemsData.populateProblems()
 
         self.layout = [[]] # TODO fix
         self.title = "LMS Assignments GUI"
@@ -33,6 +35,7 @@ class assignmentsMenuClass(baseWindowClass):
         if assignments.listbox_content.modules_listbox_contents() == []: # TODO fix this
             self.window["-MODULE-"].Update(disabled=True)
 
+
     def read(self):
         self.event, self.values = self.window.read()
 
@@ -40,7 +43,7 @@ class assignmentsMenuClass(baseWindowClass):
             self.close()
 
 
-
+# TODO finsih converting assignments menu into methods for class
 # def assignments_main_menu():
 #     """
 #     the main menu for selecting assignments

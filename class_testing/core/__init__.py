@@ -22,12 +22,14 @@ print(" - Imported dirCheck")
 from core.tokenCheck import tokensClass
 print(" - Imported class - tokensClass")
 
-from core.populate_save_data.populate_reviews import populateReviewsClass
+from core.populateSaveData.populateReviews import populateReviewsClass
 print(" - Imported class - populateReviewsClass")
 
-from core.populate_save_data.populate_modules import populateModulesClass
+from core.populateSaveData.populateModules import populateModulesClass
 print(" - Imported class - populateModulesClass")
-from core.populate_save_data.populate_topics import populateTopicsClass
+
+from core.populateSaveData.populateTopics import populateTopicsClass
 print(" - Imported class - populateTopicsClass")
-from core.populate_save_data.populate_problems import populateProblemsClass
+
+from core.populateSaveData.populateProblems import populateProblemsClass
 print(" - Imported class - populateProblemsClass")
