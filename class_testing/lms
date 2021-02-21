@@ -2,7 +2,7 @@
 import PySimpleGUI as sg
 
 import mainMenu
-import core
+import assignments
 
 
 def main():
@@ -12,8 +12,17 @@ def main():
     sg.theme("DarkAmber")
     sg.set_options(element_padding=(0, 0))
 
-    mainMenuObj = mainMenu.mainMenuClass()
-    mainMenuObj.run()
+    openWindow = mainMenu.mainMenuClass()
+    status = openWindow.run()
+
+    while status != "Closed":
+        if status == "assignments":
+            openWindow = assignments.assignmentsMenuClass()
+        if status == "reviews": # TODO link reviews menu
+            pass
+        if status == "mainMenu":
+            openWindow = mainMenu.mainMenuClass()
+        status = openWindow.run()
 
 
 if __name__ == "__main__":

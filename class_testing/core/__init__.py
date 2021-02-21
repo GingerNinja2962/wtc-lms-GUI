@@ -18,18 +18,8 @@ print(" - Imported writeToFile")
 
 from core.directoryCheck import dirCheck
 print(" - Imported dirCheck")
+from core.directoryCheck import fileCheck
+print(" - Imported fileCheck")
 
 from core.tokenCheck import tokensClass
 print(" - Imported class - tokensClass")
-
-from core.populateSaveData.populateReviews import populateReviewsClass
-print(" - Imported class - populateReviewsClass")
-
-from core.populateSaveData.populateModules import populateModulesClass
-print(" - Imported class - populateModulesClass")
-
-from core.populateSaveData.populateTopics import populateTopicsClass
-print(" - Imported class - populateTopicsClass")
-
-from core.populateSaveData.populateProblems import populateProblemsClass
-print(" - Imported class - populateProblemsClass")

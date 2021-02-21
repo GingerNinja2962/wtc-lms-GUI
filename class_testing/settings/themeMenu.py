@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
 
-from baseClasses.baseWindow import baseWindowClass
+import classTemplates
 
 
-class themeMenuClass(baseWindowClass):
+class themeMenuClass(classTemplates.baseWindowClass):
     """
     Create a window that allows you to chage the theme
     """

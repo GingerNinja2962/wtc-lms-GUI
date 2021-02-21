@@ -5,29 +5,21 @@ import PySimpleGUI as sg
 
 class actionButtonsClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
     def __init__(self):
-        super().__init__()
         self.assignmentState = None
         self.stateList = [True]*4
+        self.actionButtonsFrame()
 
 
-    def assignment_buttons_update(self, problemName):
+    def actionButtonsUpdate(self):
         """
         set the assignment buttons to the required state depending
             on the problem state
-
-        :param problem_name: this is the name of the choosen assignment
         """
-        if self.token.tokenCheck("assignment"):
-            self.problemsData.populateProblems()
-
-        self.assignmentState = (problemName.replace('[', ']')
-                .split("\n")[1])
-
-        if self.assignmentState == "Not Started":
+        if self.problemsState[self.values['-PROBLEM-'][0]] == "Not Started":
             self.stateList = [False]+[True]*3
-        elif self.assignmentState == "Started":
+        elif self.problemsState[self.values['-PROBLEM-'][0]] == "Started":
             self.stateList = [False]*3+[True]
-        elif self.assignmentState == "In Progress":
+        elif self.problemsState[self.values['-PROBLEM-'][0]] == "In Progress":
             self.stateList = [False]+[True]*2+[False]
         else: # TODO find out what this is for
             self.stateList = [False]*4
@@ -38,7 +30,7 @@ class actionButtonsClass(metaclass=DocInheritMeta(style="numpy_with_merge", incl
         self.window['-HISTORY-'].Update(disabled=self.stateList[3])
 
 
-    def reset_buttons(self):
+    def resetButtons(self):
         """
         reset the assignment buttons to an inactive state
         """
@@ -48,13 +40,11 @@ class actionButtonsClass(metaclass=DocInheritMeta(style="numpy_with_merge", incl
         self.window['-HISTORY-'].Update(disabled=True)
 
 
-    def assignmentButtonsFrame(self):
+    def actionButtonsFrame(self):
         """
-        a small function that returns a assignment button frame with 4 wtc-lms assignment options
-
-        :return assignment_frame: a frame containing the options for wtc-lms assignments
+        returns a assignment button frame with 4 wtc-lms assignment options
         """
-        return [
+        self.buttonsFrame = [
             [sg.Button('Start', key='-START-', disabled=self.stateList[0],
                 tooltip="Start the assignment and clone into the assignment folder",
                 size=(6,1), pad=(1,1))],

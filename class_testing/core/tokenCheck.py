@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 
-from os import getcwd
+import os
 
-from core import dirCheck, readFromFile, writeToFile
+import core
 
 
 class tokensClass():
@@ -41,7 +41,8 @@ class tokensClass():
             status : bool
                 The status of the last check on the token.
         """
-        self.tokenPath = dirCheck(f"{getcwd()}/.save_data")
+        self.tokenPath = core.dirCheck(f"{os.getcwd()}/.save_data")
+        self.tokenPath = core.dirCheck(f"{self.tokenPath}/tokens")
         self.currentTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.status = False
 
@@ -69,9 +70,9 @@ class tokensClass():
             The type of token to check i.e. 'Assignment' or 'Review',
             by default "Login".
         """
-        localTokenPath = dirCheck(f"{self.tokenPath}/tokens")
-        localTokenPath = localTokenPath + f"/.token{tokenType}.txt"
-        writeToFile(self.currentTimeUpdate(), localTokenPath)
+        self.__init__()
+        localTokenPath = f"{self.tokenPath}/.token{tokenType}.txt"
+        core.writeToFile(self.currentTimeUpdate(), localTokenPath)
         self.status = False
 
 
@@ -90,19 +91,20 @@ class tokensClass():
         tokenStatus : bool
             The status of the check. True if valid, False if invalid.
         """
-        localTokenPath = self.TokenPath + f"/.token{tokenType}.txt"
+        self.__init__()
+        localTokenPath = self.tokenPath + f"/.token{tokenType}.txt"
         try:
-            tokenData = readFromFile(localTokenPath)
+            tokenData = core.readFromFile(localTokenPath)
             tokenData = datetime.strptime(
                     tokenData, "%Y-%m-%d %H:%M:%S")
         except:
-            writeToFile(self.currentTimeUpdate(), localTokenPath)
+            core.writeToFile(self.currentTimeUpdate(), localTokenPath)
             self.status = False
             return self.status
 
         if (tokenData + timedelta(weeks=1)) < datetime.strptime(
                     self.currentTimeUpdate(), "%Y-%m-%d %H:%M:%S"):
-            writeToFile(self.currentTime, localTokenPath)
+            core.writeToFile(self.currentTime, localTokenPath)
             self.status = False
             return self.status
 

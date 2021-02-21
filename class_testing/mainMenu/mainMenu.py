@@ -2,12 +2,12 @@
 import PySimpleGUI as sg
 from custom_inherit import doc_inherit
 
-import baseClasses
+import classTemplates
 import mainMenu
 import settings
 
 
-class mainMenuClass(baseClasses.baseWindowClass):
+class mainMenuClass(classTemplates.baseWindowClass):
     """
     A class to create a main menu window.
     """
@@ -22,18 +22,18 @@ class mainMenuClass(baseClasses.baseWindowClass):
 
         if self.event in (sg.WIN_CLOSED, "Exit"):
             self.close()
+            return "Closed"
 
         elif self.values["-SETTINGS-MENU-"] == "General Settings":
             settings.generalSettings()
 
         elif self.values["-SETTINGS-MENU-"] == "Change Theme":
-            themeMenu = settings.themeMenuClass().run()
-            del themeMenu
+            settings.themeMenuClass().run()
 
         # TODO finish setting up clas swapover
-        # elif self.event == "Assignments":
-        #     self.close()
-        #     self.running = assignments.assignments_main_menu()
+        elif self.event == "Assignments":
+            self.close()
+            return "assignments"            
 
         # TODO finish setting up clas swapover
         # elif self.event == "Reviews":

@@ -1,9 +1,9 @@
-from baseClasses.basePopulateData import populateData
+import classTemplates
 
 import core
 
 
-class populateReviewsClass(populateData):
+class populateReviewsClass(classTemplates.basePopulateDataClass):
     def __init__(self):
         super().__init__()
         self.reviewsDataPath = core.dirCheck(f"{self.saveDataPath}/reviewsData")

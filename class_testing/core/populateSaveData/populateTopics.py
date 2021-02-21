@@ -1,4 +1,4 @@
-from core.populate_save_data.populate_modules import populateModulesClass
+from core.populateSaveData.populateModules import populateModulesClass
 
 import core
 
@@ -13,7 +13,6 @@ class populateTopicsClass(populateModulesClass):
 
     def populateTopics(self):
         self.populateModules()
-        self.topicsDataPaths = []
 
         topicsData = self.getTopicNames()
 
@@ -26,12 +25,12 @@ class populateTopicsClass(populateModulesClass):
 
     def getTopics(self):
         if self.topicsDataPaths == []:
-            topicsData = self.getTopicNames()
-            for module in topicsData.keys():
+            for module in self.getTopicNames().keys():
                 self.topicsDataPaths.append(f"{self.topicsPath}/{module}.txt")
 
         for topicPath in self.topicsDataPaths:
-            grepTopicsCall = core.grepCall("-i", " \[", self.topicPath)
+            if not core.fileCheck(topicPath): continue
+            grepTopicsCall = core.grepCall("-i", " \[", topicPath)
             (lmsTopicsData, err) = core.systemCallComms(grepTopicsCall)
 
             moduleName = ((topicPath.split("/"))[-1]).replace(".txt", '')
@@ -41,6 +40,9 @@ class populateTopicsClass(populateModulesClass):
                 if topic == '': continue
                 topicsList.append((((topic.split(' ('))[0]).split(' ['))[0])
             self.topicsDict[moduleName] = topicsList
+        if len(self.topicsDict.keys()) < 1:
+            return False
+        return True
 
 
     def getTopicNames(self):
@@ -52,5 +54,5 @@ class populateTopicsClass(populateModulesClass):
 
         for string in lmsTopicsData:
             if string == '': continue
-            topicsData[(((string.split(' ('))[0]).split(' ['))[0]] = string[1]
+            topicsData[(((string.split(' ('))[0]).split(' ['))[0]] = (string.split(' ('))[1]
         return topicsData

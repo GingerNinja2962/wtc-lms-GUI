@@ -1,5 +1,6 @@
-from core.populate_save_data.populate_topics import populateTopicsClass
+from core.populateSaveData.populateTopics import populateTopicsClass
 
+import classTemplates
 import core
 
 
@@ -8,11 +9,12 @@ class populateProblemsClass(populateTopicsClass):
         super().__init__()
         self.problemsPath = core.dirCheck(f"{self.saveDataPath}/problemsData")
         self.problemsDataPaths = []
+        self.problemsDict = {}
+        self.problemsState = {}
 
 
     def populateProblems(self):
         self.populateTopics()
-        self.problemsDataPaths = []
 
         for topicFile in self.topicsDataPaths:
             grepTopicsCall = core.grepCall("-i", " \[", topicFile)
@@ -38,32 +40,18 @@ class populateProblemsClass(populateTopicsClass):
 
 
     def getProblems(self):
-        if self.problemsDataPaths == []:
-            problemsData = self.getProblemNames()
-            for topic in problemsData.keys():
-                self.problemsDataPaths.append(f"{self.problemsPath}/{topic}.txt")
-
-        for problemPath in self.problemsDataPaths:
-            grepProblemsCall = core.grepCall("-i", " \[", self.problemPath)
-            (lmsProblemsData, err) = core.systemCallComms(grepProblemsCall)
-
-            topicName = ((problemPath.split("/"))[-1]).replace(".txt", '')
-
-            problemsList = []
-            for problem in lmsProblemsData.split(')\n'):
-                if problem == '': continue
-                problemsList.append((((problem.split(' ('))[0]).split(' ['))[0])
-            self.problemsDict[topicName] = problemsList
-
-
-    def getProblemNames(self):
-        grepTopicsCall = core.grepCall("-i", " \[", self.topicsDataPath)
-        (lmsProblemsData, err) = core.systemCallComms(grepTopicsCall)
+        if core.fileCheck(f"{self.problemsPath}/{self.values['-TOPIC-'][0]}.txt"):
+            grepTopicsCall = core.grepCall("-i", " \[", f"{self.problemsPath}/{self.values['-TOPIC-'][0]}.txt")
+            (lmsProblemsData, err) = core.systemCallComms(grepTopicsCall)
+        else:
+            return False
 
         lmsProblemsData = lmsProblemsData.split(')\n')
-        problemsData = {}
+        problemsData = []
 
         for string in lmsProblemsData:
             if string == '': continue
-            problemsData[(((string.split(' ('))[0]).split(' ['))[0]] = string[1]
-        return problemsData
+            problemsData.append((((string.split(' ('))[0]).split(' ['))[0])
+            self.problemsState[(((string.split(' ('))[0]).split(' ['))[0]] = ((string.replace(' [', ']')).split(']'))[1]
+        self.problemsDict[self.values["-TOPIC-"][0]] = problemsData
+        return True

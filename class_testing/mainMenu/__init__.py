@@ -1,4 +1,4 @@
-print("\nModule Imported baseClasses")
+print("\nModule Imported templateClasses")
 
 from mainMenu.menuLayout import layout
 print(" - Imported layout from menuLayout")

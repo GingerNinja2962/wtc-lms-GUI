@@ -32,6 +32,8 @@ class baseWindowClass(metaclass=DocInheritMeta(style="numpy_with_merge", include
             The event picked up from the read function.
         values : list
             The values of the elements of the open window.
+            nextAction : str
+                The next window to be opened.
 
     Methods
     -------
@@ -70,6 +72,8 @@ class baseWindowClass(metaclass=DocInheritMeta(style="numpy_with_merge", include
                 The event picked up from the read function.
             values : list
                 The values of the elements of the open window.
+            nextAction : str
+                The next window to be opened.
         """
         self.defaultTheme = "DarkAmber"
         self.version = 1.4
@@ -82,6 +86,7 @@ class baseWindowClass(metaclass=DocInheritMeta(style="numpy_with_merge", include
         self.window = None
         self.event = ""
         self.values = []
+        self.nextAction = None
 
 
     def run(self):
@@ -93,7 +98,8 @@ class baseWindowClass(metaclass=DocInheritMeta(style="numpy_with_merge", include
                 location=self.location)
 
         while self.running:
-            self.read()
+            self.nextAction = self.read()
+        return self.nextAction
 
 
     def read(self):

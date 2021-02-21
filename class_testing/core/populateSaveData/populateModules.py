@@ -1,9 +1,9 @@
-from baseClasses.basePopulateData import populateData
+import classTemplates
 
 import core
 
 
-class populateModulesClass(populateData):
+class populateModulesClass(classTemplates.basePopulateDataClass):
     def __init__(self):
         super().__init__()
         self.modulesPath = core.dirCheck(f"{self.saveDataPath}/modulesData")
@@ -21,9 +21,12 @@ class populateModulesClass(populateData):
 
 
     def getModules(self):
+        if not core.fileCheck(self.modulesDataPath):
+            return False
         grepModulesCall = core.grepCall("-i", " \[", self.modulesDataPath)
         (lmsModulesData, err) = core.systemCallComms(grepModulesCall)
 
-        for Module in lmsModulesData.split(')\n'):
-            if Module == '': continue
-            self.modulesList.append(((Module.split(' ('))[0].split(' ['))[0])
+        for module in lmsModulesData.split(')\n'):
+            if module == '': continue
+            self.modulesList.append(((module.split(' ('))[0].split(' ['))[0])
+        return True

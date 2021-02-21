@@ -5,7 +5,7 @@ from core import dirCheck
 from os import getcwd
 
 
-class populateData(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
+class basePopulateDataClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
     """
     A base class to inherit if making a population class.
 
