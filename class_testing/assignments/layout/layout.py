@@ -1,18 +1,24 @@
 import PySimpleGUI as sg
 
+from classTemplates.windowTemplate import baseWindowClass
+
 from assignments import layout
+import core
 
 
-class assignmentsLayoutClass(layout.actionButtonsClass, layout.assignmentsListboxClass):
+class assignmentsLayoutClass(baseWindowClass):
     def __init__(self):
         super().__init__()
-        self.setupLayout()
-
-
-    def setupLayout(self):
-        super().__init__()
-        super().setupListbox(self.token)
+        self.saveData = core.dataHandelerClass()
+        self.actionButtons = layout.actionButtonsClass()
+        self.listboxs = layout.assignmentsListboxClass()
         self.assignmentsLayout()
+
+
+    def updateWindowVar(self, mainWindow):
+        self.mainWindow = mainWindow
+        self.actionButtons.mainWindow = mainWindow
+        self.listboxs.mainWindow = mainWindow
 
 
     def assignmentsLayout(self):

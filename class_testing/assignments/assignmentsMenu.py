@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 
-import classTemplates
+from classTemplates.windowTemplate import baseWindowClass
+from classTemplates.inDevelopmentPopup import inDevelopmentPopup
 from assignments import layout
 
 import settings
@@ -8,12 +9,13 @@ import assignments
 import core
 
 
-class assignmentsMenuClass(classTemplates.baseWindowClass, layout.assignmentsLayoutClass):
+class assignmentsMenuClass(baseWindowClass):
     """
     A class to create a assignments menu window.
     """
     def __init__(self):
         super().__init__()
+        self.layout = assignments.layout.assignmentsLayoutClass()
         self.token = core.tokensClass()
         self.title = "LMS Assignments GUI"
         super().setupLayout()
@@ -23,8 +25,9 @@ class assignmentsMenuClass(classTemplates.baseWindowClass, layout.assignmentsLay
         self.window = sg.Window(self.title, self.layout, 
                 element_justification=self.elementJustification,
                 location=self.location).finalize()
+        self.layout.window = self.window
 
-        if self.modulesList == []: # TODO check for bugs
+        if self.layout.saveData.modulesList == []:
             self.window["-MODULE-"].Update(disabled=True)
 
         while self.running:
@@ -72,10 +75,10 @@ class assignmentsMenuClass(classTemplates.baseWindowClass, layout.assignmentsLay
             self.actionButtonsUpdate()
 
         elif self.event == '-START-':
-            classTemplates.inDevelopmentPopup()
+            inDevelopmentPopup()
         elif self.event == '-SAVE-':
-            classTemplates.inDevelopmentPopup()
+            inDevelopmentPopup()
         elif self.event == '-GRADE-':
-            classTemplates.inDevelopmentPopup()
+            inDevelopmentPopup()
         elif self.event == '-HISTORY-':
-            classTemplates.inDevelopmentPopup()
+            inDevelopmentPopup()

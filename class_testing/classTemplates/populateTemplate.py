@@ -1,8 +1,7 @@
 import PySimpleGUI as sg
 from custom_inherit import DocInheritMeta
 
-from core import dirCheck
-from os import getcwd
+import os
 
 
 class basePopulateDataClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
@@ -34,7 +33,8 @@ class basePopulateDataClass(metaclass=DocInheritMeta(style="numpy_with_merge", i
             loadingMessage : object
                 The PySimpleGUI object that has been opened to display a loading message.
         """
-        self.saveDataPath = dirCheck(f"{getcwd()}/.save_data")
+        self.saveDataPath = f"{os.getcwd()}/.save_data"
+        if not os.path.exists(self.saveDataPath): os.mkdir(self.saveDataPath)
         self.loadingMessage = None
 
 

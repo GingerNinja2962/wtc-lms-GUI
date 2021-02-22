@@ -1,11 +1,9 @@
 import os
 
-from core.populateSaveData import populateProblemsClass
-
 import core
 
 
-class assignmentsListboxClass(populateProblemsClass):
+class assignmentsListboxClass(core.dataHandelerClass):
     def __init__(self):
         self.setupListbox()
 

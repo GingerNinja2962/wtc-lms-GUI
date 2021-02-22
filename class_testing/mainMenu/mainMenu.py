@@ -2,12 +2,13 @@
 import PySimpleGUI as sg
 from custom_inherit import doc_inherit
 
-import classTemplates
+from classTemplates.windowTemplate import baseWindowClass
+
 import mainMenu
 import settings
 
 
-class mainMenuClass(classTemplates.baseWindowClass):
+class mainMenuClass(baseWindowClass):
     """
     A class to create a main menu window.
     """

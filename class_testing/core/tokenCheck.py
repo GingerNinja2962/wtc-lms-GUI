@@ -43,21 +43,19 @@ class tokensClass():
         """
         self.tokenPath = core.dirCheck(f"{os.getcwd()}/.save_data")
         self.tokenPath = core.dirCheck(f"{self.tokenPath}/tokens")
-        self.currentTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.status = False
 
 
     def currentTimeUpdate(self):
         """
-        Update the current time variable saved in the tokens class.
+        Returns the current system time.
 
         Returns
         -------
         currentTime : str
-            The current system time stored in the token class, format is (Y-m-d H:M:S)
+            The current system time, in the format (Y-m-d H:M:S)
         """
-        self.currentTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        return self.currentTime
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
     def forceTokenUpdate(self, tokenType="Login"):
