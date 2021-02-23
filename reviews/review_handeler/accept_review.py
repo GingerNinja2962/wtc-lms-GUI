@@ -6,10 +6,14 @@ import core
 
 def accept_review(probelm_uuid, window):
     """
-    a function that will accept the review
+    A function that will accept the review.
 
-    :param probelm_uuid: the UUID for the probelm
-    :param window: this is the window that holds all elements
+    Parameters
+    ----------
+    probelm_uuid : str
+        The UUID for the probelm.
+    window : object
+        This is the window that holds all elements.
     """
     request = sg.popup("Would you like to Accept the following review?",
             f"{reviews.review_handeler.return_review_details(probelm_uuid)}",

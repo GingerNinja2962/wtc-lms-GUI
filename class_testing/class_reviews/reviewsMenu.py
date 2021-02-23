@@ -97,37 +97,37 @@ class reviewsMenuClass(baseWindowClass):
             return False
 
 
-def check_changes(event, values, old_results, window):
-    """
-    checks if the window has gotten any changes in review filters
+    def check_changes(self, event, values, old_results, window):
+        """
+        checks if the window has gotten any changes in review filters
 
-    :param event: this is the current even that has run
-    :param values: this is the values from the open window
-    :param old_resaults: this is the old check_changes resaults
-    :param window: this is the sg object containing all the elements for the window
-    :return boollean: True if there are changes False if not
-    """
-    results = [
-    values["-PROBLEM-1-"],
-    values["-PROBLEM-2-"],
-    values["-TOGGLE-ALL-"],
-    values["-INVITED-"],
-    values["-ASSIGNED-"],
-    values["-GRADED-"],
-    values["-BLOCKED-"] ]
+        :param event: this is the current even that has run
+        :param values: this is the values from the open window
+        :param old_resaults: this is the old check_changes resaults
+        :param window: this is the sg object containing all the elements for the window
+        :return boollean: True if there are changes False if not
+        """
+        results = [
+        values["-PROBLEM-1-"],
+        values["-PROBLEM-2-"],
+        values["-TOGGLE-ALL-"],
+        values["-INVITED-"],
+        values["-ASSIGNED-"],
+        values["-GRADED-"],
+        values["-BLOCKED-"] ]
 
-    if results == old_results[1::]:
-        return ([False] + results)
+        if results == old_results[1::]:
+            return ([False] + results)
 
-    elif (values["-PROBLEM-1-"] == [] and values["-PROBLEM-2-"] == []\
-                and values["-TOGGLE-ALL-"] == False):
-        window['-OUTPUT-'].update('')
-        return ([False] + results)
+        elif (values["-PROBLEM-1-"] == [] and values["-PROBLEM-2-"] == []\
+                    and values["-TOGGLE-ALL-"] == False):
+            window['-OUTPUT-'].update('')
+            return ([False] + results)
 
-    else:
-        if results[2::] == old_results[3::]:
-            if values["-PROBLEM-1-"] == old_results[1] and values["-PROBLEM-2-"] != []:
-                window['-PROBLEM-1-'].set_value([])
-            elif values["-PROBLEM-2-"] == old_results[2] and values["-PROBLEM-1-"] != []:
-                window['-PROBLEM-2-'].set_value([])
-        return ([True] + results)
+        else:
+            if results[2::] == old_results[3::]:
+                if values["-PROBLEM-1-"] == old_results[1] and values["-PROBLEM-2-"] != []:
+                    window['-PROBLEM-1-'].set_value([])
+                elif values["-PROBLEM-2-"] == old_results[2] and values["-PROBLEM-1-"] != []:
+                    window['-PROBLEM-2-'].set_value([])
+            return ([True] + results)

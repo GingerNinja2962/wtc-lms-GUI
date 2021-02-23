@@ -77,16 +77,15 @@ class assignmentsMenuClass(baseWindowClass):
 
         elif self.event == '-START-':
             assignments.assignmentHandeler.assignmentStart(self)
-            self.layout.listboxs.populateAssignments()
+            # self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-SAVE-':
             assignments.assignmentHandeler.assignmentSave(self)
-            self.layout.listboxs.populateAssignments()
+            self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-GRADE-':
             assignments.assignmentHandeler.assignmentGrade(self)
-            self.layout.listboxs.populateAssignments()
+            self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-HISTORY-':
             assignments.assignmentHandeler.assignmentHistory(self)
-            self.layout.listboxs.populateAssignments()
