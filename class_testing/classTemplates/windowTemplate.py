@@ -92,6 +92,11 @@ class baseWindowClass(metaclass=DocInheritMeta(style="numpy_with_merge", include
     def run(self):
         """
         Start the window and run the window in a while true loop.
+
+        Returns
+        -------
+        nextAction : str
+            The next action to be done by the program.
         """
         self.window = sg.Window(self.title, self.layout,
                 element_justification=self.elementJustification,
@@ -108,7 +113,7 @@ class baseWindowClass(metaclass=DocInheritMeta(style="numpy_with_merge", include
         """
         self.event, self.values = self.window.read()
 
-        if self.event in (sg.WIN_CLOSED, "Exit"):
+        if self.event in (sg.WIN_CLOSED, "Exit", "Close"):
             self.close()
 
 

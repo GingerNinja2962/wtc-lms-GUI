@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 
 from classTemplates.windowTemplate import baseWindowClass
 from classTemplates.inDevelopmentPopup import inDevelopmentPopup
-from assignments import layout
+from assignments.layout import assignmentsLayoutClass
 
 import settings
 import assignments
@@ -15,31 +15,31 @@ class assignmentsMenuClass(baseWindowClass):
     """
     def __init__(self):
         super().__init__()
-        self.layout = assignments.layout.assignmentsLayoutClass()
         self.token = core.tokensClass()
+        self.layout = assignmentsLayoutClass(self)
         self.title = "LMS Assignments GUI"
-        super().setupLayout()
+        self.location = (225, 200)
 
 
     def run(self):
-        self.window = sg.Window(self.title, self.layout, 
+        self.window = sg.Window(self.title, self.layout.layout, 
                 element_justification=self.elementJustification,
                 location=self.location).finalize()
-        self.layout.window = self.window
 
-        if self.layout.saveData.modulesList == []:
+        if self.layout.listboxs.modulesList == []:
             self.window["-MODULE-"].Update(disabled=True)
 
         while self.running:
-            self.nextAction = self.read()
-        return self.nextAction
+            nextAction = self.read()
+        return nextAction
 
 
     def read(self):
         self.event, self.values = self.window.read(timeout=5000)
 
         if not self.token.tokenCheck("Assignment"):
-            self.populateProblems()
+            self.layout.listboxs.populateAssignments()
+            self.layout.listboxs.resetListboxs()
 
         if self.event in (sg.WIN_CLOSED, "Exit"):
             self.close()
@@ -52,33 +52,41 @@ class assignmentsMenuClass(baseWindowClass):
             settings.themeMenuClass().run()
 
         elif self.values["-SETTINGS-MENU-"] == "Update Assignments":
-            self.populateProblems()
-            self.resetListboxs()
+            self.layout.listboxs.populateAssignments()
+            self.layout.listboxs.resetListboxs()
 
         elif self.values["-NAVIGATE-MENU-"] == "    Main Menu":
             self.close()
             return "mainMenu"
 
         elif self.values["-NAVIGATE-MENU-"] == "    Reviews Menu":
-            self.close()
-            return "mainMenu" # TODO change to "reviews" onec reviews is up and running
+            inDevelopmentPopup()
+            # self.close()
+            # return "mainMenu" # TODO change to "reviews" onec reviews is up and running
 
         elif self.event == "-MODULE-":
-            self.topicsListbox()
-            self.resetButtons()
+            self.layout.listboxs.topicsListbox()
+            self.layout.actionButtons.resetButtons()
 
         elif self.event == "-TOPIC-":
-            self.problemsListbox()
-            self.resetButtons()
+            self.layout.listboxs.problemsListbox()
+            self.layout.actionButtons.resetButtons()
 
         elif self.event == "-PROBLEM-":
-            self.actionButtonsUpdate()
+            self.layout.actionButtons.actionButtonsUpdate()
 
         elif self.event == '-START-':
-            inDevelopmentPopup()
+            assignments.assignmentHandeler.assignmentStart(self)
+            self.layout.listboxs.populateAssignments()
+
         elif self.event == '-SAVE-':
-            inDevelopmentPopup()
+            assignments.assignmentHandeler.assignmentSave(self)
+            self.layout.listboxs.populateAssignments()
+
         elif self.event == '-GRADE-':
-            inDevelopmentPopup()
+            assignments.assignmentHandeler.assignmentGrade(self)
+            self.layout.listboxs.populateAssignments()
+
         elif self.event == '-HISTORY-':
-            inDevelopmentPopup()
+            assignments.assignmentHandeler.assignmentHistory(self)
+            self.layout.listboxs.populateAssignments()

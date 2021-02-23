@@ -1,24 +1,18 @@
 import PySimpleGUI as sg
 
-from classTemplates.windowTemplate import baseWindowClass
+from core import dataHandelerClass
 
 from assignments import layout
 import core
 
 
-class assignmentsLayoutClass(baseWindowClass):
-    def __init__(self):
+class assignmentsLayoutClass(dataHandelerClass):
+    def __init__(self, mainWindow):
         super().__init__()
-        self.saveData = core.dataHandelerClass()
-        self.actionButtons = layout.actionButtonsClass()
-        self.listboxs = layout.assignmentsListboxClass()
-        self.assignmentsLayout()
-
-
-    def updateWindowVar(self, mainWindow):
         self.mainWindow = mainWindow
-        self.actionButtons.mainWindow = mainWindow
-        self.listboxs.mainWindow = mainWindow
+        self.actionButtons = layout.actionButtonsClass(self.mainWindow)
+        self.listboxs = layout.assignmentsListboxClass(self.mainWindow)
+        self.assignmentsLayout()
 
 
     def assignmentsLayout(self):
@@ -45,7 +39,7 @@ class assignmentsLayoutClass(baseWindowClass):
                 [ [ sg.Text("Modules", font="Calibri 9") ],
                     [ sg.Column(
                     [ [ sg.Listbox(
-                        values=self.modulesList, # TODO bug test, check for bugs
+                        values=self.listboxs.modulesList,
                         size=(30,20), key="-MODULE-", enable_events=True) ] ]
                 ), ] ], element_justification='c' ),
             sg.Column(
@@ -67,7 +61,7 @@ class assignmentsLayoutClass(baseWindowClass):
             sg.Column(
                 [ [ sg.Text("Actions", font="Calibri 9") ],
                     [ sg.Frame(title="Operations",
-                        layout=self.buttonsFrame, # TODO bug test, check for bugs
+                        layout=self.actionButtons.buttonsFrame,
                         pad=(0,82)) ],
                 ], element_justification='c')
             ]

@@ -4,71 +4,65 @@ import core
 
 
 class assignmentsListboxClass(core.dataHandelerClass):
-    def __init__(self):
-        self.setupListbox()
-
-
-    def setupListbox(self, token):
+    def __init__(self, mainWindow):
         super().__init__()
-        self.token = token
-        self.modulesListbox()
+        self.mainWindow = mainWindow
+        self.getListboxData()
 
 
-    def modulesListbox(self):
-        if not self.token.tokenCheck("Assignment"):
-            self.populateProblems()
-        if not self.getModules(): self.populateProblems()
+    def getListboxData(self):
+        self.getModules()
+        self.getTopics()
+        self.getProblems()
+        self.getAssignments()
 
 
     def topicsListbox(self):
         """
         update the topics_listbox to contain the new loaded topics
         """
-        if not self.getTopics(): topicsData = []
-        else:
-            print(self.topicsDict)
-            topicsData = self.topicsDict[self.values["-MODULE-"][0]]
-            print(topicsData)
+        if self.mainWindow.values["-MODULE-"][0] in self.topicsDict.keys():
+            topicsData = self.topicsDict[self.mainWindow.values["-MODULE-"][0]]
+        else: topicsData = []
 
         if topicsData != []:
-            self.window['-TOPIC-'].Update(disabled=False)
-            self.window['-TOPIC-'].Update(values=topicsData)
+            self.mainWindow.window['-TOPIC-'].Update(disabled=False)
+            self.mainWindow.window['-TOPIC-'].Update(values=topicsData)
         else:
-            self.window['-TOPIC-'].Update(values=topicsData)
-            self.window['-TOPIC-'].Update(disabled=True)
+            self.mainWindow.window['-TOPIC-'].Update(values=topicsData)
+            self.mainWindow.window['-TOPIC-'].Update(disabled=True)
 
-        self.window['-PROBLEM-'].Update(values=[''])
-        self.window['-PROBLEM-'].Update(disabled=True)
+        self.mainWindow.window['-PROBLEM-'].Update(values=[''])
+        self.mainWindow.window['-PROBLEM-'].Update(disabled=True)
 
 
     def problemsListbox(self):
         """
         update the Problems listbox to contain the new loaded problems
         """
-        if not self.getProblems(): problemsData = []
-        else:
-            problemsData = self.problemsDict[self.values["-TOPIC-"][0]]
+        if self.mainWindow.values["-TOPIC-"][0] in self.problemsDict.keys():
+            problemsData = self.problemsDict[self.mainWindow.values["-TOPIC-"][0]]
+        else: problemsData = []
 
         if problemsData != []:
-            self.window['-PROBLEM-'].Update(disabled=False)
-            self.window['-PROBLEM-'].Update(values=problemsData)
+            self.mainWindow.window['-PROBLEM-'].Update(disabled=False)
+            self.mainWindow.window['-PROBLEM-'].Update(values=problemsData)
         else:
-            self.window['-PROBLEM-'].Update(values=problemsData)
-            self.window['-PROBLEM-'].Update(disabled=True)
-        self.window['-PROBLEM-'].Update(values=problemsData)
+            self.mainWindow.window['-PROBLEM-'].Update(values=problemsData)
+            self.mainWindow.window['-PROBLEM-'].Update(disabled=True)
 
 
     def resetListboxs(self):
-        if not self.getModules(): self.populateProblems()
-        if self.modulesList == []: 
-            self.window["-MODULE-"].Update(self.modulesList)
-            self.window["-MODULE-"].Update(disabled=True)
+        self.getListboxData()
+        if self.modulesList == []:
+            self.mainWindow.window["-MODULE-"].Update(self.modulesList)
+            self.mainWindow.window["-MODULE-"].Update(disabled=True)
         else:
-            self.window["-MODULE-"].Update(disabled=False)
-            self.window["-MODULE-"].Update(self.modulesList)
+            self.mainWindow.window["-MODULE-"].Update(disabled=False)
+            self.mainWindow.window["-MODULE-"].Update(self.modulesList)
 
-        self.window["-TOPIC-"].Update([''])
-        self.window['-TOPIC-'].Update(disabled=True)
+        self.mainWindow.window["-TOPIC-"].Update([''])
+        self.mainWindow.window['-TOPIC-'].Update(disabled=True)
 
-        self.window["-PROBLEM-"].Update([''])
-        self.window['-PROBLEM-'].Update(disabled=True)
+        self.mainWindow.window["-PROBLEM-"].Update([''])
+        self.mainWindow.window['-PROBLEM-'].Update(disabled=True)

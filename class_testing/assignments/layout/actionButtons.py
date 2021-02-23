@@ -4,8 +4,8 @@ import PySimpleGUI as sg
 
 
 class actionButtonsClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
-    def __init__(self):
-        self.assignmentState = None
+    def __init__(self, mainWindow):
+        self.mainWindow = mainWindow
         self.stateList = [True]*4
         self.actionButtonsFrame()
 
@@ -15,29 +15,30 @@ class actionButtonsClass(metaclass=DocInheritMeta(style="numpy_with_merge", incl
         set the assignment buttons to the required state depending
             on the problem state
         """
-        if self.problemsState[self.values['-PROBLEM-'][0]] == "Not Started":
+        problemState = self.mainWindow.layout.listboxs.problemsState[self.mainWindow.values['-PROBLEM-'][0]]
+        if problemState == "Not Started":
             self.stateList = [False]+[True]*3
-        elif self.problemsState[self.values['-PROBLEM-'][0]] == "Started":
+        elif problemState == "Started":
             self.stateList = [False]*3+[True]
-        elif self.problemsState[self.values['-PROBLEM-'][0]] == "In Progress":
+        elif problemState == "In Progress":
             self.stateList = [False]+[True]*2+[False]
-        else: # TODO find out what this is for
+        else:
             self.stateList = [False]*4
 
-        self.window['-START-'].Update(disabled=self.stateList[0])
-        self.window['-SAVE-'].Update(disabled=self.stateList[1])
-        self.window['-GRADE-'].Update(disabled=self.stateList[2])
-        self.window['-HISTORY-'].Update(disabled=self.stateList[3])
+        self.mainWindow.window['-START-'].Update(disabled=self.stateList[0])
+        self.mainWindow.window['-SAVE-'].Update(disabled=self.stateList[1])
+        self.mainWindow.window['-GRADE-'].Update(disabled=self.stateList[2])
+        self.mainWindow.window['-HISTORY-'].Update(disabled=self.stateList[3])
 
 
     def resetButtons(self):
         """
         reset the assignment buttons to an inactive state
         """
-        self.window['-START-'].Update(disabled=True)
-        self.window['-SAVE-'].Update(disabled=True)
-        self.window['-GRADE-'].Update(disabled=True)
-        self.window['-HISTORY-'].Update(disabled=True)
+        self.mainWindow.window['-START-'].Update(disabled=True)
+        self.mainWindow.window['-SAVE-'].Update(disabled=True)
+        self.mainWindow.window['-GRADE-'].Update(disabled=True)
+        self.mainWindow.window['-HISTORY-'].Update(disabled=True)
 
 
     def actionButtonsFrame(self):

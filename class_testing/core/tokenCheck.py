@@ -43,19 +43,15 @@ class tokensClass():
         """
         self.tokenPath = core.dirCheck(f"{os.getcwd()}/.save_data")
         self.tokenPath = core.dirCheck(f"{self.tokenPath}/tokens")
+        self.currentTime = None
         self.status = False
 
 
     def currentTimeUpdate(self):
         """
-        Returns the current system time.
-
-        Returns
-        -------
-        currentTime : str
-            The current system time, in the format (Y-m-d H:M:S)
+        Sets the current time variable to the current system time.
         """
-        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.currentTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
     def forceTokenUpdate(self, tokenType="Login"):
@@ -68,9 +64,9 @@ class tokensClass():
             The type of token to check i.e. 'Assignment' or 'Review',
             by default "Login".
         """
-        self.__init__()
+        self.currentTimeUpdate()
         localTokenPath = f"{self.tokenPath}/.token{tokenType}.txt"
-        core.writeToFile(self.currentTimeUpdate(), localTokenPath)
+        core.writeToFile(self.currentTime, localTokenPath)
         self.status = False
 
 
@@ -89,19 +85,19 @@ class tokensClass():
         tokenStatus : bool
             The status of the check. True if valid, False if invalid.
         """
-        self.__init__()
+        self.currentTimeUpdate()
         localTokenPath = self.tokenPath + f"/.token{tokenType}.txt"
         try:
             tokenData = core.readFromFile(localTokenPath)
             tokenData = datetime.strptime(
                     tokenData, "%Y-%m-%d %H:%M:%S")
         except:
-            core.writeToFile(self.currentTimeUpdate(), localTokenPath)
+            core.writeToFile(self.currentTime, localTokenPath)
             self.status = False
             return self.status
 
         if (tokenData + timedelta(weeks=1)) < datetime.strptime(
-                    self.currentTimeUpdate(), "%Y-%m-%d %H:%M:%S"):
+                    self.currentTime, "%Y-%m-%d %H:%M:%S"):
             core.writeToFile(self.currentTime, localTokenPath)
             self.status = False
             return self.status

@@ -7,13 +7,14 @@ class populateAssignmentsClass(populateSaveData.populateReviewsClass):
         super().__init__()
         self.modulesPath = dirCheck(f"{self.saveDataPath}/modulesData")
         self.modulesDataPath = f"{self.modulesPath}/modulesData.txt"
-        self.problemsPath = dirCheck(f"{self.saveDataPath}/problemsData")
         self.topicsPath = dirCheck(f"{self.saveDataPath}/topicsData")
+        self.problemsPath = dirCheck(f"{self.saveDataPath}/problemsData")
 
         self.topicNamesUUID = {}
         self.problemNamesUUID = {}
         self.topicFilePaths = []
         self.problemFilePaths = []
+
 
     def populateAssignments(self):
         self.populateModules()
@@ -48,7 +49,7 @@ class populateAssignmentsClass(populateSaveData.populateReviewsClass):
         self.problemFilePaths = []
 
         for topic in self.problemNamesUUID.keys():
-            lmsProblemsCall = lmsCall(["wtc-lms", "problem", self.problemNamesUUID[topic]])
+            lmsProblemsCall = lmsCall(["wtc-lms", "problems", self.problemNamesUUID[topic]])
             (lmsAssignmentData, err) = systemCallComms(lmsProblemsCall)
             self.problemFilePaths.append(f"{self.problemsPath}/{topic}.txt")
             writeToFile(lmsAssignmentData, self.problemFilePaths[-1])
@@ -74,9 +75,8 @@ class populateAssignmentsClass(populateSaveData.populateReviewsClass):
         self.topicFilePaths = []
         dirCheck(f"{dirCheck(self.saveDataPath)}/topicsData")
 
-        for _, _, topicFiles in os.walk(self.topicsPath):
-            for topicFile in topicFiles:
-                self.topicFilePaths.append(f"{self.topicsPath}/{topicFile}")
+        for topicFile in os.listdir(self.topicsPath):
+            self.topicFilePaths.append(f"{self.topicsPath}/{topicFile}")
 
         for topicFile in self.topicFilePaths:
             grepTopicsCall = grepCall("-i", " \[", topicFile)
