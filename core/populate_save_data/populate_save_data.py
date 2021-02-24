@@ -10,7 +10,7 @@ def populate_save_data(prefered_data="ALL"):
     modules, topics, problems and assignments data accordingly
 
     :param prefered_data: the data to be populated e.g. 'assignments'
-            or 'reviews', default if BOTH
+            or 'reviews', default if ALL
     """
     save_data_path = f"{os.getcwd()}/.save_data"
 

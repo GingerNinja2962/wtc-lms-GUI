@@ -32,8 +32,8 @@ class baseWindowClass(metaclass=DocInheritMeta(style="numpy_with_merge", include
             The event picked up from the read function.
         values : list
             The values of the elements of the open window.
-            nextAction : str
-                The next window to be opened.
+        nextAction : str
+            The next window to be opened.
 
     Methods
     -------
