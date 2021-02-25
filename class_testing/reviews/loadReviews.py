@@ -5,7 +5,7 @@ import os
 import core
 
 
-def load_reviews():
+def loadReviews():
     """
     check for the stored lms reviews and if non are found load them
 
@@ -73,5 +73,5 @@ def load_reviews():
                 " - data_modules\n - data_topics\n - data_problems\n - data_reviews\n - tokens",
                 title="reviews save data",
                 grab_anywhere=True, location=(500, 300))
-                load_reviews()
+                loadReviews()
         return False

@@ -37,7 +37,8 @@ class assignmentsMenuClass(baseWindowClass):
     def read(self):
         self.event, self.values = self.window.read(timeout=5000)
 
-        if not self.token.tokenCheck("Assignment"):
+        if not self.token.tokenCheck("Assignment") or \
+                self.values["-SETTINGS-MENU-"] == "Update Assignments":
             self.layout.listboxs.populateAssignments()
             self.layout.listboxs.resetListboxs()
 
@@ -50,10 +51,6 @@ class assignmentsMenuClass(baseWindowClass):
 
         elif self.values["-SETTINGS-MENU-"] == "Change Theme":
             settings.themeMenuClass().run()
-
-        elif self.values["-SETTINGS-MENU-"] == "Update Assignments":
-            self.layout.listboxs.populateAssignments()
-            self.layout.listboxs.resetListboxs()
 
         elif self.values["-NAVIGATE-MENU-"] == "    Main Menu":
             self.close()
@@ -77,15 +74,13 @@ class assignmentsMenuClass(baseWindowClass):
 
         elif self.event == '-START-':
             assignments.assignmentHandeler.assignmentStart(self)
-            # self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
+            self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-SAVE-':
             assignments.assignmentHandeler.assignmentSave(self)
-            self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-GRADE-':
             assignments.assignmentHandeler.assignmentGrade(self)
-            self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-HISTORY-':
             assignments.assignmentHandeler.assignmentHistory(self)

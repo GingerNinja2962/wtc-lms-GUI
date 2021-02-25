@@ -18,10 +18,8 @@ class actionButtonsClass(metaclass=DocInheritMeta(style="numpy_with_merge", incl
         problemState = self.mainWindow.layout.listboxs.problemsState[self.mainWindow.values['-PROBLEM-'][0]]
         if problemState == "Not Started":
             self.stateList = [False]+[True]*3
-        elif problemState == "Started":
-            self.stateList = [False]*3+[True]
         elif problemState == "In Progress":
-            self.stateList = [False]+[True]*2+[False]
+            self.stateList = [False]*4
         else:
             self.stateList = [False]*4
 

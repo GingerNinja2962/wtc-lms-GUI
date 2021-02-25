@@ -3,6 +3,7 @@ import PySimpleGUI as sg
 
 import mainMenu
 import assignments
+import reviews
 import os
 
 
@@ -22,7 +23,7 @@ def main():
         if status == "assignments":
             openWindow = assignments.assignmentsMenuClass()
         if status == "reviews": # TODO link reviews menu
-            pass
+            openWindow = reviews.reviewsMenuClass()
         if status == "mainMenu":
             openWindow = mainMenu.mainMenuClass()
         status = openWindow.run()

@@ -5,6 +5,7 @@ from custom_inherit import doc_inherit
 from classTemplates.windowTemplate import baseWindowClass
 
 import mainMenu
+import reviews
 import settings
 
 
@@ -31,13 +32,10 @@ class mainMenuClass(baseWindowClass):
         elif self.values["-SETTINGS-MENU-"] == "Change Theme":
             settings.themeMenuClass().run()
 
-        # TODO finish setting up clas swapover
         elif self.event == "Assignments":
             self.close()
             return "assignments"            
 
-        # TODO finish setting up clas swapover
-        # elif self.event == "Reviews":
-        #     self.close()
-        #     self.running = reviews.review_problem()
-
+        elif self.event == "Reviews":
+            self.close()
+            return "reviews"

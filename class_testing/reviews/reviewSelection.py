@@ -4,7 +4,7 @@ import reviews
 import core
 
 
-def valid_uuid(checked_uuid):
+def validUUID(checked_uuid):
     """
     checks to see if the UUID is valid and returns the buttons to enable
 
@@ -30,7 +30,7 @@ def valid_uuid(checked_uuid):
     return [True]*4
 
 
-def problem_selection(values):
+def problemSelection(values):
     """
     builds a grep pattern from the selected filters, then calls
     the subprocess to run the command to return the results
