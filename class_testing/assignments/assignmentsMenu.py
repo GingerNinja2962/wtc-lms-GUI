@@ -57,9 +57,8 @@ class assignmentsMenuClass(baseWindowClass):
             return "mainMenu"
 
         elif self.values["-NAVIGATE-MENU-"] == "    Reviews Menu":
-            inDevelopmentPopup()
-            # self.close()
-            # return "mainMenu" # TODO change to "reviews" onec reviews is up and running
+            self.close()
+            return "reviews"
 
         elif self.event == "-MODULE-":
             self.layout.listboxs.topicsListbox()

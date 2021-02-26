@@ -1,8 +1,11 @@
-from core import dirCheck, writeToFile, tokensClass, lmsCall, grepCall, systemCallComms, populateSaveData
+from classTemplates.populateTemplate import basePopulateDataClass
+
 import os
 
+from core import dirCheck, writeToFile, tokensClass, lmsCall, grepCall, systemCallComms, populateSaveData
 
-class populateAssignmentsClass(populateSaveData.populateReviewsClass):
+
+class populateAssignmentsClass(basePopulateDataClass):
     def __init__(self):
         super().__init__()
         self.modulesPath = dirCheck(f"{self.saveDataPath}/modulesData")

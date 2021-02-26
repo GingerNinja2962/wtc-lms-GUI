@@ -10,8 +10,11 @@ class reviewsLayoutClass(dataHandelerClass):
     def __init__(self, mainWindow):
         super().__init__()
         self.mainWindow = mainWindow
-        self.frames = reviews.layout.framesClass(self.mainWindow)
-        self.tabGroup = reviews.layout.tabGroupClass(self.mainWindow)
+        self.assignmentData = core.populateSaveData.populateAssignmentsClass()
+        self.reviewsData = core.populateSaveData.populateReviewsClass()
+        self.tabGroup = reviews.layout.tabGroupClass(self)
+        self.frames = reviews.layout.framesClass(self, self.mainWindow)
+        self.layout = [[]]
         self.reviewsLayout()
 
 
@@ -37,18 +40,21 @@ class reviewsLayoutClass(dataHandelerClass):
                 sg.Button("Exit", pad=(0,0))
             ],
             [ sg.HSeparator() ],
-            [ sg.Column(
+            [ 
+            sg.Column(
                 [ [ sg.Text("Please select an assignment: ",
                 font="Calibri 12") ],
                 [
-                    sg.Column( reviews.layout.tab_group(), pad=(5,0) ),
+                    sg.Column( self.tabGroup.tabGrouplayout, pad=(5,0) ),
                     sg.Column(
-                        [ [ sg.Frame("Filters", filterFrame, title_color="#FF8C00", # TODO access class element
-                            title_location="n", font="Calibri 10") ],
-                            [ sg.Frame("Review Count", reviewCountFrame, # TODO access class element
-                            title_color="#FF8C00", title_location="n",
-                            element_justification="l",
-                            font="Calibri 10") ] ],
+                        [
+                            [ sg.Frame("Filters", self.frames.filterFrame, title_color="#FF8C00", # TODO access class element
+                                title_location="n", font="Calibri 10") ],
+                            [ sg.Frame("Review Count", self.frames.CounterFrame, # TODO access class element
+                                title_color="#FF8C00", title_location="n",
+                                element_justification="l",
+                                font="Calibri 10") ]
+                        ],
                     element_justification="c", pad=(5,0)) ] ], pad=(0,10) ),
             sg.VSeparator(pad=(5,0)),
             sg.Column( [

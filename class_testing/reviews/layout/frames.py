@@ -1,14 +1,18 @@
 import PySimpleGUI as sg
 
+from custom_inherit import DocInheritMeta
+
 import os
 
 import reviews
-from core import systemCallClose, systemCallComms, lmsCall, grepCall, grepSystemCall
+import core
 
-class framesClass:
-    def __init__(self, mainWindow):
+
+class framesClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
+    def __init__(self, layout, mainWindow):
         super().__init__()
         self.mainWindow = mainWindow
+        self.layout = layout
         self.reviewFilterFrame()
         self.reviewCounterFrame()
 
@@ -36,9 +40,9 @@ class framesClass:
         :return reviewCountFrame: the sg frame list that holds the review counter frame data
         """
         self.counterData()
-        self.reviewCounterFrame = [
-            [ sg.Text(f"Reviews Done:\t{self.reviewsDone:0>2}", key='-REVIEWS-DONE-',pad=(5,0))],
-            [ sg.Text(f"Reviews pending:\t{self.reviewsPending:0>2}",key='-REVIEWS-PENDING-',pad=(5,0))],
+        self.CounterFrame = [
+            [ sg.Text(f"Reviews Done:\t{self.reviewsGraded:0>2}", key='-REVIEWS-DONE-',pad=(5,0))],
+            [ sg.Text(f"Reviews pending:\t{self.reviewsAssigned:0>2}",key='-REVIEWS-PENDING-',pad=(5,0))],
             [ sg.Text(f"Reviews needed:\t{self.reviewsNeeded:0>2}",key='-REVIEWS-NEEDED-',pad=(5,0))]
         ]
 
@@ -46,32 +50,19 @@ class framesClass:
     def counterData(self):
         """
         returns the calculationed counter data for reviews
-
-        :return reviewsDone: the number of reviews done
-        :return reviewsPending: the number of reviews accepted
-        :return reviewsNeeded: the number of reviews needing to be compleated
         """
-        saveDataPath = (f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt")
+        self.layout.assignmentData.getProblemNamesUUID()
+        self.layout.reviewsData.getReviewData()
+        problemNames = self.layout.assignmentData.problemNamesUUID.keys()
 
-        grepCountProcess = grepCall("-ic", "Graded", saveDataPath)
-        (reviewsDone, err) = systemCallComms(grepCountProcess)
+        self.reviewsAssigned = self.layout.reviewsData.reviewsAssigned
+        self.reviewsBlocked = self.layout.reviewsData.reviewsBlocked
+        self.reviewsGraded = self.layout.reviewsData.reviewsGraded
+        self.reviewsInvited = self.layout.reviewsData.reviewsInvited
 
-        grepPendingProcess = grepCall("-ic", "Assigned", saveDataPath)
-        (reviewsPending, err) = systemCallComms(grepPendingProcess)
-
-        reviewsDone = reviewsDone.replace('\n', '')
-        reviewsPending = reviewsPending.replace('\n', '')
-
-        allProblems = []
-        for module in [item for item in reviews.layout.getAllProblems().values()]:
-            for problem in module:
-                allProblems.append(problem)
-
-        reviewsNeeded = (len(allProblems)* 3) - int(reviewsDone)
-        if reviewsNeeded < 1: reviewsNeeded = "0"
-        else: reviewsNeeded = str(reviewsNeeded)
-
-        return reviewsDone, reviewsPending, reviewsNeeded
+        reviewsNeeded = (len(problemNames)* 3) - int(self.reviewsGraded)
+        if reviewsNeeded < 1:self.reviewsNeeded = "0"
+        else:self.reviewsNeeded = str(reviewsNeeded)
 
 
     def updateCounterFrame(self):
@@ -81,6 +72,6 @@ class framesClass:
         :param window: a sg object holding all the window contents and elements
         """
         self.counterData()
-        self.mainWindow.window['-REVIEWS-DONE-'].update(f'Reviews Done:\t{self.reviewsDone:0>2}')
-        self.mainWindow.window['-REVIEWS-PENDING-'].update(f'Reviews pending:\t{self.reviewsPending:0>2}')
+        self.mainWindow.window['-REVIEWS-DONE-'].update(f'Reviews Done:\t{self.reviewsGraded:0>2}')
+        self.mainWindow.window['-REVIEWS-PENDING-'].update(f'Reviews pending:\t{self.reviewsAssigned:0>2}')
         self.mainWindow.window['-REVIEWS-NEEDED-'].update(f"Reviews needed:\t{self.reviewsNeeded:0>2}")

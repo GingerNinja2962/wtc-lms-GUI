@@ -5,76 +5,51 @@ import os
 import core
 
 
-def tabGroup():
-    """
-    generates a tabGroup that holds Tabs names after modules holding the problems for that module
-
-    Returns
-    -------
-    tabGroupLayout : List
-        The tabgroup holding tabs and listboxes for each assignment.
-    """
-
-    moduleDict = getAllProblems()
-    layout = []
-    i = 0
-    for moduleName in moduleDict.keys():
-        i += 1
-        listboxLayout = []
-        for item in moduleDict[moduleName]:
-            listboxLayout.append(item)
-
-        moduleName = moduleName.split(" [")
-
-        layout.append( sg.Tab( moduleName[0], [ [ sg.Listbox( listboxLayout,
-                key=f"-PROBLEM-{i}-", size=(40,22),) ] ], pad=(0, 20) ) )
-
-    return [ [ sg.TabGroup( [layout] ) ] ]
+class tabGroupClass():
+    def __init__(self, layout):
+        super().__init__()
+        self.layout = layout
+        self.tabGroup()
 
 
-def getAllProblems():
-    """
-    returns a dictionary of all the assignments linked to the module as akey
+    def tabGroup(self):
+        """
+        generates a tabGroup that holds Tabs names after modules holding the problems for that module
+        """
+        self.layout.assignmentData.getTopicNamesUUID()
+        layout = []
 
-    :return assignments_list: the list of all the assignments
-    """
-    savePath = core.dirCheck(f"{os.getcwd()}/.save_data")
-    if not os.path.exists(savePath + "/data_modules/.modules.txt"):
-        core.populateSaveData.populateTopics()
-        core.populateSaveData.populateProblems()
+        for module in self.layout.assignmentData.topicNamesUUID:
+            content = self.getModuleProblems(module)
+            if content == []: continue
 
-    lmsModulesGrep = core.grepCall("-i", " \[", f"{savePath}/data_modules/.modules.txt")
-    (lmsModulesData, err) = core.systemCallComms(lmsModulesGrep)
+            layout.append( sg.Tab( module, [ [ sg.Listbox( content,
+                    key=f"-{module}-", size=(40,22),) ] ], pad=(0, 20) ) )
 
-    lmsModulesData = lmsModulesData.replace("\n", " (").replace(')', '')
-    lmsModulesData = lmsModulesData.split(" (")
+        self.tabGrouplayout =  [ [ sg.TabGroup( [layout] ) ] ]
 
-    modulesList = [ item for item in lmsModulesData[0::2] if item != '']
 
-    modulesProblemsDict = {}
-    for topicName in modulesList:
-        savePath = f"{os.getcwd()}/.save_data/data_topics"
-        lmsTopicsGrep = core.grepCall("-i", " \[", f"{savePath}/{topicName}.txt")
-        (lmsTopicsData, err) = core.systemCallComms(lmsTopicsGrep)
-        if lmsTopicsData == "": continue
+    def getModuleProblems(self, topicFile):
+        """
+        returns a dictionary of all the assignments linked to the module as akey
+        """
+        moduleProblems = []
+        topicFilePath = f"{self.layout.assignmentData.topicsPath}/{topicFile}.txt"
 
-        lmsTopicsData = lmsTopicsData.replace("\n", " (").replace(')', '')
-        lmsTopicsdata = lmsTopicsData.split(" (")
-        topicsList = [ item for item in lmsTopicsData[0::2] if item != '']
+        grepTopicProcess = core.grepCall("-i", " \[", topicFilePath)
+        (problemNames, err) = core.systemCallComms(grepTopicProcess)
 
-        savePath = f"{os.getcwd()}/.save_data/data_problems"
-        problemsList = []
-        for problemName in topicsList:
-            lmsProblemsGrep = core.grepCall("-i", " \[", f"{savePath}/{problemName}.txt")
-            (lmsProblemsData, err) = core.systemCallComms(lmsProblemsGrep)
-            if lmsProblemsData == "": continue
+        for problem in problemNames.split('\n'):
+            problem = (problem.split(' ['))[0]
+            if problem == '': continue
 
-            lmsProblemsData = lmsProblemsData.replace("\n", " (").replace(')', '')
-            lmsProblemsData = lmsProblemsData.split(" (")
+            problemFilePath = f"{self.layout.assignmentData.problemsPath}/{problem}.txt"
+            grepProblemProcess = core.grepCall("-i", " \[", problemFilePath)
+            (assignmentNames, err) = core.systemCallComms(grepProblemProcess)
 
-            for item in lmsProblemsData[0::2]:
-                if item != "" and item != "Coding Clinic Booking System [In Progress]":
-                    problemsList.append(item)
-        modulesProblemsDict[f"{topic_name}"] = problemsList
+            for assignment in assignmentNames.split('\n'):
+                assignment = (assignment.split(' ['))[0]
+                if assignment == '': continue
 
-    return modulesProblemsDict
+                moduleProblems.append(assignment)
+        return moduleProblems

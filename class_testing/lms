@@ -17,7 +17,7 @@ def main():
     openWindow = mainMenu.mainMenuClass()
     status = openWindow.run()
 
-    os.system("clear")
+    # os.system("clear")
 
     while status != "Closed":
         if status == "assignments":

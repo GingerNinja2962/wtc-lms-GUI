@@ -41,15 +41,15 @@ def problemSelection(values):
     reviews_data_path = f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt"
 
     if values['-TOGGLE-ALL-']:
-        grep_process = core.grep_call("-i", ">", reviews_data_path)
+        grep_process = core.grepCall("-i", ">", reviews_data_path)
 
     else:
         if values["-PROBLEM-1-"] != []:
             assignment_name = values['-PROBLEM-1-'][0].replace(" [", "|").split("|")[0]
-            grep_process = core.grep_call("-i", assignment_name, reviews_data_path)
+            grep_process = core.grepCall("-i", assignment_name, reviews_data_path)
         elif values["-PROBLEM-2-"] != []:
             assignment_name = values['-PROBLEM-2-'][0].replace(" [", "|").split("|")[0]
-            grep_process = core.grep_call("-i", assignment_name, reviews_data_path)
+            grep_process = core.grepCall("-i", assignment_name, reviews_data_path)
         else:
             return
 
@@ -70,9 +70,7 @@ def problemSelection(values):
         grep_pattern = grep_pattern + 'AcceptanceBlocked'
 
     if grep_pattern != "":
-        filtered_process = core.grep_system_call("-Ei", grep_pattern, grep_process)
-        (out, err) = core.system_call_comms(filtered_process)
-        print(out)
-    else:
-        (out, err) = core.system_call_comms(grep_process)
-        print(out)
+        filtered_process = core.grepSystemCall("-Ei", grep_pattern, grep_process)
+        (out, err) = core.systemCallComms(filtered_process)
+    else: (out, err) = core.systemCallComms(grep_process)
+    print(out)

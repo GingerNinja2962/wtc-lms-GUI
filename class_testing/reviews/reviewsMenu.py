@@ -16,9 +16,9 @@ class reviewsMenuClass(baseWindowClass):
     def __init__(self):
         super().__init__()
         self.token = core.tokensClass()
-        self.layout = reviews.layout.reviewsLayout()
+        self.layout = reviews.layout.reviewsLayoutClass(self)
         self.title = "LMS Reviews GUI"
-        self.location = (225, 200)
+        self.location = (50, 125)
 
 
     def run(self): # TODO check if needed or base template can be used
@@ -26,6 +26,7 @@ class reviewsMenuClass(baseWindowClass):
                 element_justification=self.elementJustification,
                 location=self.location).finalize()
 
+        self.oldResults = [False]* 7
         while self.running:
             nextAction = self.read()
         return nextAction
@@ -34,19 +35,16 @@ class reviewsMenuClass(baseWindowClass):
     def read(self):
         self.event, self.values = self.window.read(timeout=750)
 
-        self.oldResults = self.checkChanges()
+        self.checkChanges()
 
-        self.oldActiveButtons = self.activeButtons # TODO check if initilized
-        self.activeButtons = reviews.validUUID(self.values['-INPUT-']) # TODO make checkUUID function
+        # self.oldActiveButtons = self.activeButtons # TODO check if initilized
+        # self.activeButtons = reviews.validUUID(self.values['-INPUT-']) # TODO make checkUUID function
 
-        if core.tokenCheck("review") or self.values["-SETTINGS-MENU-"] == "Update Reviews":
-            if self.values["-SETTINGS-MENU-"] == "Update Reviews":
-                core.populate_save_data.populate_save_data("reviews")
-            else:
-                core.populate_save_data.populate_reviews()
-            window['-OUTPUT-'].update('')
-            reviews.problemSelection(self.values)
-            reviews.layout.updateCounterFrame(self.window)
+        if not self.token.tokenCheck("Review") or self.values["-SETTINGS-MENU-"] == "Update Reviews":
+            self.layout.reviewsData.populateReviews()
+            self.window['-OUTPUT-'].update('')
+            # reviews.problemSelection(self.values)
+            self.layout.frames.updateCounterFrame()
 
         if self.values["-SETTINGS-MENU-"] == "General Settings":
             settings.generalSettings()
@@ -62,11 +60,11 @@ class reviewsMenuClass(baseWindowClass):
             self.close()
             return "assignments"
 
-        elif self.oldActiveButtons != self.activeButtons:
-            self.window['Review details'].Update(disabled=self.activeButtons[0])
-            self.window['Accept'].Update(disabled=self.activeButtons[1])
-            self.window['Comment'].Update(disabled=self.activeButtons[2])
-            self.window['Grade'].Update(disabled=self.activeButtons[3])
+        # elif self.oldActiveButtons != self.activeButtons:
+        #     self.window['Review details'].Update(disabled=self.activeButtons[0])
+        #     self.window['Accept'].Update(disabled=self.activeButtons[1])
+        #     self.window['Comment'].Update(disabled=self.activeButtons[2])
+        #     self.window['Grade'].Update(disabled=self.activeButtons[3])
 
         elif self.event == "Review details":
             reviews.review_handeler.review_details_popup(self.values['-INPUT-'])
@@ -84,11 +82,11 @@ class reviewsMenuClass(baseWindowClass):
             core.populate_save_data.populate_save_data("reviews")
             reviews.layout.update_counter_frame(window)
 
-        if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
-                or self.event == "Review details" or self.event == "Accept" \
-                or self.event == "Comment" or self.event == "Grade":
-            self.window['-OUTPUT-'].update('')
-            reviews.problem_selection(self.values)
+        # if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
+        #         or self.event == "Review details" or self.event == "Accept" \
+        #         or self.event == "Comment" or self.event == "Grade":
+        #     self.window['-OUTPUT-'].update('')
+        #     reviews.problem_selection(self.values)
 
         elif self.event in (sg.WIN_CLOSED, "Exit"):
             self.close()
@@ -100,26 +98,22 @@ class reviewsMenuClass(baseWindowClass):
         checks if the window has gotten any changes in review filters
         """
         results = [
-        self.values["-PROBLEM-1-"],
-        self.values["-PROBLEM-2-"],
+        self.values[1],
+        self.values[f"-{self.values[1]}-"],
         self.values["-TOGGLE-ALL-"],
         self.values["-INVITED-"],
         self.values["-ASSIGNED-"],
         self.values["-GRADED-"],
         self.values["-BLOCKED-"] ]
 
-        if self.results == self.oldResults[1::]:
+        if results == self.oldResults[1::]:
             self.oldResults = [False] + results
 
-        elif (self.values["-PROBLEM-1-"] == [] and self.values["-PROBLEM-2-"] == []\
-                    and self.values["-TOGGLE-ALL-"] == False):
+        elif (self.values[f"-{self.values[1]}-"] == [] and self.values["-TOGGLE-ALL-"] == False):
             self.window['-OUTPUT-'].update('')
             self.oldResults = [False] + results
 
         else:
             if results[2::] == self.oldResults[3::]:
-                if self.values["-PROBLEM-1-"] == self.oldResults[1] and self.values["-PROBLEM-2-"] != []:
-                    self.window['-PROBLEM-1-'].set_value([])
-                elif self.values["-PROBLEM-2-"] == self.oldResults[2] and self.values["-PROBLEM-1-"] != []:
-                    self.window['-PROBLEM-2-'].set_value([])
+                self.window[f"-{self.values[1]}-"].set_value([])
             self.oldResults = [True] + results
