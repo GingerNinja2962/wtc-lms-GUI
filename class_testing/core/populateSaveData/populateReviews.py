@@ -9,6 +9,7 @@ class populateReviewsClass(basePopulateDataClass):
         self.reviewsDataPath = core.dirCheck(f"{self.saveDataPath}/reviewsData")
         self.reviewsPath = f"{self.reviewsDataPath}/reviewsData.txt"
         self.token = core.tokensClass()
+        self.reviewUUIDs = []
 
         self.reviewsInvited = 0
         self.reviewsAssigned = 0
@@ -23,7 +24,6 @@ class populateReviewsClass(basePopulateDataClass):
 
         core.writeToFile(reviewsData, self.reviewsPath)
         self.token.forceTokenUpdate("Review")
-        self.getReviewData()
         self.closeLoadingMessage()
 
 
@@ -34,6 +34,7 @@ class populateReviewsClass(basePopulateDataClass):
         self.getAssignedReviews()
         self.getGradedReviews()
         self.getAcceptanceBlockedReviews()
+        self.getReviewUUIDs()
 
 
     def getInvitedReviews(self):
@@ -58,3 +59,14 @@ class populateReviewsClass(basePopulateDataClass):
         grepBlockedProcess = core.grepCall("-ic", "AcceptanceBlocked", self.reviewsPath)
         (reviewsBlocked, err) = core.systemCallComms(grepBlockedProcess)
         self.reviewsBlocked = reviewsBlocked
+
+
+    def getReviewUUIDs(self):
+        self.reviewUUIDs = []
+
+        grepUUIDsProcess = core.grepCall("-i", " (", self.reviewsPath)
+        (reviewUUIDs, err) = core.systemCallComms(grepUUIDsProcess)
+
+        for UUID in reviewUUIDs.split('\n'):
+            if UUID == '': continue
+            self.reviewUUIDs.append((((UUID.split(' ('))[1]).split(') '))[0])

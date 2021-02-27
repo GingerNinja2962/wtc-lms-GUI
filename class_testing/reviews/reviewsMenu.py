@@ -27,6 +27,8 @@ class reviewsMenuClass(baseWindowClass):
                 location=self.location).finalize()
 
         self.oldResults = [False]* 7
+        self.activeButtons = [False]* 4
+
         while self.running:
             nextAction = self.read()
         return nextAction
@@ -37,13 +39,14 @@ class reviewsMenuClass(baseWindowClass):
 
         self.checkChanges()
 
-        # self.oldActiveButtons = self.activeButtons # TODO check if initilized
-        # self.activeButtons = reviews.validUUID(self.values['-INPUT-']) # TODO make checkUUID function
+        self.oldActiveButtons = self.activeButtons # TODO check if initilized
+        self.activeButtons = reviews.validUUID(self) # TODO make checkUUID function
 
         if not self.token.tokenCheck("Review") or self.values["-SETTINGS-MENU-"] == "Update Reviews":
             self.layout.reviewsData.populateReviews()
+            self.layout.reviewsData.getReviewData()
             self.window['-OUTPUT-'].update('')
-            # reviews.problemSelection(self.values)
+            reviews.problemSelection(self)
             self.layout.frames.updateCounterFrame()
 
         if self.values["-SETTINGS-MENU-"] == "General Settings":
@@ -60,11 +63,11 @@ class reviewsMenuClass(baseWindowClass):
             self.close()
             return "assignments"
 
-        # elif self.oldActiveButtons != self.activeButtons:
-        #     self.window['Review details'].Update(disabled=self.activeButtons[0])
-        #     self.window['Accept'].Update(disabled=self.activeButtons[1])
-        #     self.window['Comment'].Update(disabled=self.activeButtons[2])
-        #     self.window['Grade'].Update(disabled=self.activeButtons[3])
+        elif self.oldActiveButtons != self.activeButtons:
+            self.window['Review details'].Update(disabled=self.activeButtons[0])
+            self.window['Accept'].Update(disabled=self.activeButtons[1])
+            self.window['Comment'].Update(disabled=self.activeButtons[2])
+            self.window['Grade'].Update(disabled=self.activeButtons[3])
 
         elif self.event == "Review details":
             reviews.review_handeler.review_details_popup(self.values['-INPUT-'])
@@ -82,11 +85,11 @@ class reviewsMenuClass(baseWindowClass):
             core.populate_save_data.populate_save_data("reviews")
             reviews.layout.update_counter_frame(window)
 
-        # if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
-        #         or self.event == "Review details" or self.event == "Accept" \
-        #         or self.event == "Comment" or self.event == "Grade":
-        #     self.window['-OUTPUT-'].update('')
-        #     reviews.problem_selection(self.values)
+        if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
+                or self.event == "Review details" or self.event == "Accept" \
+                or self.event == "Comment" or self.event == "Grade":
+            self.window['-OUTPUT-'].update('')
+            reviews.problemSelection(self)
 
         elif self.event in (sg.WIN_CLOSED, "Exit"):
             self.close()

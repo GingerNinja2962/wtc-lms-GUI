@@ -4,33 +4,25 @@ import reviews
 import core
 
 
-def validUUID(checked_uuid):
+def validUUID(mainWindow): # TODO fix UP
     """
     checks to see if the UUID is valid and returns the buttons to enable
 
     :param checked_uuid: the entered uuid to be checked
     """
-    uuid_file = f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt"
-
-    if checked_uuid == '':
-        return [True]*4
-
-    if checked_uuid.count('-') < 3:
-        return [True]*4
-
-    if checked_uuid in core.read_from_file(uuid_file):
-        grep_process = core.grep_call("-i", checked_uuid, uuid_file)
-        (temp_out, err) = core.system_call_comms(grep_process)
-        if "Assigned" in temp_out:
+    if (mainWindow.values['-INPUT-']) in mainWindow.layout.reviewsData.reviewUUIDs:
+        grepReviewProcess = core.grepCall("-i", mainWindow.values['-INPUT-'], mainWindow.layout.reviewsData.reviewsPath)
+        (tempOut, err) = core.systemCallComms(grepReviewProcess)
+        if "Assigned" in tempOut:
             return [False, True, False, False]
-        if "Invited" in temp_out:
+        if "Invited" in tempOut:
             return [False, False, True, True]
         else:
             return [False, True, True, True]
     return [True]*4
 
 
-def problemSelection(values):
+def problemSelection(mainWindow):
     """
     builds a grep pattern from the selected filters, then calls
     the subprocess to run the command to return the results
@@ -38,39 +30,34 @@ def problemSelection(values):
     :param values: this is the window values that are currently active
     """
 
-    reviews_data_path = f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt"
+    if mainWindow.values['-TOGGLE-ALL-']:
+        grepProcess = core.grepCall("-i", " \[", mainWindow.layout.reviewsData.reviewsPath)
 
-    if values['-TOGGLE-ALL-']:
-        grep_process = core.grepCall("-i", ">", reviews_data_path)
 
-    else:
-        if values["-PROBLEM-1-"] != []:
-            assignment_name = values['-PROBLEM-1-'][0].replace(" [", "|").split("|")[0]
-            grep_process = core.grepCall("-i", assignment_name, reviews_data_path)
-        elif values["-PROBLEM-2-"] != []:
-            assignment_name = values['-PROBLEM-2-'][0].replace(" [", "|").split("|")[0]
-            grep_process = core.grepCall("-i", assignment_name, reviews_data_path)
-        else:
-            return
+    elif mainWindow.values[f"-{mainWindow.values[1]}-"] != []:
+        grepModuleProcess = core.grepCall("-i", mainWindow.values[1], mainWindow.layout.reviewsData.reviewsPath)
+        grepProcess = core.grepSystemCall("-i", mainWindow.values[f"-{mainWindow.values[1]}-"][0], grepModuleProcess)
+        core.systemCallClose(grepModuleProcess)
+    else: return
 
-    grep_pattern = ""
-    if values['-INVITED-']:
-        grep_pattern = grep_pattern + 'Invited'
+    grepPattern = ""
+    if mainWindow.values['-INVITED-']:
+        grepPattern = grepPattern + 'Invited'
 
-    if values['-ASSIGNED-']:
-        if grep_pattern != "": grep_pattern = grep_pattern + "|"
-        grep_pattern = grep_pattern + 'Assigned'
+    if mainWindow.values['-ASSIGNED-']:
+        if grepPattern != "": grepPattern = grepPattern + "|"
+        grepPattern = grepPattern + 'Assigned'
 
-    if values['-GRADED-']:
-        if grep_pattern != "": grep_pattern = grep_pattern + "|"
-        grep_pattern = grep_pattern + 'Graded'
+    if mainWindow.values['-GRADED-']:
+        if grepPattern != "": grepPattern = grepPattern + "|"
+        grepPattern = grepPattern + 'Graded'
 
-    if values['-BLOCKED-']:
-        if grep_pattern != "": grep_pattern = grep_pattern + "|"
-        grep_pattern = grep_pattern + 'AcceptanceBlocked'
+    if mainWindow.values['-BLOCKED-']:
+        if grepPattern != "": grepPattern = grepPattern + "|"
+        grepPattern = grepPattern + 'AcceptanceBlocked'
 
-    if grep_pattern != "":
-        filtered_process = core.grepSystemCall("-Ei", grep_pattern, grep_process)
-        (out, err) = core.systemCallComms(filtered_process)
-    else: (out, err) = core.systemCallComms(grep_process)
+    if grepPattern != "":
+        filteredProcess = core.grepSystemCall("-Ei", grepPattern, grepProcess)
+        (out, err) = core.systemCallComms(filteredProcess)
+    else: (out, err) = core.systemCallComms(grepProcess)
     print(out)
