@@ -21,6 +21,8 @@ class reviewsMenuClass(baseWindowClass):
         self.location = (50, 125)
 
 
+                   # TODO i don't belive that the base template will work in this case
+                   # TODO as the oldResaults and activeButtons vars need to be instanciated
     def run(self): # TODO check if needed or base template can be used
         self.window = sg.Window(self.title, self.layout.layout,
                 element_justification=self.elementJustification,
@@ -39,8 +41,8 @@ class reviewsMenuClass(baseWindowClass):
 
         self.checkChanges()
 
-        self.oldActiveButtons = self.activeButtons # TODO check if initilized
-        self.activeButtons = reviews.validUUID(self) # TODO make checkUUID function
+        self.oldActiveButtons = self.activeButtons
+        self.activeButtons = reviews.validUUID(self)
 
         if not self.token.tokenCheck("Review") or self.values["-SETTINGS-MENU-"] == "Update Reviews":
             self.layout.reviewsData.populateReviews()
@@ -88,6 +90,7 @@ class reviewsMenuClass(baseWindowClass):
         if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
                 or self.event == "Review details" or self.event == "Accept" \
                 or self.event == "Comment" or self.event == "Grade":
+            pass
             self.window['-OUTPUT-'].update('')
             reviews.problemSelection(self)
 
@@ -110,13 +113,16 @@ class reviewsMenuClass(baseWindowClass):
         self.values["-BLOCKED-"] ]
 
         if results == self.oldResults[1::]:
+            # print(f"pass 1")
             self.oldResults = [False] + results
 
-        elif (self.values[f"-{self.values[1]}-"] == [] and self.values["-TOGGLE-ALL-"] == False):
+        elif (self.values[f"-{self.values[1]}-"] == [] and \
+                self.values["-TOGGLE-ALL-"] == False and \
+                results[0] != self.oldResults[1]):
+            # print("pass 2")
             self.window['-OUTPUT-'].update('')
             self.oldResults = [False] + results
 
         else:
-            if results[2::] == self.oldResults[3::]:
-                self.window[f"-{self.values[1]}-"].set_value([])
+            # print("pass 3")
             self.oldResults = [True] + results
