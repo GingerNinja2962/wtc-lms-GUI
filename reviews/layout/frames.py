@@ -1,80 +1,77 @@
 import PySimpleGUI as sg
 
+from custom_inherit import DocInheritMeta
+
 import os
 
 import reviews
 import core
 
 
-def review_filter_frame():
-    """
-    returns a filter frame with 4 review filters
+class framesClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
+    def __init__(self, layout, mainWindow):
+        super().__init__()
+        self.mainWindow = mainWindow
+        self.layout = layout
+        self.reviewFilterFrame()
+        self.reviewCounterFrame()
 
-    :return filter_frame: a frame containing the filters for reviews
-    """
-    return [
-        [sg.CB('Search all', key='-TOGGLE-ALL-')],
-        [sg.Text("-"*34)],
-        # [sg.HSep(pad=(0,10))],
-        [sg.CB('Invited', key='-INVITED-')],
-        [sg.CB('Assigned', key='-ASSIGNED-')],
-        [sg.CB('Graded', key='-GRADED-')],
-        [sg.CB('AcceptanceBlocked', key='-BLOCKED-')]
+
+    def reviewFilterFrame(self):
+        """
+        returns a filter frame with 4 review filters
+
+        :return filterFrame: a frame containing the filters for reviews
+        """
+        self.filterFrame = [
+            [sg.CB('Search all', key='-TOGGLE-ALL-')],
+            [sg.Text("-"*34)], # Can be changed to: [sg.HSep(pad=(0,10))],
+            [sg.CB('Invited', key='-INVITED-')],
+            [sg.CB('Assigned', key='-ASSIGNED-')],
+            [sg.CB('Graded', key='-GRADED-')],
+            [sg.CB('AcceptanceBlocked', key='-BLOCKED-')]
+            ]
+
+
+    def reviewCounterFrame(self):
+        """
+        returns a sg frame that holds the wtc-lms graded assignments counted data
+
+        :return reviewCountFrame: the sg frame list that holds the review counter frame data
+        """
+        self.counterData()
+        self.CounterFrame = [
+            [ sg.Text(f"Reviews Done:\t{self.reviewsGraded:0>2}", key='-REVIEWS-DONE-',pad=(5,0))],
+            [ sg.Text(f"Reviews pending:\t{self.reviewsAssigned:0>2}",key='-REVIEWS-PENDING-',pad=(5,0))],
+            [ sg.Text(f"Reviews needed:\t{self.reviewsNeeded:0>2}",key='-REVIEWS-NEEDED-',pad=(5,0))]
         ]
 
 
-def review_counter_frame():
-    """
-    returns a sg frame that holds the wtc-lms graded assignments counted data
+    def counterData(self):
+        """
+        returns the calculationed counter data for reviews
+        """
+        self.layout.assignmentData.getProblemNamesUUID()
+        self.layout.reviewsData.getReviewData()
+        problemNames = self.layout.assignmentData.problemNamesUUID.keys()
 
-    :return review_count_frame: the sg frame list that holds the review counter frame data
-    """
-    (reviews_done, reviews_pending, reviews_needed) = counter_data()
+        self.reviewsAssigned = self.layout.reviewsData.reviewsAssigned
+        self.reviewsBlocked = self.layout.reviewsData.reviewsBlocked
+        self.reviewsGraded = self.layout.reviewsData.reviewsGraded
+        self.reviewsInvited = self.layout.reviewsData.reviewsInvited
 
-    return [
-        [ sg.Text(f"Reviews Done:\t{reviews_done:0>2}", key='-REVIEWS-DONE-',pad=(5,0))],
-        [ sg.Text(f"Reviews pending:\t{reviews_pending:0>2}",key='-REVIEWS-PENDING-',pad=(5,0))],
-        [ sg.Text(f"Reviews needed:\t{reviews_needed:0>2}",key='-REVIEWS-NEEDED-',pad=(5,0))]]
-
-
-def counter_data():
-    """
-    returns the calculationed counter data for reviews
-
-    :return reviews_done: the number of reviews done
-    :return reviews_pending: the number of reviews accepted
-    :return reviews_needed: the number of reviews needing to be compleated
-    """
-    save_data_path = (f"{os.getcwd()}/.save_data/data_reviews/.reviews_data.txt")
-
-    grep_count_process = core.grep_call("-ic", "Graded", save_data_path)
-    (reviews_done, err) = core.system_call_comms(grep_count_process)
-
-    grep_pending_process = core.grep_call("-ic", "Assigned", save_data_path)
-    (reviews_pending, err) = core.system_call_comms(grep_pending_process)
-
-    reviews_done = reviews_done.replace('\n', '')
-    reviews_pending = reviews_pending.replace('\n', '')
-
-    all_problems = []
-    for module in [item for item in reviews.layout.get_all_problems().values()]:
-        for problem in module:
-            all_problems.append(problem)
-
-    reviews_needed = (len(all_problems)* 3) - int(reviews_done)
-    if reviews_needed < 1: reviews_needed = "0"
-    else: reviews_needed = str(reviews_needed)
-
-    return reviews_done, reviews_pending, reviews_needed
+        reviewsNeeded = (len(problemNames)* 3) - int(self.reviewsGraded)
+        if reviewsNeeded < 1:self.reviewsNeeded = "0"
+        else:self.reviewsNeeded = str(reviewsNeeded)
 
 
-def update_counter_frame(window):
-    """
-    updates the counter information
+    def updateCounterFrame(self):
+        """
+        updates the counter information
 
-    :param window: a sg object holding all the window contents and elements
-    """
-    (reviews_done, reviews_pending, reviews_needed) = counter_data()
-    window['-REVIEWS-DONE-'].update(f'Reviews Done:\t{reviews_done:0>2}')
-    window['-REVIEWS-PENDING-'].update(f'Reviews pending:\t{reviews_pending:0>2}')
-    window['-REVIEWS-NEEDED-'].update(f"Reviews needed:\t{reviews_needed:0>2}")
+        :param window: a sg object holding all the window contents and elements
+        """
+        self.counterData()
+        self.mainWindow.window['-REVIEWS-DONE-'].update(f'Reviews Done:\t{self.reviewsGraded:0>2}')
+        self.mainWindow.window['-REVIEWS-PENDING-'].update(f'Reviews pending:\t{self.reviewsAssigned:0>2}')
+        self.mainWindow.window['-REVIEWS-NEEDED-'].update(f"Reviews needed:\t{self.reviewsNeeded:0>2}")

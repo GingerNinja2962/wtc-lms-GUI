@@ -1,14 +1,32 @@
 #!/usr/bin/python3
 import PySimpleGUI as sg
 
-from main_Menu import main_menu
+import mainMenu
+import assignments
+import reviews
+import os
 
 
 def main():
+    """
+    The main entry point for the lms GUI application.
+    """
     sg.theme("DarkAmber")
     sg.set_options(element_padding=(0, 0))
 
-    main_menu(True)
+    openWindow = mainMenu.mainMenuClass()
+    status = openWindow.run()
+
+    # os.system("clear")
+
+    while status != "Closed":
+        if status == "assignments":
+            openWindow = assignments.assignmentsMenuClass()
+        if status == "reviews": # TODO link reviews menu
+            openWindow = reviews.reviewsMenuClass()
+        if status == "mainMenu":
+            openWindow = mainMenu.mainMenuClass()
+        status = openWindow.run()
 
 
 if __name__ == "__main__":

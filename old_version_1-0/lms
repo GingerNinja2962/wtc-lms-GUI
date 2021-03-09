@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+import PySimpleGUI as sg
+
+from main_Menu import main_menu
+
+
+def main():
+    sg.theme("DarkAmber")
+    sg.set_options(element_padding=(0, 0))
+
+    main_menu(True)
+
+
+if __name__ == "__main__":
+    main()

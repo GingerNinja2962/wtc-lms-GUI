@@ -58,7 +58,7 @@ class reviewsLayoutClass(dataHandelerClass):
                     element_justification="c", pad=(5,0)) ] ], pad=(0,10) ),
             sg.VSeparator(pad=(5,0)),
             sg.Column( [
-                # [ sg.Output(size=(110, 30), key="-OUTPUT-", pad=(0,20))],
+                [ sg.Output(size=(110, 30), key="-OUTPUT-", pad=(0,20))],
                 [ sg.Text("UUID", font="Calibri 10"), sg.InputText( "",
                     tooltip="The UUID you wish to work with", key="-INPUT-"),
                     sg.Button("Review details", disabled=True,

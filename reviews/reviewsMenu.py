@@ -47,7 +47,7 @@ class reviewsMenuClass(baseWindowClass):
         if not self.token.tokenCheck("Review") or self.values["-SETTINGS-MENU-"] == "Update Reviews":
             self.layout.reviewsData.populateReviews()
             self.layout.reviewsData.getReviewData()
-            # self.window['-OUTPUT-'].update('')
+            self.window['-OUTPUT-'].update('')
             reviews.problemSelection(self)
             self.layout.frames.updateCounterFrame()
 
@@ -77,7 +77,6 @@ class reviewsMenuClass(baseWindowClass):
         elif self.event == "Accept":
             reviews.reviewHandeler.acceptReview(self.values['-INPUT-'], self.window)
             self.layout.reviewsData.populateReviews()
-            # core.populateSaveData.populateDaveData("reviews") # TODO remove if ^ works
             self.layout.frames.updateCounterFrame()
 
         elif self.event == "Comment":
@@ -86,14 +85,13 @@ class reviewsMenuClass(baseWindowClass):
         elif self.event == "Grade":
             reviews.reviewHandeler.gradeReview(self.values['-INPUT-'], self.window)
             self.layout.reviewsData.populateReviews()
-            # core.populate_save_data.populate_save_data("reviews") # TODO remove if ^ works
             self.layout.frames.updateCounterFrame()
 
         if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
                 or self.event == "Review details" or self.event == "Accept" \
                 or self.event == "Comment" or self.event == "Grade":
             pass
-            # self.window['-OUTPUT-'].update('')
+            self.window['-OUTPUT-'].update('')
             reviews.problemSelection(self)
 
         elif self.event in (sg.WIN_CLOSED, "Exit"):
@@ -115,16 +113,13 @@ class reviewsMenuClass(baseWindowClass):
         self.values["-BLOCKED-"] ]
 
         if results == self.oldResults[1::]:
-            # print(f"pass 1")
             self.oldResults = [False] + results
 
         elif (self.values[f"-{self.values[1]}-"] == [] and \
                 self.values["-TOGGLE-ALL-"] == False and \
                 results[0] != self.oldResults[1]):
-            # print("pass 2")
-            # self.window['-OUTPUT-'].update('')
+            self.window['-OUTPUT-'].update('')
             self.oldResults = [False] + results
 
         else:
-            # print("pass 3")
             self.oldResults = [True] + results

@@ -1,6 +1,7 @@
-print("\nModule Imported settings")
+print("\nModule Imported settingsMenu")
 
-from settings.general_settings import general_settings
-print(" - Imported general_settings")
-from settings.theme_menu import theme_menu
-print(" - Imported theme_menu")
+from settings.themeMenu import themeMenuClass
+print(" - Imported class - themeMenuClass")
+
+from settings.generalSettings import generalSettings
+print(" - Imported class - generalSettings")

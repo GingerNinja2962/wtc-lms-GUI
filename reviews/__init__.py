@@ -1,15 +1,15 @@
-print("\nModule Imported reviews")
+print("\n - Module Imported layout from reviews")
 
-from reviews.reviews_selection import problem_selection
-print(" - Imported problem_selection")
-from reviews.reviews_selection import valid_uuid
-print(" - Imported valid_uuid")
+from reviews.loadReviews import loadReviews
+print("   - Imported loadReviews")
 
-from reviews.reviews_main_menu import review_problem
-print(" - Imported review_problem")
+from reviews.reviewSelection import validUUID
+print("   - Imported validUUID")
+from reviews.reviewSelection import problemSelection
+print("   - Imported problemSelection")
 
-from reviews.load_reviews import load_reviews
-print(" - Imported load_reviews")
+from reviews.reviewsMenu import reviewsMenuClass
+print("   - Imported reviewsMenuClass")
 
-import reviews.review_handeler
+import reviews.reviewHandeler
 import reviews.layout
