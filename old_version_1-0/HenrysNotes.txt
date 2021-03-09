@@ -1,7 +1,0 @@
-# classes
-all window type classes need the super in the __init__
-    super().__init__()
-
-# Docstrings
-    use the numpy strings for better formatting and
-    general asthetic looks also to keep with the style being used
