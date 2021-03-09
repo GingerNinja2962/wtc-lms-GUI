@@ -11,5 +11,5 @@ print("   - Imported problemSelection")
 from reviews.reviewsMenu import reviewsMenuClass
 print("   - Imported reviewsMenuClass")
 
-import reviews.review_handeler
+import reviews.reviewHandeler
 import reviews.layout

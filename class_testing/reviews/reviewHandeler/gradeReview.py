@@ -4,11 +4,11 @@ import reviews
 import core
 
 
-def grade_review(probelm_uuid, window):
+def gradeReview(probelmUUID, window):
     """
     manages adding a grade to the review
 
-    :param probelm_uuid: the UUID for the probelm
+    :param probelmUUID: the UUID for the probelm
     :param window: this is the window that holds all elements
     """
     event, values = sg.Window('WTC-LMS GUI add a grade',
@@ -20,8 +20,8 @@ def grade_review(probelm_uuid, window):
     sg.Button('Cancel')]],location=(500, 300)).read(close=True)
 
     if event == "Submit":
-        grade_review_process = core.lms_call(["wtc-lms","grade_review",
-        probelm_uuid, f"{values['-GRADE-']}"])
-        (grade_review_data, err) = core.system_call_comms(grade_review_process)
+        gradeReviewProcess = core.lmsCall(["wtc-lms","grade_review",
+        probelmUUID, f"{values['-GRADE-']}"])
+        (gradeReviewData, err) = core.systemCallComms(gradeReviewProcess)
 
-        reviews.review_handeler.review_details_popup(probelm_uuid)
+        reviews.reviewHandeler.reviewDetailsPopup(probelmUUID)

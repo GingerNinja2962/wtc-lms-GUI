@@ -47,7 +47,7 @@ class reviewsMenuClass(baseWindowClass):
         if not self.token.tokenCheck("Review") or self.values["-SETTINGS-MENU-"] == "Update Reviews":
             self.layout.reviewsData.populateReviews()
             self.layout.reviewsData.getReviewData()
-            self.window['-OUTPUT-'].update('')
+            # self.window['-OUTPUT-'].update('')
             reviews.problemSelection(self)
             self.layout.frames.updateCounterFrame()
 
@@ -72,26 +72,28 @@ class reviewsMenuClass(baseWindowClass):
             self.window['Grade'].Update(disabled=self.activeButtons[3])
 
         elif self.event == "Review details":
-            reviews.review_handeler.review_details_popup(self.values['-INPUT-'])
+            reviews.reviewHandeler.reviewDetailsPopup(self.values['-INPUT-'])
 
         elif self.event == "Accept":
-            reviews.review_handeler.accept_review(self.values['-INPUT-'], window)
-            core.populate_save_data.populate_save_data("reviews")
-            reviews.layout.update_counter_frame(window)
+            reviews.reviewHandeler.acceptReview(self.values['-INPUT-'], self.window)
+            self.layout.reviewsData.populateReviews()
+            # core.populateSaveData.populateDaveData("reviews") # TODO remove if ^ works
+            self.layout.frames.updateCounterFrame()
 
         elif self.event == "Comment":
-            reviews.review_handeler.comment_handeler(self.values['-INPUT-'], window)
+            reviews.reviewHandeler.commentHandeler(self.values['-INPUT-'], self.window)
 
         elif self.event == "Grade":
-            reviews.review_handeler.grade_review(self.values['-INPUT-'], window)
-            core.populate_save_data.populate_save_data("reviews")
-            reviews.layout.update_counter_frame(window)
+            reviews.reviewHandeler.gradeReview(self.values['-INPUT-'], self.window)
+            self.layout.reviewsData.populateReviews()
+            # core.populate_save_data.populate_save_data("reviews") # TODO remove if ^ works
+            self.layout.frames.updateCounterFrame()
 
         if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
                 or self.event == "Review details" or self.event == "Accept" \
                 or self.event == "Comment" or self.event == "Grade":
             pass
-            self.window['-OUTPUT-'].update('')
+            # self.window['-OUTPUT-'].update('')
             reviews.problemSelection(self)
 
         elif self.event in (sg.WIN_CLOSED, "Exit"):
@@ -120,7 +122,7 @@ class reviewsMenuClass(baseWindowClass):
                 self.values["-TOGGLE-ALL-"] == False and \
                 results[0] != self.oldResults[1]):
             # print("pass 2")
-            self.window['-OUTPUT-'].update('')
+            # self.window['-OUTPUT-'].update('')
             self.oldResults = [False] + results
 
         else:
