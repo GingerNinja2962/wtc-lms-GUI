@@ -41,6 +41,8 @@ jobs:
       run: |
         pyinstaller --onefile --windowed lms --name wtc-lms-GUI
         rm -rf build/
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
         git add dist/wtc-lms-GUI
         git commit -m "added exacutable"
 
