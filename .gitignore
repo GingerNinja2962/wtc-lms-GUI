@@ -3,3 +3,6 @@
 
 ### personal generated data
 .save_data
+
+### editor files
+.vscode
