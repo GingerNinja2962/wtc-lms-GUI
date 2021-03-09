@@ -1,6 +1,6 @@
 name: Generate Exacutable
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -38,19 +38,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Build Exacutables
-      run: |
-        pyinstaller --onefile --windowed lms --name wtc-lms-GUI
-        rm -rf build/
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add dist/wtc-lms-GUI
-        git commit -m "added exacutable"
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        files: dist/wtc-lms-GUI
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      run: pyinstaller --onefile --windowed lms --name wtc-lms-GUI
 
     - name: Create Release
       id: create_release
@@ -64,3 +52,4 @@ jobs:
         body: Stable release.
         draft: false
         prerelease: false
+        files: wtc-lms-GUI

@@ -1,4 +1,4 @@
-### pycache 
+### pycache
 *__pycache__
 
 ### personal generated data
@@ -6,3 +6,10 @@
 
 ### editor files
 .vscode
+
+build
+dist
+*.pyc
+venv
+.venv
+*.spec
