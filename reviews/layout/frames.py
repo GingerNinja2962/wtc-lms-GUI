@@ -72,6 +72,6 @@ class framesClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_spe
         :param window: a sg object holding all the window contents and elements
         """
         self.counterData()
-        self.mainWindow.window['-REVIEWS-DONE-'].update(f'Reviews Done:\t{self.reviewsGraded:0>2}')
-        self.mainWindow.window['-REVIEWS-PENDING-'].update(f'Reviews pending:\t{self.reviewsAssigned:0>2}')
+        self.mainWindow.window['-REVIEWS-DONE-'].update(f"Reviews Done:\t{self.reviewsGraded:0>2}")
+        self.mainWindow.window['-REVIEWS-PENDING-'].update(f"Reviews pending:\t{self.reviewsAssigned:0>2}")
         self.mainWindow.window['-REVIEWS-NEEDED-'].update(f"Reviews needed:\t{self.reviewsNeeded:0>2}")
