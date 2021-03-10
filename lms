@@ -1,19 +1,15 @@
 #!/usr/bin/python3
-from os import open, close, dup, O_WRONLY, system, getcwd
+from logger.loggerClass import logger
 
-oldOut = dup(1)
-close(1)
-open(f"{getcwd()}/.outLogger.txt", O_WRONLY)
-
-oldErr = dup(2)
-close(2)
-open(f"{getcwd()}/.errLogger.txt", O_WRONLY)
+logging = logger()
+logging.open()
 
 import PySimpleGUI as sg
 
 import mainMenu
 import assignments
 import reviews
+
 
 def main():
     """
@@ -37,11 +33,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    close(1)
-    dup(oldOut)
-    close(oldOut)
-
-    close(2)
-    dup(oldErr)
-    close(oldErr)
+    logging.close()
