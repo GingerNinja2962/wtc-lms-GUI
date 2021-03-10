@@ -52,12 +52,8 @@ class reviewsLayoutClass(dataHandelerClass):
         """
         super().__init__()
         self.mainWindow = mainWindow
-        self.assignmentData = core.populateSaveData.populateAssignmentsClass()
+        self.assignmentData = core.dataHandelerClass()
         self.reviewsData = core.populateSaveData.populateReviewsClass()
-
-        if not core.fileCheck(self.assignmentData.modulesDataPath):
-            self.assignmentData.populateAssignments()
-
         self.tabGroup = reviews.layout.tabGroupClass(self)
         self.frames = reviews.layout.framesClass(self, self.mainWindow)
         self.layout = [[]]

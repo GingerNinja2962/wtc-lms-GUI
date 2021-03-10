@@ -1,10 +1,9 @@
 import os
 
-import reviews
-import core
+from core import grepCall, systemCallComms, systemCallClose, grepSystemCall
 
 
-def validUUID(mainWindow): # TODO check if finalized
+def validUUID(mainWindow):
     """
     Check to if the UUID is valid and return the buttons stats.
 
@@ -20,9 +19,9 @@ def validUUID(mainWindow): # TODO check if finalized
     """
     if (mainWindow.values['-INPUT-']
         ) in mainWindow.layout.reviewsData.reviewUUIDs:
-        grepReviewProcess = core.grepCall("-i", mainWindow.values['-INPUT-'],
+        grepReviewProcess = grepCall("-i", mainWindow.values['-INPUT-'],
             mainWindow.layout.reviewsData.reviewsPath)
-        (tempOut, err) = core.systemCallComms(grepReviewProcess)
+        (tempOut, err) = systemCallComms(grepReviewProcess)
         if "Assigned" in tempOut:
             return [False, True, False, False]
         if "Invited" in tempOut:
@@ -44,16 +43,16 @@ def problemSelection(mainWindow):
             The PySimpleGUI window object that has been opened.
     """
     if mainWindow.values['-TOGGLE-ALL-']:
-        grepProcess = core.grepCall("-i", " \[",
+        grepProcess = grepCall("-i", " \[",
             mainWindow.layout.reviewsData.reviewsPath)
 
 
     elif mainWindow.values[f"-{mainWindow.values[1]}-"] != []:
-        grepModuleProcess = core.grepCall("-i", mainWindow.values[1],
+        grepModuleProcess = grepCall("-i", mainWindow.values[1],
             mainWindow.layout.reviewsData.reviewsPath)
-        grepProcess = core.grepSystemCall("-i", mainWindow.values[
+        grepProcess = grepSystemCall("-i", mainWindow.values[
             f"-{mainWindow.values[1]}-"][0], grepModuleProcess)
-        core.systemCallClose(grepModuleProcess)
+        systemCallClose(grepModuleProcess)
     else: return
 
     grepPattern = ""
@@ -73,7 +72,7 @@ def problemSelection(mainWindow):
         grepPattern = grepPattern + 'AcceptanceBlocked'
 
     if grepPattern != "":
-        filteredProcess = core.grepSystemCall("-Ei", grepPattern, grepProcess)
-        (out, err) = core.systemCallComms(filteredProcess)
-    else: (out, err) = core.systemCallComms(grepProcess)
+        filteredProcess = grepSystemCall("-Ei", grepPattern, grepProcess)
+        (out, err) = systemCallComms(filteredProcess)
+    else: (out, err) = systemCallComms(grepProcess)
     print(out)

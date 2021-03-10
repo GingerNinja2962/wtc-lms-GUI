@@ -1,6 +1,10 @@
+import PySimpleGUI as sg
+
 from classTemplates.populateTemplate import basePopulateDataClass
 
-import core
+from core.lmsLogin import manageLogin
+from core import tokensClass, dirCheck, fileCheck
+from core import lmsCall, systemCallComms, grepCall, writeToFile
 
 
 class populateReviewsClass(basePopulateDataClass):
@@ -61,9 +65,9 @@ class populateReviewsClass(basePopulateDataClass):
         The constructor for populateReviewsClass.
         """
         super().__init__()
-        self.reviewsDataPath = core.dirCheck(f"{self.saveDataPath}/reviewsData")
+        self.reviewsDataPath = dirCheck(f"{self.saveDataPath}/reviewsData")
         self.reviewsPath = f"{self.reviewsDataPath}/reviewsData.txt"
-        self.token = core.tokensClass()
+        self.token = tokensClass()
         self.reviewUUIDs = []
 
         self.reviewsInvited = 0
@@ -76,14 +80,24 @@ class populateReviewsClass(basePopulateDataClass):
         """
         Updated the saved reviews data with an automatic message
         stating that.
-        """
-        self.openLoadingMessage("reviews")
-        reviewsDataProcess = core.lmsCall("reviews")
-        (reviewsData, err) = core.systemCallComms(reviewsDataProcess)
 
-        core.writeToFile(reviewsData, self.reviewsPath)
+        Returns
+        -------
+            manageLoginStatus : boollean
+                The status of the data population, false if the data
+                was not updated, True if the data was updated.
+        """
+        if not manageLogin().run():
+            return False
+
+        self.openLoadingMessage("reviews")
+        reviewsDataProcess = lmsCall("reviews")
+        (reviewsData, err) = systemCallComms(reviewsDataProcess)
+
+        writeToFile(reviewsData, self.reviewsPath)
         self.token.forceTokenUpdate("Review")
         self.closeLoadingMessage()
+        return True
 
 
     def getReviewData(self):
@@ -91,21 +105,26 @@ class populateReviewsClass(basePopulateDataClass):
         Retrive all the reviews data, count data and if there is no
         reviews data downloads it.
         """
-        core.dirCheck(self.reviewsDataPath)
-        if not core.fileCheck(self.reviewsPath): self.populateReviews()
+        dirCheck(self.reviewsDataPath)
+        if not fileCheck(self.reviewsPath):
+            if not fileCheck(f"{self.saveDataPath}/tokens/loginF"):
+                if not self.populateReviews(): return False
+            else: return False
+
         self.getInvitedReviews()
         self.getAssignedReviews()
         self.getGradedReviews()
         self.getAcceptanceBlockedReviews()
         self.getReviewUUIDs()
+        return True
 
 
     def getInvitedReviews(self):
         """
         Count the total number of invited reviews.
         """
-        grepInvitedProcess = core.grepCall("-ic", "Invited", self.reviewsPath)
-        (reviewsInvited, err) = core.systemCallComms(grepInvitedProcess)
+        grepInvitedProcess = grepCall("-ic", "Invited", self.reviewsPath)
+        (reviewsInvited, err) = systemCallComms(grepInvitedProcess)
         self.reviewsInvited = reviewsInvited
 
 
@@ -113,8 +132,8 @@ class populateReviewsClass(basePopulateDataClass):
         """
         Count the total number of assigned reviews.
         """
-        grepAssignedProcess = core.grepCall("-ic", "Assigned", self.reviewsPath)
-        (reviewsAssigned, err) = core.systemCallComms(grepAssignedProcess)
+        grepAssignedProcess = grepCall("-ic", "Assigned", self.reviewsPath)
+        (reviewsAssigned, err) = systemCallComms(grepAssignedProcess)
         self.reviewsAssigned = reviewsAssigned
 
 
@@ -122,8 +141,8 @@ class populateReviewsClass(basePopulateDataClass):
         """
         Count the total number of graded reviews.
         """
-        grepGradedProcess = core.grepCall("-ic", "Graded", self.reviewsPath)
-        (reviewsGraded, err) = core.systemCallComms(grepGradedProcess)
+        grepGradedProcess = grepCall("-ic", "Graded", self.reviewsPath)
+        (reviewsGraded, err) = systemCallComms(grepGradedProcess)
         self.reviewsGraded = reviewsGraded
 
 
@@ -131,9 +150,9 @@ class populateReviewsClass(basePopulateDataClass):
         """
         Count the total number of blocked reviews.
         """
-        grepBlockedProcess = core.grepCall("-ic", "AcceptanceBlocked",
+        grepBlockedProcess = grepCall("-ic", "AcceptanceBlocked",
             self.reviewsPath)
-        (reviewsBlocked, err) = core.systemCallComms(grepBlockedProcess)
+        (reviewsBlocked, err) = systemCallComms(grepBlockedProcess)
         self.reviewsBlocked = reviewsBlocked
 
 
@@ -143,8 +162,8 @@ class populateReviewsClass(basePopulateDataClass):
         """
         self.reviewUUIDs = []
 
-        grepUUIDsProcess = core.grepCall("-i", " (", self.reviewsPath)
-        (reviewUUIDs, err) = core.systemCallComms(grepUUIDsProcess)
+        grepUUIDsProcess = grepCall("-i", " (", self.reviewsPath)
+        (reviewUUIDs, err) = systemCallComms(grepUUIDsProcess)
 
         for UUID in reviewUUIDs.split('\n'):
             if UUID == '': continue

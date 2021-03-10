@@ -53,12 +53,12 @@ class logger:
         self.out = dup(1)
         close(1)
         osOpen(self.outFile, O_WRONLY)
-        write(1, b"Launch Time:\t" + str.encode(currentTime))
+        write(1, b"Launch Time:\t" + str.encode(currentTime) + b"\n")
 
         self.err = dup(2)
         close(2)
         osOpen(self.errFile, O_WRONLY)
-        write(2, b"Launch Time:\t" + str.encode(currentTime))
+        write(2, b"Launch Time:\t" + str.encode(currentTime) + b"\n")
 
 
     def close(self):

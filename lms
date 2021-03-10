@@ -6,9 +6,9 @@ logging.open()
 
 import PySimpleGUI as sg
 
-import mainMenu
-import assignments
-import reviews
+from mainMenu import mainMenuClass
+from assignments import assignmentsMenuClass
+from reviews import reviewsMenuClass
 
 
 def main():
@@ -18,16 +18,16 @@ def main():
     sg.theme("DarkAmber")
     sg.set_options(element_padding=(0, 0))
 
-    openWindow = mainMenu.mainMenuClass()
+    openWindow = mainMenuClass()
     status = openWindow.run()
 
     while status != "Closed":
         if status == "assignments":
-            openWindow = assignments.assignmentsMenuClass()
+            openWindow = assignmentsMenuClass()
         if status == "reviews":
-            openWindow = reviews.reviewsMenuClass()
+            openWindow = reviewsMenuClass()
         if status == "mainMenu":
-            openWindow = mainMenu.mainMenuClass()
+            openWindow = mainMenuClass()
         status = openWindow.run()
 
 

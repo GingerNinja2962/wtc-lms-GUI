@@ -2,7 +2,8 @@ from classTemplates.populateTemplate import basePopulateDataClass
 
 from os import listdir
 
-from core import dirCheck, writeToFile, tokensClass
+from core.lmsLogin import manageLogin
+from core import dirCheck, writeToFile, tokensClass, fileCheck
 from core import lmsCall, grepCall, systemCallComms
 
 
@@ -73,10 +74,20 @@ class populateAssignmentsClass(basePopulateDataClass):
     def populateAssignments(self):
         """
         Populates the assignments moudles, topic and problems data.
+
+        Returns
+        -------
+            manageLoginStatus : boollean
+                The status of the data population, false if the data
+                was not updated, True if the data was updated.
         """
+        if not manageLogin().run():
+            return False
+
         self.populateModules()
         self.populateTopics()
         self.populateProblems()
+        return True
 
 
     def populateModules(self):
@@ -147,6 +158,12 @@ class populateAssignmentsClass(basePopulateDataClass):
         """
         Generates the dict of problems and the problem UUIDs.
         """
+        dirCheck(self.modulesPath)
+        if not fileCheck(self.modulesDataPath):
+            if not fileCheck(f"{self.saveDataPath}/tokens/loginF"):
+                if not self.populateAssignments(): return False
+            else: return False
+
         self.problemNamesUUID = {}
         self.topicFilePaths = []
         dirCheck(f"{dirCheck(self.saveDataPath)}/topicsData")
