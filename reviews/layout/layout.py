@@ -52,9 +52,9 @@ class reviewsLayoutClass(dataHandelerClass):
                     sg.Column( self.tabGroup.tabGrouplayout, pad=(5,0) ),
                     sg.Column(
                         [
-                            [ sg.Frame("Filters", self.frames.filterFrame, title_color="#FF8C00", # TODO access class element
+                            [ sg.Frame("Filters", self.frames.filterFrame, title_color="#FF8C00",
                                 title_location="n", font="Calibri 10") ],
-                            [ sg.Frame("Review Count", self.frames.CounterFrame, # TODO access class element
+                            [ sg.Frame("Review Count", self.frames.CounterFrame,
                                 title_color="#FF8C00", title_location="n",
                                 element_justification="l",
                                 font="Calibri 10") ]

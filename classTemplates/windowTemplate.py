@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import PySimpleGUI as sg
 
 from custom_inherit import DocInheritMeta

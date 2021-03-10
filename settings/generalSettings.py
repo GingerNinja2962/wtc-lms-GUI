@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-from classTemplates import inDevelopmentPopup # remove when developed
+from classTemplates import inDevelopmentPopup # TODO remove when developed
 
 
 def generalSettings():

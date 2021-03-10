@@ -21,9 +21,7 @@ class reviewsMenuClass(baseWindowClass):
         self.location = (50, 125)
 
 
-                   # TODO i don't belive that the base template will work in this case
-                   # TODO as the oldResaults and activeButtons vars need to be instanciated
-    def run(self): # TODO check if needed or base template can be used
+    def run(self):
         self.window = sg.Window(self.title, self.layout.layout,
                 element_justification=self.elementJustification,
                 location=self.location).finalize()

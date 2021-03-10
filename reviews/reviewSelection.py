@@ -4,7 +4,7 @@ import reviews
 import core
 
 
-def validUUID(mainWindow): # TODO fix UP
+def validUUID(mainWindow): # TODO check if finalized
     """
     checks to see if the UUID is valid and returns the buttons to enable
 

@@ -1,11 +1,19 @@
 #!/usr/bin/python3
+from os import open, close, dup, O_WRONLY, system, getcwd
+
+oldOut = dup(1)
+close(1)
+open(f"{getcwd()}/.outLogger.txt", O_WRONLY)
+
+oldErr = dup(2)
+close(2)
+open(f"{getcwd()}/.errLogger.txt", O_WRONLY)
+
 import PySimpleGUI as sg
 
 import mainMenu
 import assignments
 import reviews
-import os
-
 
 def main():
     """
@@ -17,12 +25,10 @@ def main():
     openWindow = mainMenu.mainMenuClass()
     status = openWindow.run()
 
-    # os.system("clear")
-
     while status != "Closed":
         if status == "assignments":
             openWindow = assignments.assignmentsMenuClass()
-        if status == "reviews": # TODO link reviews menu
+        if status == "reviews":
             openWindow = reviews.reviewsMenuClass()
         if status == "mainMenu":
             openWindow = mainMenu.mainMenuClass()
@@ -31,3 +37,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    close(1)
+    dup(oldOut)
+    close(oldOut)
+
+    close(2)
+    dup(oldErr)
+    close(oldErr)

@@ -1,7 +1,7 @@
-# print("\nModule Imported templateClasses")
+print("\nModule Imported templateClasses")
 
 from mainMenu.menuLayout import layout
-# print(" - Imported layout from menuLayout")
+print(" - Imported layout from menuLayout")
 
 from mainMenu.mainMenu import mainMenuClass
-# print(" - Imported class - mainMenuClass")
+print(" - Imported class - mainMenuClass")
