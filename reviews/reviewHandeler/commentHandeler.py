@@ -1,20 +1,25 @@
 import PySimpleGUI as sg
 
 import reviews
-import core
+from core import lmsCall, grepSystemCall, systemCallClose, systemCallComms
 
 
-def commentHandeler(probelmUUID, window):
+def commentHandeler(probelmUUID):
     """
     check wether to add a comment or edit one
 
-    :param probelmUUID: the UUID for the probelm
-    :param window: this is the window that holds all elements
+    Parameters
+    ----------
+        probelmUUID : str
+            The UUID for the probelm that the comment will be added
+            to or removed from.
     """
-    commentReviewProcess = core.lmsCall(["wtc-lms","review_details", probelmUUID])
-    grepedCommentProcess = core.grepSystemCall("-i","edit_comment", commentReviewProcess)
-    core.systemCallClose(commentReviewProcess)
-    (commentReviewData, err) = core.systemCallComms(grepedCommentProcess)
+    commentReviewProcess = lmsCall(["wtc-lms","review_details",
+        probelmUUID])
+    grepedCommentProcess = grepSystemCall("-i","edit_comment",
+        commentReviewProcess)
+    systemCallClose(commentReviewProcess)
+    (commentReviewData, err) = systemCallComms(grepedCommentProcess)
 
     if commentReviewData != "":
         return editOrDelComment(probelmUUID)
@@ -23,9 +28,13 @@ def commentHandeler(probelmUUID, window):
 
 def addNewComment(probelmUUID):
     """
-    handels the adding of new comments
+    Handel the adding of new comments.
 
-    :param probelmUUID: the UUID for the probelm
+    Parameters
+    ----------
+        probelmUUID : str
+            The UUID for the probelm that the comment will be added
+            to.
     """
     event, values = sg.Window('WTC-LMS GUI add a comment',
                     [[sg.Text('Comment'), sg.InputText('',
@@ -35,17 +44,21 @@ def addNewComment(probelmUUID):
                     location=(500,300)).read(close=True)
 
     if event == 'Submit':
-        commentReviewProcess = core.lmsCall(["wtc-lms","add_comment",
+        commentReviewProcess = lmsCall(["wtc-lms","add_comment",
         probelmUUID, values['-COMMENT-INPUT-']])
-        (commentReviewProcess, err) = core.systemCallComms(commentReviewProcess)
+        (commentReviewProcess, err) = systemCallComms(commentReviewProcess)
         reviews.reviewHandeler.reviewDetailsPopup(probelmUUID)
 
 
 def editOrDelComment(probelmUUID):
     """
-    handels the editing or deleting of coments
+    Handel the editing or deleting of comments.
 
-    :param probelmUUID: the UUID for the probelm
+    Parameters
+    ----------
+        probelmUUID : str
+            The UUID for the probelm that the comment will be added
+            to or removed from.
     """
     event, values = sg.Window('WTC-LMS GUI edit the comment',
                     layout=[[sg.Text('Comment'), sg.InputText('',
@@ -54,7 +67,7 @@ def editOrDelComment(probelmUUID):
                     sg.Button('Cancel')]],location=(500, 300)).read(close=True)
 
     if event == 'Submit':
-        commentReviewProcess = core.lmsCall(["wtc-lms","edit_comment",
+        commentReviewProcess = lmsCall(["wtc-lms","edit_comment",
         probelmUUID, values['-COMMENT-INPUT-']])
-        (out, err) = core.systemCallComms(commentReviewProcess)
+        (out, err) = systemCallComms(commentReviewProcess)
         reviews.reviewHandeler.reviewDetailsPopup(probelmUUID)

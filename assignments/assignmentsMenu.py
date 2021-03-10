@@ -12,8 +12,23 @@ import core
 class assignmentsMenuClass(baseWindowClass):
     """
     A class to create a assignments menu window.
+
+    Parameters
+    ----------
+        baseWindowClass : class
+            The base window class to inherit from when making a window
+            class.
+
+    Attributes
+    ----------
+        token : object
+            The token object created from tokensClass to manage all
+            token related data.
     """
     def __init__(self):
+        """
+        The constructor for assignmentsMenuClass.
+        """
         super().__init__()
         self.token = core.tokensClass()
         self.layout = assignmentsLayoutClass(self)

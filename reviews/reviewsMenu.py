@@ -3,19 +3,28 @@ import PySimpleGUI as sg
 from classTemplates.windowTemplate import baseWindowClass
 from classTemplates.inDevelopmentPopup import inDevelopmentPopup
 
+from core import tokensClass
+
 import settings
 import assignments
 import reviews
-import core
 
 
 class reviewsMenuClass(baseWindowClass):
     """
     A class to create a reviews menu window.
+
+    Methods
+    -------
+        checkChanges()
+            Checks if the window has gotten any changes in review filters.
     """
     def __init__(self):
+        """
+        The constructor for reviewsMenuClass.
+        """
         super().__init__()
-        self.token = core.tokensClass()
+        self.token = tokensClass()
         self.layout = reviews.layout.reviewsLayoutClass(self)
         self.title = "LMS Reviews GUI"
         self.location = (50, 125)
@@ -42,7 +51,8 @@ class reviewsMenuClass(baseWindowClass):
         self.oldActiveButtons = self.activeButtons
         self.activeButtons = reviews.validUUID(self)
 
-        if not self.token.tokenCheck("Review") or self.values["-SETTINGS-MENU-"] == "Update Reviews":
+        if not self.token.tokenCheck("Review") or self.values[
+                "-SETTINGS-MENU-"] == "Update Reviews":
             self.layout.reviewsData.populateReviews()
             self.layout.reviewsData.getReviewData()
             self.window['-OUTPUT-'].update('')
@@ -73,22 +83,22 @@ class reviewsMenuClass(baseWindowClass):
             reviews.reviewHandeler.reviewDetailsPopup(self.values['-INPUT-'])
 
         elif self.event == "Accept":
-            reviews.reviewHandeler.acceptReview(self.values['-INPUT-'], self.window)
+            reviews.reviewHandeler.acceptReview(self.values['-INPUT-'])
             self.layout.reviewsData.populateReviews()
             self.layout.frames.updateCounterFrame()
 
         elif self.event == "Comment":
-            reviews.reviewHandeler.commentHandeler(self.values['-INPUT-'], self.window)
+            reviews.reviewHandeler.commentHandeler(self.values['-INPUT-'])
 
         elif self.event == "Grade":
-            reviews.reviewHandeler.gradeReview(self.values['-INPUT-'], self.window)
+            reviews.reviewHandeler.gradeReview(self.values['-INPUT-'])
             self.layout.reviewsData.populateReviews()
             self.layout.frames.updateCounterFrame()
 
-        if self.oldResults[0] or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
+        if self.oldResults[0] \
+                or self.values["-SETTINGS-MENU-"] == "Update Reviews" \
                 or self.event == "Review details" or self.event == "Accept" \
                 or self.event == "Comment" or self.event == "Grade":
-            pass
             self.window['-OUTPUT-'].update('')
             reviews.problemSelection(self)
 
@@ -99,7 +109,7 @@ class reviewsMenuClass(baseWindowClass):
 
     def checkChanges(self):
         """
-        checks if the window has gotten any changes in review filters
+        Check if the windows data has changed.
         """
         results = [
         self.values[1],

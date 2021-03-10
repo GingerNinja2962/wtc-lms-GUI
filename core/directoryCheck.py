@@ -32,7 +32,7 @@ def fileCheck(filePath):
     Returns
     -------
         checkStatus : boollean
-            The status of the check, False is failed, True if passed
+            The status of the check, False is failed, True if passed.
     """
     if not os.path.isfile(filePath):
         return False

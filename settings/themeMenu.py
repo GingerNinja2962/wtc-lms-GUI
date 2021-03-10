@@ -5,9 +5,12 @@ from classTemplates.windowTemplate import baseWindowClass
 
 class themeMenuClass(baseWindowClass):
     """
-    Create a window that allows you to chage the theme
+    Create a window that allows you to choose a theme to change to.
     """
     def __init__(self):
+        """
+        The constructor for themeMenuClass.
+        """
         super().__init__()
         self.layout = [
             [ sg.Text("Look and Feel Browser") ],
@@ -28,7 +31,8 @@ class themeMenuClass(baseWindowClass):
 
         event = sg.popup(
             f"This is {self.values['-THEME-LIST-'][0]}",
-            "Would you like to set this theme?", custom_text=("Yes", "No"))
+            "Would you like to set this theme?", custom_text=("Yes", "No"),
+            location=self.location)
 
         if event == "Yes":
             return self.close()

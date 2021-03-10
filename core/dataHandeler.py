@@ -7,7 +7,43 @@ import core
 
 
 class dataHandelerClass(populateAssignmentsClass):
+    """
+    A class to be used to manage all save data downloading and
+    handeling.
+
+    Parameters
+    ----------
+    populateAssignmentsClass : class
+        pass
+
+    Attributes
+    ----------
+        modulesList : list
+            The list of all wtc-lms modules.
+        topicsDict : dict
+            The dict of all wtc-lms modules with the topics as values.
+        problemsDict : dict
+            The dict of all wtc-lms topics with the problems as
+            values.
+        assignmentsDict : dict
+            The dict of all wtc-lms problems with the assignment as
+            values.
+
+    Methods
+    -------
+        getModules()
+            Generates a list of all the wtc-lms modules.
+        getTopics()
+            Generates a dict that links topics with their modules.
+        getProblems()
+            Generates a dict that links problems with their topics.
+        getAssignments()
+            Generates a dict that links UUIDs to their assignment.
+    """
     def __init__(self):
+        """
+        The constructor for populateReviewsClass.
+        """
         super().__init__()
         self.modulesList = []
         self.topicsDict = {}
@@ -16,6 +52,9 @@ class dataHandelerClass(populateAssignmentsClass):
 
 
     def getModules(self):
+        """
+        Generates a list of all the wtc-lms modules.
+        """
         self.modulesList = []
         if not fileCheck(self.modulesDataPath): self.populateAssignments()
 
@@ -28,6 +67,9 @@ class dataHandelerClass(populateAssignmentsClass):
 
 
     def getTopics(self):
+        """
+        Generates a dict that links topics with their modules.
+        """
         if self.topicFilePaths == []:
             for topicFile in os.listdir(self.topicsPath):
                 self.topicFilePaths.append(f"{self.topicsPath}/{topicFile}")
@@ -47,9 +89,13 @@ class dataHandelerClass(populateAssignmentsClass):
 
 
     def getProblems(self):
+        """
+        Generates a dict that links problems with their topics.
+        """
         self.problemsState = {}
         for problemFile in os.listdir(self.problemsPath):
-            grepProblemsCall = grepCall("-i", " \[", f"{self.problemsPath}/{problemFile}")
+            grepProblemsCall = grepCall("-i", " \[",
+                f"{self.problemsPath}/{problemFile}")
             (lmsProblemsData, err) = systemCallComms(grepProblemsCall)
 
             topicName = (((problemFile.split('/'))[-1]).replace('.txt', ''))
@@ -66,12 +112,17 @@ class dataHandelerClass(populateAssignmentsClass):
 
 
     def getAssignments(self):
+        """
+        Generates a dict that links UUIDs to their assignment.
+        """
         for problemFile in os.listdir(self.problemsPath):
-            grepProblemsCall = grepCall("-i", " \[", f"{self.problemsPath}/{problemFile}")
+            grepProblemsCall = grepCall("-i", " \[",
+                f"{self.problemsPath}/{problemFile}")
             (lmsProblemsData, err) = systemCallComms(grepProblemsCall)
 
             lmsProblemsData = lmsProblemsData.split(')\n')
 
             for string in lmsProblemsData:
                 if string == '': continue
-                self.assignmentsDict[(string.split(' ['))[0]] = (string.split(' ('))[1]
+                self.assignmentsDict[(string.split(' ['))[0]] = (
+                    string.split(' ('))[1]

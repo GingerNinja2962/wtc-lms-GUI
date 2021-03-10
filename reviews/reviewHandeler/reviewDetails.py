@@ -1,14 +1,17 @@
 import PySimpleGUI as sg
 
-import core
+from core import lmsCall, systemCallComms
 
 
 def reviewDetailsPopup(probelmUUID):
     """
-    displays the review details in a popup
+    Display the review details in a popup window.
 
-    :param probelmUUID: the UUID for the probelm
-    :param window: this is the window that holds all elements
+    Parameters
+    ----------
+        probelmUUID : str
+            The problem UUID that will have its' reviews details
+            shown.
     """
     sg.popup(f"{returnReviewDetails(probelmUUID)}",
               title="Review Details",
@@ -17,12 +20,19 @@ def reviewDetailsPopup(probelmUUID):
 
 def returnReviewDetails(probelmUUID):
     """
-    returns the review details
+    Return the review details for the given problemUUID.
 
-    :param probelmUUID: the UUID for the probelm
-    :return review_details: the review details for the problem uuid
+    Parameters
+    ----------
+        probelmUUID : [type]
+            The UUID of problem of which review details is needed.
+
+    Returns
+    -------
+        reviewDetailsData : str
+            The review details for the given problem UUID.
     """
-    reviewDetailsProcess = core.lmsCall(["wtc-lms","review_details", probelmUUID])
-    (reviewDetailsData, err) = core.systemCallComms(reviewDetailsProcess)
+    reviewDetailsProcess = lmsCall(["wtc-lms","review_details", probelmUUID])
+    (reviewDetailsData, err) = systemCallComms(reviewDetailsProcess)
 
     return reviewDetailsData

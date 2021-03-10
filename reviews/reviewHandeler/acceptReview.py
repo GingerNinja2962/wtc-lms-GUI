@@ -1,25 +1,27 @@
 import PySimpleGUI as sg
 
 import reviews
-import core
+from core import lmsCall, systemCallComms
 
 
-def acceptReview(probelmUUID, window):
+def acceptReview(probelmUUID):
     """
-    a function that will accept the review
+    Accept a review from wtc-lms.
 
-    :param probelmUUID: the UUID for the probelm
-    :param window: this is the window that holds all elements
+    Parameters
+    ----------
+        probelmUUID : str
+            The UUID for the probelm to be accepted.
     """
     request = sg.popup("Would you like to Accept the following review?",
-            f"{reviews.reviewHandeler.returnReviewDetails(probelmUUID)}",
-            "***Please note this cannot be undone & may take a few seconds***",
-            title="WTC-LMS accept a review",
-            custom_text=("Accept", "Cancel"),
-            location=(500, 300))
+        f"{reviews.reviewHandeler.returnReviewDetails(probelmUUID)}",
+        "***Please note that this cannot be undone & may take a few seconds***",
+        title="WTC-LMS accept a review",
+        custom_text=("Accept", "Cancel"),
+        location=(500, 300))
 
     if request == "Accept":
-        acceptReviewProcess = core.lmsCall(["wtc-lms","accept", probelmUUID])
-        (out, err) = core.systemCallComms(acceptReviewProcess)
+        acceptReviewProcess = lmsCall(["wtc-lms","accept", probelmUUID])
+        (out, err) = systemCallComms(acceptReviewProcess)
 
         reviews.reviewHandeler.reviewDetailsPopup(probelmUUID)

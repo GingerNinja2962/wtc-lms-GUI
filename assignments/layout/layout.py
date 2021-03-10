@@ -3,11 +3,44 @@ import PySimpleGUI as sg
 from core import dataHandelerClass
 
 from assignments import layout
-import core
 
 
 class assignmentsLayoutClass(dataHandelerClass):
+    """
+    A class to use for generating the layout for the assignments
+    window.
+
+    Parameters
+    ----------
+        dataHandelerClass : class
+            The data handeler class to inherit from, that will manage
+            the downloading and retriving of saved data.
+
+    Attributes
+    ----------
+        mainWindow : object
+            The PySimpleGUI window object that has been opened.
+        actionButtons : object
+            The object created from the actionButtonsClass class,
+            holding all the data related to the action buttons.
+        listboxs : object
+            The object created from the assignmentsListboxClass class,
+            holding all the data relating to the listboxes.
+
+    Methods
+    -------
+        assignmentsLayout()
+            Generate the problem selection layout for assignments.
+    """
     def __init__(self, mainWindow):
+        """
+        The constructor for assignmentsLayoutClass.
+
+        Parameters
+        ----------
+            mainWindow : object
+                The PySimpleGUI window object that has been opened.
+        """
         super().__init__()
         self.mainWindow = mainWindow
         self.actionButtons = layout.actionButtonsClass(self.mainWindow)
@@ -17,8 +50,7 @@ class assignmentsLayoutClass(dataHandelerClass):
 
     def assignmentsLayout(self):
         """
-        sets up the basic problem selection layout for
-            assignments and returns it as a list
+        Generate the problem selection layout for assignments.
         """
         settings_menu_items = ["Unused", ["&General Settings", "&Change Theme", "&Update Assignments"]]
         navigate_menu_items = ["Unused", ["    &Main Menu", "!> & Assignments Menu", "    &Reviews Menu"]]

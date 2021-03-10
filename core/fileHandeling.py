@@ -5,10 +5,10 @@ def writeToFile(contents, filePath):
     
     Parameters
     ----------
-    contents : str
-        The message to be written.
-    filePath : str
-        The path to the file to be written to.
+        contents : str
+            The message to be written.
+        filePath : str
+            The path to the file to be written to.
     """
     with open(filePath, "w") as timeCheckFile:
         timeCheckFile.write(contents)
@@ -20,13 +20,13 @@ def readFromFile(filePath):
     
     Parameters
     ----------
-    filePath : str
-        The path to the file to be read from.
+        filePath : str
+            The path to the file to be read from.
 
     Returns
     -------
-    contents : str
-        The contents of the read file.
+        contents : str
+            The contents of the read file.
     """
     with open(filePath, "r") as timeCheckFile:
         contents = timeCheckFile.read()

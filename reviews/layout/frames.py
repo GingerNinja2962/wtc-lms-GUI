@@ -1,27 +1,50 @@
 import PySimpleGUI as sg
 
-from custom_inherit import DocInheritMeta
 
-import os
+class framesClass:
+    """
+    A class to create a filter frame layout for the reviews window.
 
-import reviews
-import core
+    Attributes
+    ----------
+        layout : list
+            The layout of the window.
+        mainWindow : object
+            The PySimpleGUI window object that has been opened.
 
-
-class framesClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_special_methods=True)):
+    Methods
+    -------
+        reviewFilterFrame()
+            Return a filter frame with 4 review filters as checkboxes.
+        reviewCounterFrame()
+            Generate a PySimpleGUI frame that holds the wtc-lms
+            reviews counter data.
+        counterData()
+            Calculate the counter data for reviews.
+        updateCounterFrame()
+            Update the review counter data.
+    """
     def __init__(self, layout, mainWindow):
+        """
+        The constructor for framesClass.
+
+        Parameters
+        ----------
+        layout : list
+            The layout of the window. 
+        mainWindow : object
+            The PySimpleGUI window object that has been opened.
+        """
         super().__init__()
-        self.mainWindow = mainWindow
         self.layout = layout
+        self.mainWindow = mainWindow
         self.reviewFilterFrame()
         self.reviewCounterFrame()
 
 
     def reviewFilterFrame(self):
         """
-        returns a filter frame with 4 review filters
-
-        :return filterFrame: a frame containing the filters for reviews
+        Return a filter frame with 4 review filters as checkboxes.
         """
         self.filterFrame = [
             [sg.CB('Search all', key='-TOGGLE-ALL-')],
@@ -35,21 +58,23 @@ class framesClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_spe
 
     def reviewCounterFrame(self):
         """
-        returns a sg frame that holds the wtc-lms graded assignments counted data
-
-        :return reviewCountFrame: the sg frame list that holds the review counter frame data
+        Generate a PySimpleGUI frame that holds the wtc-lms reviews
+        counter data.
         """
         self.counterData()
         self.CounterFrame = [
-            [ sg.Text(f"Reviews Done:\t{self.reviewsGraded:0>2}", key='-REVIEWS-DONE-',pad=(5,0))],
-            [ sg.Text(f"Reviews pending:\t{self.reviewsAssigned:0>2}",key='-REVIEWS-PENDING-',pad=(5,0))],
-            [ sg.Text(f"Reviews needed:\t{self.reviewsNeeded:0>2}",key='-REVIEWS-NEEDED-',pad=(5,0))]
+            [ sg.Text(f"Reviews Done:\t{self.reviewsGraded:0>2}",
+                key='-REVIEWS-DONE-',pad=(5,0))],
+            [ sg.Text(f"Reviews pending:\t{self.reviewsAssigned:0>2}",
+                key='-REVIEWS-PENDING-',pad=(5,0))],
+            [ sg.Text(f"Reviews needed:\t{self.reviewsNeeded:0>2}",
+                key='-REVIEWS-NEEDED-',pad=(5,0))]
         ]
 
 
     def counterData(self):
         """
-        returns the calculationed counter data for reviews
+        Calculate the counter data for reviews.
         """
         self.layout.assignmentData.getProblemNamesUUID()
         self.layout.reviewsData.getReviewData()
@@ -67,11 +92,12 @@ class framesClass(metaclass=DocInheritMeta(style="numpy_with_merge", include_spe
 
     def updateCounterFrame(self):
         """
-        updates the counter information
-
-        :param window: a sg object holding all the window contents and elements
+        Update the review counter data.
         """
         self.counterData()
-        self.mainWindow.window['-REVIEWS-DONE-'].update(f"Reviews Done:\t{self.reviewsGraded:0>2}")
-        self.mainWindow.window['-REVIEWS-PENDING-'].update(f"Reviews pending:\t{self.reviewsAssigned:0>2}")
-        self.mainWindow.window['-REVIEWS-NEEDED-'].update(f"Reviews needed:\t{self.reviewsNeeded:0>2}")
+        self.mainWindow.window['-REVIEWS-DONE-'].update(
+            f"Reviews Done:\t{self.reviewsGraded:0>2}")
+        self.mainWindow.window['-REVIEWS-PENDING-'].update(
+            f"Reviews pending:\t{self.reviewsAssigned:0>2}")
+        self.mainWindow.window['-REVIEWS-NEEDED-'].update(
+            f"Reviews needed:\t{self.reviewsNeeded:0>2}")

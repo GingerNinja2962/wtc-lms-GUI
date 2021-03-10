@@ -1,16 +1,55 @@
-import os
-
-import core
+from core import dataHandelerClass
 
 
-class assignmentsListboxClass(core.dataHandelerClass):
+class assignmentsListboxClass(dataHandelerClass):
+    """
+    A class to use for generating the assignment listboxs
+    which will also download the data if needed.
+
+    Parameters
+    ----------
+        dataHandelerClass : class
+            The data handeler class to inherit from, that will manage
+            the downloading and retriving of saved data.
+
+    Attributes
+    ----------
+        mainWindow : object
+            The PySimpleGUI window object that has been opened.
+
+    Methods
+    -------
+        getListboxData()
+            Retrieve the saved data or download new data for modules,
+            topics, problems and assignments.
+        topicsListbox()
+            Update the topicsListbox to contain the new loaded topics.
+        problemsListbox()
+            Update the problemsListbox to contain the new loaded
+            problems.
+        resetListboxs()
+            Re-set the contents of the listboxs to their default
+            values.
+    """
     def __init__(self, mainWindow):
+        """
+        The constructor for assignmentsListboxClass.
+
+        Parameters
+        ----------
+            mainWindow : object
+                The PySimpleGUI window object that has been opened.
+        """
         super().__init__()
         self.mainWindow = mainWindow
         self.getListboxData()
 
 
     def getListboxData(self):
+        """
+        Retrieve the saved data or download new data for modules,
+        topics, problems and assignments.
+        """
         self.getModules()
         self.getTopics()
         self.getProblems()
@@ -19,7 +58,7 @@ class assignmentsListboxClass(core.dataHandelerClass):
 
     def topicsListbox(self):
         """
-        update the topics_listbox to contain the new loaded topics
+        Update the topicsListbox to contain the new loaded topics.
         """
         if self.mainWindow.values["-MODULE-"][0] in self.topicsDict.keys():
             topicsData = self.topicsDict[self.mainWindow.values["-MODULE-"][0]]
@@ -38,10 +77,11 @@ class assignmentsListboxClass(core.dataHandelerClass):
 
     def problemsListbox(self):
         """
-        update the Problems listbox to contain the new loaded problems
+        Update the problemsListbox to contain the new loaded problems.
         """
         if self.mainWindow.values["-TOPIC-"][0] in self.problemsDict.keys():
-            problemsData = self.problemsDict[self.mainWindow.values["-TOPIC-"][0]]
+            problemsData = self.problemsDict[self.mainWindow.values["-TOPIC-"]
+                [0]]
         else: problemsData = []
 
         if problemsData != []:
@@ -53,6 +93,9 @@ class assignmentsListboxClass(core.dataHandelerClass):
 
 
     def resetListboxs(self):
+        """
+        Re-set the contents of the listboxs to their default values.
+        """
         self.getListboxData()
         if self.modulesList == []:
             self.mainWindow.window["-MODULE-"].Update(self.modulesList)

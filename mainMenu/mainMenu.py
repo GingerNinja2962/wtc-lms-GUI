@@ -11,8 +11,17 @@ import settings
 class mainMenuClass(baseWindowClass):
     """
     A class to create a main menu window.
+
+    Parameters
+    ----------
+        baseWindowClass : class
+            The base window class to inherit from when making a window
+            class.
     """
     def __init__(self):
+        """
+        The constructor for assignmentsMenuClass.
+        """
         super().__init__()
         self.title = "wtc-lms GUI menu"
         self.layout = mainMenu.layout()
@@ -33,7 +42,7 @@ class mainMenuClass(baseWindowClass):
 
         elif self.event == "Assignments":
             self.close()
-            return "assignments"            
+            return "assignments"
 
         elif self.event == "Reviews":
             self.close()

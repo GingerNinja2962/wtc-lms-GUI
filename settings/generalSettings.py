@@ -5,6 +5,6 @@ from classTemplates import inDevelopmentPopup # TODO remove when developed
 
 def generalSettings():
     """
-    The function that will manage the general settings for the GUI app
+    The function that will manage the general settings for the UI app.
     """
     inDevelopmentPopup()

@@ -3,8 +3,35 @@ import PySimpleGUI as sg
 import core
 
 
-class assignmentSave():
+class assignmentSave:
+    """
+    A class to be used to save assignments from wtc-lms.
+
+    Attributes
+    ----------
+        mainWindow : object
+            The PySimpleGUI window object that has been opened.
+
+    Methods
+    -------
+        lmsSaveAssignment()
+            Start a subprocess calling lms to save an assignment.
+        openMessage()
+            Open a saving data message that will remain open until
+            closed.
+        closeMessage()
+            Close the saving data message stored in this instance of
+            the class.
+    """
     def __init__(self, mainWindow):
+        """
+        The constructor for assignmentSave.
+
+        Parameters
+        ----------
+            mainWindow : object
+                The PySimpleGUI window object that has been opened.
+        """
         self.mainWindow = mainWindow
         self.openMessage()
         self.lmsSaveAssignment()
@@ -12,8 +39,12 @@ class assignmentSave():
 
 
     def lmsSaveAssignment(self):
+        """
+        Start a subprocess calling lms to save an assignment.
+        """
         assignmentSaveProcess = core.lmsCall(["wtc-lms","save",
-            self.mainWindow.layout.listboxs.assignmentsDict[self.mainWindow.values["-PROBLEM-"][0]]])
+            self.mainWindow.layout.listboxs.assignmentsDict[
+            self.mainWindow.values["-PROBLEM-"][0]]])
         (assignmentSaveData, err) = core.systemCallComms(assignmentSaveProcess)
 
 
@@ -32,6 +63,7 @@ class assignmentSave():
 
     def closeMessage(self):
         """
-        Close the saving data message stored in this instance of the class.
+        Close the saving data message stored in this instance of the
+        class.
         """
         self.savingMessage.close()
