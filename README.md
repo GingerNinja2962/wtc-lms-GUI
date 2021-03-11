@@ -10,14 +10,14 @@ This is a GUI for wtc-lms, using subprocess calls and pysimplegui to provide a s
 ## Install
 from within the folder wtc-lms-GUI run:
 
-sudo bash installer.sh
+`sudo bash installer.sh`
 
 
 ## Usage
 from with in the folder wtc-lms-GUI run:
 
-wtc-lms login
+`wtc-lms login`
  - this is to login in to wtc-lms allowing the program to access wtc-lms commands
 
-./lms
+`./lms`
  - This starts the wtc-lms-GUI program
