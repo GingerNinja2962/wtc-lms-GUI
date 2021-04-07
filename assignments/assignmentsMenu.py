@@ -93,7 +93,7 @@ class assignmentsMenuClass(baseWindowClass):
 
         elif self.event == '-START-':
             assignments.assignmentHandeler.assignmentStart(self)
-            self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
+            # self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-SAVE-':
             assignments.assignmentHandeler.assignmentSave(self)
