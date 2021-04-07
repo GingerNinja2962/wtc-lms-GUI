@@ -1,8 +1,8 @@
 import PySimpleGUI as sg
 from custom_inherit import DocInheritMeta
 
-import os
-import sys
+from os import path, mkdir
+from sys import argv
 
 
 class basePopulateDataClass(metaclass=DocInheritMeta(style="numpy_with_merge",
@@ -31,8 +31,9 @@ include_special_methods=True)):
         """
         The constructor for basePopulateDataClass.
         """
-        self.saveDataPath = f"{os.path.dirname(sys.argv[0])}/.save_data"
-        if not os.path.exists(self.saveDataPath): os.mkdir(self.saveDataPath)
+        self.saveDataPath = f"{path.dirname(argv[0])}/.save_data"
+        print(f"saveDataPath : {self.saveDataPath}")
+        if not path.exists(self.saveDataPath): mkdir(self.saveDataPath)
         self.loadingMessage = None
 
 

@@ -1,7 +1,8 @@
 import PySimpleGUI as sg
 
-from os import getcwd
+from os import path
 from os import sys
+from sys import argv
 
 from core import systemCallClose, grepSystemCall, lmsCall, systemCallComms
 from core import dirCheck, writeToFile
@@ -89,7 +90,7 @@ class manageLogin(baseWindowClass):
         lms.
         """
         modulesDataPath = dirCheck(
-            f"{dirCheck(f'{getcwd()}/.save_data')}/modulesData")
+            f"{dirCheck(f'{path.dirname(argv[0])}/.save_data')}/modulesData")
 
         modulesDataProcess = lmsCall("modules")
         loginGrepProcess = grepSystemCall("-i","Token expired",

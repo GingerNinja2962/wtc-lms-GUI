@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
-from os import getcwd
+from os import path
+from sys import argv
 
 from core import readFromFile, writeToFile, dirCheck
 
@@ -34,7 +35,7 @@ class tokensClass:
         Constructs all the necessary attributes for the standard token
         objects.
         """
-        self.tokenPath = dirCheck(f"{getcwd()}/.save_data")
+        self.tokenPath = dirCheck(f"{path.dirname(argv[0])}/.save_data")
         self.tokenPath = dirCheck(f"{self.tokenPath}/tokens")
         self.currentTime = None
         self.status = False
