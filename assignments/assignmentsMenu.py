@@ -24,12 +24,14 @@ class assignmentsMenuClass(baseWindowClass):
         token : object
             The token object created from tokensClass to manage all
             token related data.
+
     """
     def __init__(self):
         """
         The constructor for assignmentsMenuClass.
         """
         super().__init__()
+        self.status = True
         self.token = core.tokensClass()
         self.layout = assignmentsLayoutClass(self)
         self.title = "LMS Assignments GUI"
@@ -37,6 +39,9 @@ class assignmentsMenuClass(baseWindowClass):
 
 
     def run(self):
+        if not self.status:
+            return "mainMenu"
+
         self.window = sg.Window(self.title, self.layout.layout, 
                 element_justification=self.elementJustification,
                 location=self.location).finalize()
@@ -54,8 +59,8 @@ class assignmentsMenuClass(baseWindowClass):
 
         if not self.token.tokenCheck("Assignment") or \
                 self.values["-SETTINGS-MENU-"] == "Update Assignments":
-            self.layout.listboxs.populateAssignments()
-            self.layout.listboxs.resetListboxs()
+            if self.layout.listboxs.populateAssignments():
+                self.layout.listboxs.resetListboxs()
 
         if self.event in (sg.WIN_CLOSED, "Exit"):
             self.close()
@@ -65,7 +70,8 @@ class assignmentsMenuClass(baseWindowClass):
             settings.generalSettings()
 
         elif self.values["-SETTINGS-MENU-"] == "Change Theme":
-            settings.themeMenuClass().run()
+            settings.generalSettings() # TODO remove when color changing is improved in PySimpleGUI
+            # settings.themeMenuClass().run()
 
         elif self.values["-NAVIGATE-MENU-"] == "    Main Menu":
             self.close()
@@ -88,7 +94,7 @@ class assignmentsMenuClass(baseWindowClass):
 
         elif self.event == '-START-':
             assignments.assignmentHandeler.assignmentStart(self)
-            self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
+            # self.layout.listboxs.populateAssignments() # TODO improve to only update this problem
 
         elif self.event == '-SAVE-':
             assignments.assignmentHandeler.assignmentSave(self)

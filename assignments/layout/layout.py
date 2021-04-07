@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 
 from core import dataHandelerClass
 
-from assignments import layout
+from assignments.layout import actionButtonsClass, assignmentsListboxClass
 
 
 class assignmentsLayoutClass(dataHandelerClass):
@@ -43,8 +43,8 @@ class assignmentsLayoutClass(dataHandelerClass):
         """
         super().__init__()
         self.mainWindow = mainWindow
-        self.actionButtons = layout.actionButtonsClass(self.mainWindow)
-        self.listboxs = layout.assignmentsListboxClass(self.mainWindow)
+        self.actionButtons = actionButtonsClass(self.mainWindow)
+        self.listboxs = assignmentsListboxClass(self.mainWindow)
         self.assignmentsLayout()
 
 

@@ -3,8 +3,7 @@ from custom_inherit import doc_inherit
 
 from classTemplates.windowTemplate import baseWindowClass
 
-import mainMenu
-import reviews
+from mainMenu import layout
 import settings
 
 
@@ -24,7 +23,7 @@ class mainMenuClass(baseWindowClass):
         """
         super().__init__()
         self.title = "wtc-lms GUI menu"
-        self.layout = mainMenu.layout()
+        self.layout = layout()
 
 
     def read(self):
@@ -38,7 +37,8 @@ class mainMenuClass(baseWindowClass):
             settings.generalSettings()
 
         elif self.values["-SETTINGS-MENU-"] == "Change Theme":
-            settings.themeMenuClass().run()
+            settings.generalSettings() # TODO remove when color changing is improved in PySimpleGUI
+            # settings.themeMenuClass().run()
 
         elif self.event == "Assignments":
             self.close()

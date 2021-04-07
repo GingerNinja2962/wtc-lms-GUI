@@ -50,7 +50,9 @@ class assignmentsListboxClass(dataHandelerClass):
         Retrieve the saved data or download new data for modules,
         topics, problems and assignments.
         """
-        self.getModules()
+        if not self.getModules():
+            self.mainWindow.status = False
+            return
         self.getTopics()
         self.getProblems()
         self.getAssignments()

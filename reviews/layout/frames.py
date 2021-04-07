@@ -77,7 +77,9 @@ class framesClass:
         Calculate the counter data for reviews.
         """
         self.layout.assignmentData.getProblemNamesUUID()
-        self.layout.reviewsData.getReviewData()
+        if not self.layout.reviewsData.getReviewData():
+            self.mainWindow.status = False
+        else: self.mainWindow.status = True
         problemNames = self.layout.assignmentData.problemNamesUUID.keys()
 
         self.reviewsAssigned = self.layout.reviewsData.reviewsAssigned

@@ -1,9 +1,10 @@
+import PySimpleGUI as sg
+
+from core.lmsLogin import manageLogin
 from core import dirCheck, fileCheck, grepCall, systemCallComms
 from core.populateSaveData.populateAssignments import populateAssignmentsClass
 
-import os
-
-import core
+from os import listdir
 
 
 class dataHandelerClass(populateAssignmentsClass):
@@ -56,7 +57,9 @@ class dataHandelerClass(populateAssignmentsClass):
         Generates a list of all the wtc-lms modules.
         """
         self.modulesList = []
-        if not fileCheck(self.modulesDataPath): self.populateAssignments()
+        if not fileCheck(self.modulesDataPath):
+            if not self.populateAssignments():
+                return False
 
         grepModulesCall = grepCall("-i", " \[", self.modulesDataPath)
         (lmsModulesData, err) = systemCallComms(grepModulesCall)
@@ -64,6 +67,7 @@ class dataHandelerClass(populateAssignmentsClass):
         for module in lmsModulesData.split(')\n'):
             if module == '': continue
             self.modulesList.append((module.split(' ['))[0])
+        return True
 
 
     def getTopics(self):
@@ -71,7 +75,7 @@ class dataHandelerClass(populateAssignmentsClass):
         Generates a dict that links topics with their modules.
         """
         if self.topicFilePaths == []:
-            for topicFile in os.listdir(self.topicsPath):
+            for topicFile in listdir(self.topicsPath):
                 self.topicFilePaths.append(f"{self.topicsPath}/{topicFile}")
 
         for topicPath in self.topicFilePaths:
@@ -93,7 +97,7 @@ class dataHandelerClass(populateAssignmentsClass):
         Generates a dict that links problems with their topics.
         """
         self.problemsState = {}
-        for problemFile in os.listdir(self.problemsPath):
+        for problemFile in listdir(self.problemsPath):
             grepProblemsCall = grepCall("-i", " \[",
                 f"{self.problemsPath}/{problemFile}")
             (lmsProblemsData, err) = systemCallComms(grepProblemsCall)
@@ -115,7 +119,7 @@ class dataHandelerClass(populateAssignmentsClass):
         """
         Generates a dict that links UUIDs to their assignment.
         """
-        for problemFile in os.listdir(self.problemsPath):
+        for problemFile in listdir(self.problemsPath):
             grepProblemsCall = grepCall("-i", " \[",
                 f"{self.problemsPath}/{problemFile}")
             (lmsProblemsData, err) = systemCallComms(grepProblemsCall)
