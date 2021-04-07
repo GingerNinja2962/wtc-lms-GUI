@@ -70,7 +70,8 @@ class assignmentsMenuClass(baseWindowClass):
             settings.generalSettings()
 
         elif self.values["-SETTINGS-MENU-"] == "Change Theme":
-            settings.themeMenuClass().run()
+            settings.generalSettings() # TODO remove when color changing is improved in PySimpleGUI
+            # settings.themeMenuClass().run()
 
         elif self.values["-NAVIGATE-MENU-"] == "    Main Menu":
             self.close()
