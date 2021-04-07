@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-from core import grepCall, systemCallComms
+from core import grepCall, systemCallComms, dirCheck, fileCheck, writeToFile
 
 
 class tabGroupClass:
@@ -35,6 +35,15 @@ class tabGroupClass:
         Generate a tabGroup that holds Tabs names after making a dict
         of modules holding problems under those modules.
         """
+        dirCheck(self.layout.assignmentData.modulesPath)
+        if not fileCheck(self.layout.assignmentData.modulesDataPath):
+            if not self.layout.assignmentData.populateAssignments():
+                self.layout.mainWindow.status = False
+                self.tabGrouplayout = [[]]
+                writeToFile("",
+                    f"{self.layout.assignmentData.saveDataPath}/tokens/loginF")
+                return
+
         self.layout.assignmentData.getTopicNamesUUID()
         layout = []
 

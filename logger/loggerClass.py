@@ -1,4 +1,5 @@
-from os import close, dup, O_WRONLY, getcwd, path, write, open as osOpen
+from os import close, dup, O_WRONLY, path, write, open as osOpen
+from sys import argv
 from datetime import datetime
 
 class logger:
@@ -33,8 +34,8 @@ class logger:
         """
         self.err = None
         self.out = None
-        self.outFile = f"{getcwd()}/.outLogger.txt"
-        self.errFile = f"{getcwd()}/.errLogger.txt"
+        self.outFile = f"{path.dirname(argv[0])}/.outLogger.txt"
+        self.errFile = f"{path.dirname(argv[0])}/.errLogger.txt"
 
 
     def open(self):
@@ -53,12 +54,12 @@ class logger:
         self.out = dup(1)
         close(1)
         osOpen(self.outFile, O_WRONLY)
-        write(1, b"Launch Time:\t" + str.encode(currentTime))
+        write(1, b"Launch Time:\t" + str.encode(currentTime) + b"\n")
 
         self.err = dup(2)
         close(2)
         osOpen(self.errFile, O_WRONLY)
-        write(2, b"Launch Time:\t" + str.encode(currentTime))
+        write(2, b"Launch Time:\t" + str.encode(currentTime) + b"\n")
 
 
     def close(self):
